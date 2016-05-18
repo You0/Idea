@@ -1,4 +1,4 @@
-package com.duanqu.Idea.common;
+package com.duanqu.Idea.config;
 
 /**
  * 开发者自定义RequestCode,避免重复

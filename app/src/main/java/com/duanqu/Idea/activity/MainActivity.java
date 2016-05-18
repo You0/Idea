@@ -1,4 +1,4 @@
-package com.duanqu.Idea;
+package com.duanqu.Idea.activity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,14 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.AlibabaSDK;
+import com.duanqu.Idea.R;
 import com.duanqu.qupai.engine.session.MovieExportOptions;
 import com.duanqu.qupai.engine.session.ProjectOptions;
 import com.duanqu.qupai.engine.session.ThumbnailExportOptions;
 import com.duanqu.qupai.engine.session.UISettings;
 import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
 import com.duanqu.qupai.sdk.android.QupaiService;
-import com.duanqu.Idea.common.Contant;
-import com.duanqu.Idea.common.RequestCode;
+import com.duanqu.Idea.config.Contant;
+import com.duanqu.Idea.config.RequestCode;
 import com.duanqu.Idea.result.RecordResult;
 import com.duanqu.Idea.utils.AppConfig;
 import com.duanqu.Idea.utils.AppGlobalSetting;

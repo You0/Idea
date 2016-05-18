@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/menu"
+            android:layout_centerVertical="true"
+            android:layout_width="?attr/actionBarSize"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/selected"
+            android:src="@drawable/ic_menu_black_24dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/ly_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="right|center_vertical"
+                android:paddingRight="12dp"
+                android:textColor="@color/black"
+                android:text="我的"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tv_tj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="12dp"
+                android:textColor="@color/colorHuise"
+                android:text="推荐"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:paddingRight="17dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:src="@drawable/ic_search_black_24dp"
+            />
+    </RelativeLayout>
+</RelativeLayout>

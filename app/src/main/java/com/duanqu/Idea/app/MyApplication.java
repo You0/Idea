@@ -1,6 +1,7 @@
 package com.duanqu.Idea.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.hardware.Camera;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,18 +14,18 @@ import com.duanqu.qupai.engine.session.ThumbnailExportOptions;
 import com.duanqu.qupai.engine.session.UISettings;
 import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
 import com.duanqu.qupai.sdk.android.QupaiService;
-import com.duanqu.Idea.common.Contant;
+import com.duanqu.Idea.config.Contant;
 
 /**
  * 初始化操作，更多音乐为可配置选项。
  * Created by Mulberry on 2015/7/7.
  */
-public class TestApplicaticon extends Application{
-
+public class MyApplication extends Application{
+    private static Context context;
     @Override
     public void onCreate() {
         super.onCreate();
-
+        context = getApplicationContext();
         AlibabaSDK.asyncInit(this, new InitResultCallback() {
             @Override
             public void onSuccess() {
@@ -32,11 +33,11 @@ public class TestApplicaticon extends Application{
                         .getService(QupaiService.class);
 
                 if (qupaiService == null) {
-                    Toast.makeText(TestApplicaticon.this, "插件没有初始化，无法获取 QupaiService",
+                    Toast.makeText(MyApplication.this, "插件没有初始化，无法获取 QupaiService",
                             Toast.LENGTH_LONG).show();
                     return;
                 }else {
-                    Toast.makeText(TestApplicaticon.this, "初始化成功",
+                    Toast.makeText(MyApplication.this, "初始化成功",
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -95,12 +96,17 @@ public class TestApplicaticon extends Application{
 
             @Override
             public void onFailure(int i, String s) {
-                Toast.makeText(TestApplicaticon.this, "插件没有初始化，无法获取 QupaiService"+ "code:" + i + "s" + s ,
+                Toast.makeText(MyApplication.this, "插件没有初始化，无法获取 QupaiService"+ "code:" + i + "s" + s ,
                         Toast.LENGTH_LONG).show();
                 Log.e("onFailure", "code:" + i + "s" + s );
             }
         });
 
+    }
+
+    public static Context getContext()
+    {
+        return context;
     }
 
     private static final String AUTHTAG = "QupaiAuth";

@@ -24,19 +24,20 @@
 
 
     <application
-        android:name="com.duanqu.Idea.app.TestApplicaticon"
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:largeHeap="true">
-        <activity android:name="com.duanqu.Idea.MainActivity">
+        <activity android:name=".activity.MainActivity1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.duanqu.Idea.MoreMusicActivity" />
+        <activity android:name=".activity.MoreMusicActivity" />
     </application>
 
 </manifest>

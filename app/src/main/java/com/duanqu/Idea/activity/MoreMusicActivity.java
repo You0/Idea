@@ -1,7 +1,9 @@
-package com.duanqu.Idea;
+package com.duanqu.Idea.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.duanqu.Idea.R;
 
 
 public class MoreMusicActivity extends Activity{

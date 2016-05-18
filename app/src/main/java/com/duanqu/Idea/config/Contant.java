@@ -1,4 +1,4 @@
-package com.duanqu.Idea.common;
+package com.duanqu.Idea.config;
 
 
 import com.duanqu.Idea.utils.FileUtils;
