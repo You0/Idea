@@ -1,5 +1,8 @@
 package com.duanqu.Idea.Adapter;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.app.MyApplication;
+import com.duanqu.Idea.fragment.InnerViewPager;
 
 import java.util.LinkedList;
 import java.util.zip.Inflater;
@@ -15,43 +19,29 @@ import java.util.zip.Inflater;
 /**
  * Created by Administrator on 2016/5/18.
  */
-public class CotainViewPager extends PagerAdapter{
-    LinkedList<Integer> layouts;//内部viewpager的layout_ID
+public class CotainViewPager extends FragmentPagerAdapter{
+    LinkedList<Fragment> fragments;//内部viewpager的layout_ID
 
+    public CotainViewPager(FragmentManager fm) {
+        super(fm);
+    }
 
-    public CotainViewPager(LinkedList linkedList)
-    {
-        layouts = linkedList;
+    public void setFragments(LinkedList<Fragment> fragments) {
+        this.fragments = fragments;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return layouts.size();
+        return fragments.size();
     }
 
     @Override
-    /**
-     * true: 表示不去创建，使用缓存  false:去重新创建
-     * view： 当前滑动的view
-     * object：将要进入的新创建的view，由instantiateItem方法创建
-     */
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
+    public CharSequence getPageTitle(int position) {
+        return InnerViewPager.mTitleList.get(position);
     }
-
-
-    @Override
-
-    public Object instantiateItem(ViewGroup container, int position) {
-
-        View view = LayoutInflater.from(MyApplication.getContext()).inflate(layouts.get(position),null);
-        //View view = View.inflate(MyApplication.getContext(),layouts.get(position),null);
-        //ViewPager innerViwpager = (ViewPager) view.findViewById(R.id.innerViewpager);
-        container.addView(view);
-        //将在这里面处理内部的viewPager
-
-        return view;
-    }
-
-
 }

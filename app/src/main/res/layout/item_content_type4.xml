@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/item_top"></include>
+
+    <TextView
+        android:paddingTop="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试文字。"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="200dp">
+
+        <ImageView
+            android:id="@+id/frame"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <ImageView
+            android:id="@+id/play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/biz_video_list_play_icon_big"/>
+
+        <com.duanqu.Idea.player.view.SuperVideoPlayer
+            android:id="@+id/video_player"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="gone">
+            >
+        </com.duanqu.Idea.player.view.SuperVideoPlayer>
+
+    </FrameLayout>
+
+
+
+
+
+
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></View>
+
+
+    <include layout="@layout/item_blew"
+        ></include>
+
+</LinearLayout>

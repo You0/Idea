@@ -1,0 +1,106 @@
+package com.duanqu.Idea.bean;
+
+import android.support.v4.view.PagerAdapter;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+
+/**
+ * Created by Administrator on 2016/6/30.
+ */
+public class MainMessageBean {
+    public final int DEAUFALT = 0;
+    public HashMap<String, String> userInfo;
+    public HashMap<String, String> MessageInfo;
+    public String TextContent;
+    public ResentBean ReSendInfo;
+    public String VideoUri;
+    public LinkedList images;
+    public int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public LinkedList getImages() {
+        return images;
+    }
+
+    public HashMap<String, String> getMessageInfo() {
+        return MessageInfo;
+    }
+
+    public HashMap<String, String> getUserInfo() {
+        return userInfo;
+    }
+
+    public ResentBean getReSendInfo() {
+        return ReSendInfo;
+    }
+
+    public String getTextContent() {
+        return TextContent;
+    }
+
+    public String getVideoUri() {
+        return VideoUri;
+    }
+
+    public void setImages(LinkedList images) {
+        this.images = images;
+    }
+
+    public void setType(int type) {
+        if (type == DEAUFALT) {
+            int length = getImages().size();
+            if(length==0) {
+                this.type = 4;
+            }else if (length == 1) {
+                this.type = 0;
+            } else if (length <= 3) {
+                this.type = 1;
+            } else if (length == 4) {
+                this.type = 2;
+            } else if (length > 4) {
+                this.type = 3;
+            }
+        } else {
+            this.type = type;
+        }
+    }
+
+
+    public void setReSendInfo(ResentBean reSendInfo) {
+        ReSendInfo = reSendInfo;
+    }
+
+    public void setMessageInfo(HashMap<String, String> messageInfo) {
+        MessageInfo = messageInfo;
+    }
+
+    public void setTextContent(String textContent) {
+        TextContent = textContent;
+    }
+
+    public void setUserInfo(HashMap<String, String> userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public void setVideoUri(String videoUri) {
+        VideoUri = videoUri;
+    }
+
+    @Override
+    public String toString() {
+        return "MainMessageBean{" +
+                "DEAUFALT=" + DEAUFALT +
+                ", userInfo=" + userInfo +
+                ", MessageInfo=" + MessageInfo +
+                ", TextContent='" + TextContent + '\'' +
+                ", ReSendInfo=" + ReSendInfo +
+                ", VideoUri='" + VideoUri + '\'' +
+                ", images=" + images +
+                ", type=" + type +
+                '}';
+    }
+}

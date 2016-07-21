@@ -3,6 +3,7 @@ package com.duanqu.Idea.app;
 import android.app.Application;
 import android.content.Context;
 import android.hardware.Camera;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.duanqu.qupai.engine.session.UISettings;
 import com.duanqu.qupai.engine.session.VideoSessionCreateInfo;
 import com.duanqu.qupai.sdk.android.QupaiService;
 import com.duanqu.Idea.config.Contant;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 /**
  * 初始化操作，更多音乐为可配置选项。
@@ -26,6 +28,7 @@ public class MyApplication extends Application{
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        Fresco.initialize(context);
         AlibabaSDK.asyncInit(this, new InitResultCallback() {
             @Override
             public void onSuccess() {
@@ -103,6 +106,13 @@ public class MyApplication extends Application{
         });
 
     }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 
     public static Context getContext()
     {

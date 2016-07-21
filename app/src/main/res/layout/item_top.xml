@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp">
+    </View>
+
+    <RelativeLayout
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <!--<com.duanqu.Idea.CustomView.CircleImageView-->
+           <!--android:id="@+id/messageHead"-->
+           <!--android:layout_width="42dp"-->
+           <!--android:layout_height="42dp"-->
+           <!--android:layout_centerVertical="true"-->
+           <!--android:src="@drawable/test"-->
+
+           <!--/>-->
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/messageHead"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            fresco:placeholderImage="@drawable/ic_account_box_black_48dp"
+            />
+
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="五颜六色"
+            android:layout_toRightOf="@+id/messageHead"
+            android:paddingLeft="10dp"
+            android:textColor="#ff9a76"
+            android:layout_weight="1"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/username"
+            android:layout_toRightOf="@+id/messageHead"
+            android:textColor="#44000000"
+            android:paddingLeft="10dp"
+            android:id="@+id/sign"
+            android:text="这是一段个性签名"
+            />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6小时前"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

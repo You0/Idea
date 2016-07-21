@@ -102,6 +102,19 @@ public class RefreshListView extends ListView implements OnScrollListener{
         addFooterView(footerView);
     }
 
+    //        viewPager.setOnTouchListener(new MyGestureDetector(this) {
+//            @Override
+//            public void onScrollDown() {
+//                popWindow.showAtLocation(viewPager,
+//                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//            }
+//
+//            @Override
+//            public void onScrollUp() {
+//                popWindow.dismiss();
+//            }
+//        });
+
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
@@ -132,7 +145,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
                     }
 
 
-                    return true;//拦截TouchMove，不让listview处理该次move事件,会造成listview无法滑动
+                    return false;//拦截TouchMove，不让listview处理该次move事件,会造成listview无法滑动
                 }
 
 

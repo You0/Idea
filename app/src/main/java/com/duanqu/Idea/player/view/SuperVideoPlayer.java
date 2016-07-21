@@ -49,7 +49,7 @@ public class SuperVideoPlayer extends RelativeLayout {
 
     private Context mContext;
     private VideoView mVideoView;//播放器
-    private MediaController mMediaController;//控制器
+    public MediaController mMediaController;//控制器
     private Timer mUpdateTimer;
     private VideoPlayCallbackImpl mVideoPlayCallback;//回调函数
     private View mProgressBarView;//加载中按钮

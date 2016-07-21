@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/item_top"></include>
+
+    <TextView
+        android:paddingTop="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试文字。"
+        />
+
+    <LinearLayout
+        android:paddingTop="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.duanqu.Idea.CustomView.mSimpleDraweeView
+            android:id="@+id/image1"
+            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test2"
+            fresco:placeholderImage="@color/colorHuise"
+            />
+
+        <com.duanqu.Idea.CustomView.mSimpleDraweeView
+            android:id="@+id/image2"
+            android:layout_marginLeft="4dp"
+            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            fresco:placeholderImage="@color/colorHuise"
+            android:src="@drawable/test2"
+            />
+
+        <com.duanqu.Idea.CustomView.mSimpleDraweeView
+            android:id="@+id/image3"
+            android:layout_marginLeft="4dp"
+            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            fresco:placeholderImage="@color/colorHuise"
+            android:scaleType="centerCrop"
+            android:src="@drawable/test2"
+            />
+
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"></View>
+
+    <include layout="@layout/item_blew"
+        ></include>
+
+</LinearLayout>

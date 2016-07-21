@@ -19,4 +19,6 @@
     <color name="divider_color">#55504a</color>
     <!--special color-->
     <color name="black_a10_color">#1a000000</color>
+
+    <color name="translucent_background">#20000000</color>
 </resources>

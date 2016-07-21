@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.duanqu.Idea.CustomView.RefreshListView
+        android:id="@+id/displayListview"
+        android:layout_width="match_parent"
+        android:listSelector="@android:color/transparent"
+        android:background="@color/biz_audio_progress_first"
+        android:layout_height="match_parent">
+    </com.duanqu.Idea.CustomView.RefreshListView>
+
+
+
+</LinearLayout>
