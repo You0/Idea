@@ -1,1 +1,1 @@
-include ':app', ':Qupaisdk-release', ':OneSDK'
+include ':app', ':Qupaisdk-release', ':OneSDK', ':list-visibility-utils', ':video-player-manager'

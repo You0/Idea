@@ -40,8 +40,8 @@ public class CotainViewPager extends FragmentPagerAdapter{
         return fragments.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return InnerViewPager.mTitleList.get(position);
-    }
+//    @Override
+//    public CharSequence getPageTitle(int position) {
+//        return InnerViewPager.mTitleList.get(position);
+//    }
 }

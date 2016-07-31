@@ -1,5 +1,6 @@
 package com.duanqu.Idea.test;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,10 +31,13 @@ public class GridViewAdapter extends ArrayAdapter {
     private ViewHolder holder;
     private LinkedList data;
     private ArrayList arrayList = new ArrayList();
+    private int InnerClassPosition;
     private Uri uri;
+    private Activity context;
 
-    public GridViewAdapter(Context context, int resource, List objects) {
+    public GridViewAdapter(Activity context, int resource, List objects) {
         super(context, resource, objects);
+        this.context = context;
         this.resourse = resource;
         data = (LinkedList) objects;
         arrayList.addAll(data);
@@ -42,13 +46,12 @@ public class GridViewAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null)
-        {
-            convertView = LayoutInflater.from(getContext()).inflate(resourse,null);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resourse, null);
             holder = new ViewHolder();
             imageView = (mSimpleDraweeView) convertView.findViewById(R.id.image);
             uri = Uri.parse((String) data.get(position));
-            GenericDraweeHierarchy hierarchy =imageView.getHierarchy();
+            GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             hierarchy.setProgressBarImage(new CustomProgressBar());
             hierarchy.setPlaceholderImage(getContext().getResources().getDrawable(R.drawable.huise));
             imageView.setImageURI(uri);
@@ -56,33 +59,32 @@ public class GridViewAdapter extends ArrayAdapter {
             holder.image = imageView;
             convertView.setTag(holder);
 
-        }else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
             uri = Uri.parse((String) data.get(position));
-            GenericDraweeHierarchy hierarchy =imageView.getHierarchy();
+            GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             hierarchy.setProgressBarImage(new CustomProgressBar());
             hierarchy.setPlaceholderImage(getContext().getResources().getDrawable(R.drawable.huise));
             holder.image.setImageURI(uri);
 
         }
-
+        holder.image.setTag(position);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), ImageDisplay.class);
-                intent.putCharSequenceArrayListExtra("images",arrayList);
+                intent.putCharSequenceArrayListExtra("images", arrayList);
+                intent.putExtra("position", (int) view.getTag());
                 getContext().startActivity(intent);
+                context.overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
             }
         });
-
-
 
 
         return convertView;
     }
 
-    class ViewHolder
-    {
+    class ViewHolder {
         public mSimpleDraweeView image;
     }
 

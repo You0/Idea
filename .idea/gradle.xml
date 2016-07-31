@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/OneSDK" />
             <option value="$PROJECT_DIR$/Qupaisdk-release" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/list-visibility-utils" />
+            <option value="$PROJECT_DIR$/video-player-manager" />
           </set>
         </option>
         <option name="myModules">
@@ -20,6 +22,8 @@
             <option value="$PROJECT_DIR$/OneSDK" />
             <option value="$PROJECT_DIR$/Qupaisdk-release" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/list-visibility-utils" />
+            <option value="$PROJECT_DIR$/video-player-manager" />
           </set>
         </option>
       </GradleProjectSettings>

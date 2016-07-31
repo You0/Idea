@@ -27,6 +27,7 @@ public class Item_content_TYPE2 extends MainMessageBaseViewHolder {
     private LinkedList<mSimpleDraweeView> images;
     private String tempStr;
     private Uri uri;
+    private int InnerClassPosition;
     private ArrayList arrayList = new ArrayList();
     @Override
     protected void bindData(MainMessageBean data) {
@@ -45,13 +46,15 @@ public class Item_content_TYPE2 extends MainMessageBaseViewHolder {
             images.get(i).setImageURI(uri);
             GenericDraweeHierarchy hierarchy = images.get(i).getHierarchy();
             hierarchy.setProgressBarImage(new CustomProgressBar());
-
+            images.get(i).setTag(i);
             images.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivityContext(), ImageDisplay.class);
                     intent.putCharSequenceArrayListExtra("images",arrayList);
+                    intent.putExtra("position",(int)view.getTag());
                     getActivityContext().startActivity(intent);
+                    getActivityContext().overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
                 }
             });
 

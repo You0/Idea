@@ -7,6 +7,7 @@
     <dimen name="font_17sp">17sp</dimen>
     <dimen name="dp2">2dp</dimen>
     <dimen name="dp5">5dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
     <!-- MEDIA CONTROLLER -->

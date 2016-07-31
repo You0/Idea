@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.ahu.Idea"
@@ -48,18 +48,22 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:22.2.0'
-    compile 'com.android.support:support-v13:22.2.0'
-    compile 'com.android.support:design:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:support-v13:23.3.0'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.4'
     compile 'com.google.dagger:dagger-compiler:2.0.1'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
     compile 'com.android.support:multidex:1.0.0'
+    //    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
+    //    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile project(':OneSDK')
     compile project(':Qupaisdk-release')
+    compile project(':list-visibility-utils')
+    compile project(':video-player-manager')
 }

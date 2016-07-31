@@ -47,7 +47,9 @@ public class Item_content_TYPE1 extends MainMessageBaseViewHolder {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivityContext(), ImageDisplay.class);
                 intent.putCharSequenceArrayListExtra("images",arrayList);
+                intent.putExtra("position",0);
                 getActivityContext().startActivity(intent);
+                getActivityContext().overridePendingTransition(R.anim.push_bottom_in,R.anim.push_bottom_out);
             }
         });
     }

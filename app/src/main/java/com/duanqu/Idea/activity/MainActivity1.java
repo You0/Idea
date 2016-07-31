@@ -9,14 +9,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.sdk.android.AlibabaSDK;
@@ -25,6 +28,7 @@ import com.duanqu.Idea.R;
 import com.duanqu.Idea.config.RequestCode;
 import com.duanqu.Idea.fragment.DisplayFragment;
 import com.duanqu.Idea.fragment.InnerViewPager;
+import com.duanqu.Idea.fragment.SuggestFragment;
 import com.duanqu.Idea.fragment.test;
 import com.duanqu.Idea.utils.MyGestureDetector;
 import com.duanqu.Idea.utils.ViewHideAnimationUtils;
@@ -53,7 +57,8 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     public static Activity mActivity;
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private CotainViewPager cotainViewPagerAdapter;
-
+    private boolean Once = true;
+    private RelativeLayout layout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,11 +76,6 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         search.setOnClickListener(this);
         tv_msg.setOnClickListener(this);
         tv_tj.setOnClickListener(this);
-
-
-
-
-
 
 
 
@@ -134,10 +134,10 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
 
         InnerViewPager innerFragment = new InnerViewPager();
-        test test = new test();
+        SuggestFragment suggestFragment = new SuggestFragment();
         test test1 = new test();
         fragments.add(innerFragment);
-        fragments.add(test1);
+        fragments.add(suggestFragment);
         cotainViewPagerAdapter = new CotainViewPager(getSupportFragmentManager());
         cotainViewPagerAdapter.setFragments(fragments);
         viewPager.setAdapter(cotainViewPagerAdapter);
@@ -175,6 +175,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
     private void InitAnimation() {
     }
+
 
 
 }
