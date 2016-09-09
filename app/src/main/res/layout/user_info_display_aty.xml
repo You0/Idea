@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:fitsSystemWindows="true"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimaryDark"
+            app:expandedTitleMarginStart="5dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/bg_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7" >
+
+            </com.facebook.drawee.view.SimpleDraweeView>
+
+            <LinearLayout
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7"
+                android:padding="20dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/userhead"
+                    android:layout_width="80dp"
+                    fresco:roundAsCircle="true"
+                    android:layout_gravity="center"
+                    android:layout_height="80dp" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textColor="#ffffff"
+                    android:text="null"
+                    />
+
+            </LinearLayout>
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            app:tabTextAppearance="@style/tabLayoutTextSize"
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabIndicatorColor="#7700b7ff"
+            app:tabSelectedTextColor="#000000"
+            app:tabTextColor="#22000000"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/user_vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
+

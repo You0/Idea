@@ -6,11 +6,11 @@
 
 
     <include
-        layout="@layout/video_watch_list_item"
+        layout="@layout/video_play_items"
         ></include>
     <View
         android:id="@+id/black_cover"
-        android:background="#cf000000"
+        android:background="#e9000000"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >

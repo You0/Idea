@@ -24,6 +24,10 @@ public class Datas {
     public static TopAdBean temp2 = new TopAdBean();
     public static TopAdBean temp3 = new TopAdBean();
 
+    public static String username = "五颜六色";
+    public static String ueser_bg = "http://115.159.159.65:8080/EAsy/user_bg.jpg";
+
+
     public static ArrayList<SuggestGridBean> suggestGridBeens = new ArrayList<>();
     public static ArrayList<SuggestGridBean> tjGridBeens = new ArrayList<>();
     public static String companyImage = "http://img4.imgtn.bdimg.com/it/u=2300271886,3193179484&fm=206&gp=0.jpg";

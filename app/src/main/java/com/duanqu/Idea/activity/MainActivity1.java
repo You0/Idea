@@ -135,7 +135,6 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
         InnerViewPager innerFragment = new InnerViewPager();
         SuggestFragment suggestFragment = new SuggestFragment();
-        test test1 = new test();
         fragments.add(innerFragment);
         fragments.add(suggestFragment);
         cotainViewPagerAdapter = new CotainViewPager(getSupportFragmentManager());

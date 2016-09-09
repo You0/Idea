@@ -8,8 +8,8 @@
     <LinearLayout
         android:id="@+id/ll_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/titlecolor"
+        android:layout_height="170dp"
+        android:background="@drawable/bg"
         android:orientation="vertical"
         android:paddingBottom="10dp">
 

@@ -34,15 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/biz_video_list_play_icon_big"/>
-
-        <com.duanqu.Idea.player.view.SuperVideoPlayer
-            android:id="@+id/video_player"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:visibility="gone">
-            >
-        </com.duanqu.Idea.player.view.SuperVideoPlayer>
-
     </FrameLayout>
 
 

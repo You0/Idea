@@ -6,8 +6,9 @@ package com.duanqu.Idea;
 public class Config {
     public static String TESTJson = "";
 
-    public static float HEIGHT = 0;
-    public static float WIDTH = 0;
+    //默认720p屏幕
+    public static float HEIGHT = 1920;
+    public static float WIDTH = 720;
 
 
 }
