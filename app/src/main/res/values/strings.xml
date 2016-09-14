@@ -3,6 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="to">\@</string>
     <string name="tv_time">时长:</string>
     <string name="tv_mintime">最小时长:</string>
     <string name="tv_rate">码率:</string>

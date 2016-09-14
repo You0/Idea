@@ -1,6 +1,7 @@
 package com.duanqu.Idea.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -24,7 +25,9 @@ import android.widget.TextView;
 
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.duanqu.Idea.Adapter.CotainViewPager;
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.R;
+import com.duanqu.Idea.app.MyApplication;
 import com.duanqu.Idea.config.RequestCode;
 import com.duanqu.Idea.fragment.DisplayFragment;
 import com.duanqu.Idea.fragment.InnerViewPager;
@@ -48,8 +51,12 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private ViewPager viewPager;
     private ImageButton menu;
     private ImageView search;
-    private LinearLayout footnagavite;
-    private PopupWindow popWindow = DisplayFragment.popupWindow;
+    public static LinearLayout footnagavite;
+    private ImageView image;
+    private ImageView video;
+    private ImageView editor;
+
+    //private PopupWindow popWindow = DisplayFragment.popupWindow;
     private LinearLayout containLL;
     private DrawerLayout mDrawerLayout;
     private TranslateAnimation translateAnimationUP;
@@ -69,6 +76,8 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         blindListenerView();
         InitAnimation();
 
+
+
     }
 
     private void blindListenerView() {
@@ -78,6 +87,10 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         tv_tj.setOnClickListener(this);
 
 
+        video.setOnClickListener(this);
+        image.setOnClickListener(this);
+        editor.setOnClickListener(this);
+
 
 
 
@@ -85,11 +98,11 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                if(popWindow==null)
-                {
-                    popWindow = DisplayFragment.popupWindow;
-                }
-                popWindow.dismiss();
+//                if(popWindow==null)
+//                {
+//                    popWindow = DisplayFragment.popupWindow;
+//                }
+//                popWindow.dismiss();
             }
         });
 
@@ -130,6 +143,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         search = (ImageView) findViewById(R.id.search);
 
         footnagavite = (LinearLayout) findViewById(R.id.footnagavite);
+        image = (ImageView) findViewById(R.id.sendImage);
+        video = (ImageView) findViewById(R.id.sendVideo);
+        editor = (ImageView) findViewById(R.id.sendText);
         containLL = (LinearLayout) findViewById(R.id.containLL);
 
 
@@ -141,6 +157,8 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         cotainViewPagerAdapter.setFragments(fragments);
         viewPager.setAdapter(cotainViewPagerAdapter);
         viewPager.setAdapter(cotainViewPagerAdapter);//给ViewPager设置适配器
+
+
 
     }
 
@@ -168,6 +186,26 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
                 break;
             }
 
+            case R.id.sendVideo:{
+                QupaiService qupaiService = AlibabaSDK
+                        .getService(QupaiService.class);
+                qupaiService.showRecordPage(this, RequestCode.RECORDE_SHOW, false);
+                break;
+            }
+
+            case R.id.sendImage:{
+
+                break;
+            }
+
+            case R.id.sendText:{
+                Intent intent = new Intent(this,SendActivity.class);
+                intent.putExtra("id","text");
+                startActivity(intent);
+                break;
+            }
+
+
 
         }
     }
@@ -175,6 +213,16 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private void InitAnimation() {
     }
 
-
-
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if(hasFocus){
+            //获取宽高
+            Config.FootNagaviteWeight = footnagavite.getMeasuredWidth();
+            Config.FootNagaviteHeight = footnagavite.getMeasuredHeight();
+            //获得屏幕的宽高。
+            Config.WIDTH = MyApplication.getScreenMetrics(this).widthPixels;
+            Config.HEIGHT = MyApplication.getScreenMetrics(this).heightPixels;
+        }
+    }
 }

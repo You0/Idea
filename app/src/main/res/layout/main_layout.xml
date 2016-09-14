@@ -39,7 +39,11 @@
 
         </LinearLayout>
 
-
+            <include layout="@layout/footnavigate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                ></include>
 
 
         </RelativeLayout>
@@ -52,6 +56,7 @@
             android:layout_gravity="left" />
 
     </android.support.v4.widget.DrawerLayout>
+
 
 
 </RelativeLayout>

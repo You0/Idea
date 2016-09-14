@@ -6,10 +6,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.duanqu.Idea.Adapter.BaseAdapter;
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.JsonParse.MainMessageParse;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE1;
@@ -17,6 +20,7 @@ import com.duanqu.Idea.ViewHolder.Item_content_TYPE2;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE3;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE4;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE5;
+import com.duanqu.Idea.activity.MainActivity1;
 import com.duanqu.Idea.activity.MyPopWindow;
 import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.test.TestAdapter;
@@ -32,24 +36,49 @@ public class DisplayFragment extends BaseFragment {
     private ListView listView;
     private MainMessageBean mainMessageBeen;
     private ArrayList<MainMessageBean> arrayList = new ArrayList<>();
-    public static PopupWindow popupWindow;
+    private boolean Visibility = true;
+
+    //public static PopupWindow popupWindow;
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View  view = inflater.inflate(R.layout.displayfragment, null);
         listView = (ListView) view.findViewById(R.id.displayListview);
-        popupWindow = new MyPopWindow(getActivity(), getActivity());
+        //popupWindow = new MyPopWindow(getActivity(), getActivity());
 
         //设置动画
         listView.setOnTouchListener(new MyGestureDetector(getActivity()) {
             @Override
             public void onScrollDown() {
-                popupWindow.showAtLocation(view,
-                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                popupWindow.showAtLocation(view,
+//                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                //MainActivity1.footnagavite.setVisibility(View.VISIBLE);
+
+                if(Visibility == false){
+                    Animation DisplayAnimation = new TranslateAnimation(0,0, Config.FootNagaviteHeight,0);
+                    DisplayAnimation.setDuration(300);
+                    DisplayAnimation.setFillAfter(true);
+                    MainActivity1.footnagavite.startAnimation(DisplayAnimation);
+                    Visibility = true;
+                }
+
+
             }
 
             @Override
             public void onScrollUp() {
-                popupWindow.dismiss();
+
+                //MainActivity1.footnagavite.setVisibility(View.GONE);
+                if(Visibility==true){
+                    Animation MissAnimation = new TranslateAnimation(0,0,0,Config.FootNagaviteHeight);
+                    MissAnimation.setDuration(300);
+                    MissAnimation.setFillAfter(true);
+                    MainActivity1.footnagavite.startAnimation(MissAnimation);
+                    Visibility = false;
+                }
+
+
+
+
             }
         });
 

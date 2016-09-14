@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.hardware.Camera;
 import android.support.multidex.MultiDex;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.AlibabaSDK;
@@ -118,6 +120,19 @@ public class MyApplication extends Application{
     {
         return context;
     }
+
+    public static DisplayMetrics getScreenMetrics(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        return dm;
+    }
+
+    public static int dip2px( float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
 
     private static final String AUTHTAG = "QupaiAuth";
 

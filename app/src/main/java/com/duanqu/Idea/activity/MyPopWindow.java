@@ -24,7 +24,7 @@ import java.util.zip.Inflater;
 public class MyPopWindow extends PopupWindow implements View.OnClickListener{
     private View QuickSend;
     private ImageView image;
-    private ImageButton video;
+    private ImageView video;
     private ImageView editor;
     private Activity activity;
     private Context context;
@@ -38,7 +38,7 @@ public class MyPopWindow extends PopupWindow implements View.OnClickListener{
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         QuickSend = inflater.inflate(R.layout.footnavigate, null);
         image = (ImageView) QuickSend.findViewById(R.id.sendImage);
-        video = (ImageButton) QuickSend.findViewById(R.id.sendVideo);
+        video = (ImageView) QuickSend.findViewById(R.id.sendVideo);
         editor = (ImageView) QuickSend.findViewById(R.id.sendText);
 
         //设置监听

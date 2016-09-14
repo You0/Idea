@@ -10,5 +10,8 @@ public class Config {
     public static float HEIGHT = 1920;
     public static float WIDTH = 720;
 
+    public static int FootNagaviteHeight;
+    public static int FootNagaviteWeight;
+
 
 }
