@@ -49,50 +49,53 @@ public class HorizontalScrollViewEx extends ViewGroup {
         }
     }
 
-//    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent event) {
-//        boolean intercepted = false;
-//        int x = (int) event.getX();
-//        int y = (int) event.getY();
-//
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN: {
-//                intercepted = false;
-//                if (!mScroller.isFinished()) {
-//                    mScroller.abortAnimation();
-//                    intercepted = true;
-//                }
-//                break;
-//            }
-//            case MotionEvent.ACTION_MOVE: {
-//                int deltaX = x - mLastXIntercept;
-//                int deltaY = y - mLastYIntercept;
-//                if (Math.abs(deltaX) > Math.abs(deltaY)) {
-//                    intercepted = true;
-//                } else {
-//                    intercepted = false;
-//                }
-//                break;
-//            }
-//            case MotionEvent.ACTION_UP: {
-//                intercepted = false;
-//                break;
-//            }
-//            default:
-//                break;
-//        }
-//
-//        Log.d(TAG, "intercepted=" + intercepted);
-//        mLastX = x;
-//        mLastY = y;
-//        mLastXIntercept = x;
-//        mLastYIntercept = y;
-//
-//        return intercepted;
-//    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        boolean intercepted = false;
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                System.out.println("Ex IN ----Down");
+                intercepted = false;
+                if (!mScroller.isFinished()) {
+                    mScroller.abortAnimation();
+                    intercepted = true;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                System.out.println("Ex IN ----MOVE");
+                int deltaX = x - mLastXIntercept;
+                int deltaY = y - mLastYIntercept;
+                if (Math.abs(deltaX) > 0) {
+                    intercepted = true;
+                } else {
+                    intercepted = false;
+                }
+                break;
+            }
+            case MotionEvent.ACTION_UP: {
+                intercepted = false;
+                break;
+            }
+            default:
+                break;
+        }
+
+        Log.d(TAG, "intercepted=" + intercepted);
+        mLastX = x;
+        mLastY = y;
+        mLastXIntercept = x;
+        mLastYIntercept = y;
+
+        return intercepted;
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        boolean tag = true;
         mVelocityTracker.addMovement(event);
         int x = (int) event.getX();
         int y = (int) event.getY();
@@ -101,18 +104,25 @@ public class HorizontalScrollViewEx extends ViewGroup {
                 if (!mScroller.isFinished()) {
                     mScroller.abortAnimation();
                 }
+                System.out.println("Ex Touch DOWN");
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
                 int deltaX = x - mLastX;
                 int deltaY = y - mLastY;
                 scrollBy(-deltaX, 0);
+                System.out.println("Ex Touch ----MOVE");
                 break;
             }
             case MotionEvent.ACTION_UP: {
                 int scrollX = getScrollX();
                 mVelocityTracker.computeCurrentVelocity(1000);
                 float xVelocity = mVelocityTracker.getXVelocity();
+
+                if(Math.abs(xVelocity) < 10){
+                    System.out.println("低速UP");
+                    tag = false;
+                }
                 if (Math.abs(xVelocity) >= 50) {
                     mChildIndex = xVelocity > 0 ? mChildIndex - 1 : mChildIndex + 1;
                 } else {
@@ -122,6 +132,7 @@ public class HorizontalScrollViewEx extends ViewGroup {
                 int dx = mChildIndex * mChildWidth - scrollX;
                 smoothScrollBy(dx, 0);
                 mVelocityTracker.clear();
+                System.out.println("Ex Touch UP");
                 break;
             }
             default:
@@ -130,7 +141,8 @@ public class HorizontalScrollViewEx extends ViewGroup {
 
         mLastX = x;
         mLastY = y;
-        return true;
+        //System.out.println("FALSE");
+        return tag;
     }
 
     @Override

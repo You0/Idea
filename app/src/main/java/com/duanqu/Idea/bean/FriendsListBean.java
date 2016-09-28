@@ -6,6 +6,16 @@ package com.duanqu.Idea.bean;
 public class FriendsListBean {
     private String url;
     private String name;
+    //private boolean isChecked;
+
+//    public void setChecked(boolean checked) {
+//        isChecked = checked;
+//    }
+//
+//
+//    public boolean getIsChecked() {
+//        return isChecked;
+//    }
 
     public String getUrl() {
         return url;

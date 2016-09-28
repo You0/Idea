@@ -32,7 +32,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:largeHeap="true">
-        <activity android:name=".activity.MainActivity1"
+        <activity android:name=".activity.ParallaxUserInfoDisplayActivity"
 
             android:configChanges="orientation|keyboardHidden|screenSize"
             >

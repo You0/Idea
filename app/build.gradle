@@ -59,6 +59,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.google.code.findbugs:jsr305:3.0.0'
     compile 'com.android.support:multidex:1.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okio:okio:1.5.0'
     //    compile 'com.github.danylovolokh:video-player-manager:0.2.0'
     //    compile 'com.github.danylovolokh:list-visibility-utils:0.2.0'
     compile 'com.facebook.fresco:fresco:0.11.0'

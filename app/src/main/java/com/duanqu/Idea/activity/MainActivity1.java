@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.duanqu.Idea.Adapter.CotainViewPager;
@@ -33,6 +34,7 @@ import com.duanqu.Idea.fragment.DisplayFragment;
 import com.duanqu.Idea.fragment.InnerViewPager;
 import com.duanqu.Idea.fragment.SuggestFragment;
 import com.duanqu.Idea.fragment.test;
+import com.duanqu.Idea.result.RecordResult;
 import com.duanqu.Idea.utils.MyGestureDetector;
 import com.duanqu.Idea.utils.ViewHideAnimationUtils;
 import com.duanqu.qupai.sdk.android.QupaiService;
@@ -212,6 +214,36 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
     private void InitAnimation() {
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        String videoFile;
+        String thum[];
+        if (resultCode == RESULT_OK) {
+            RecordResult result =new RecordResult(data);
+            //得到视频地址，和缩略图地址的数组，返回十张缩略图
+            videoFile = result.getPath();
+            thum = result.getThumbnail();
+            result.getDuration();
+
+            Toast.makeText(MainActivity1.this, videoFile, Toast.LENGTH_LONG).show();
+           // tv_result.setText("视频路径:" + videoFile + "图片路径:" + thum[0]);
+
+            //startUpload();//可以在这里调用上传的方法
+
+        } else {
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(MainActivity1.this, "取消录制", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+
+
+
+
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

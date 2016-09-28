@@ -21,6 +21,8 @@
 
     
     <LinearLayout
+        android:id="@+id/at"
+        android:descendantFocusability="blocksDescendants"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -29,10 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
             android:paddingRight="15dp"
-            android:text="To"
+            android:text="\@"
             android:textSize="20sp"
             android:layout_gravity="center_vertical"
             android:textColor="#FFB6B6B6"

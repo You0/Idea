@@ -1,5 +1,6 @@
 package com.duanqu.Idea.test;
 
+import com.duanqu.Idea.bean.FriendsListBean;
 import com.duanqu.Idea.bean.SuggestGridBean;
 import com.duanqu.Idea.bean.TopAdBean;
 
@@ -19,13 +20,22 @@ public class Datas {
     public static SuggestGridBean suggestGridBean7 = new SuggestGridBean();
     public static SuggestGridBean suggestGridBean8 = new SuggestGridBean();
     public static SuggestGridBean suggestGridBean9 = new SuggestGridBean();
+    public static FriendsListBean friendsListBean = new FriendsListBean();
+    public static FriendsListBean friendsListBean1 = new FriendsListBean();
     public static TopAdBean temp = new TopAdBean();
     public static TopAdBean temp1 = new TopAdBean();
     public static TopAdBean temp2 = new TopAdBean();
     public static TopAdBean temp3 = new TopAdBean();
 
+    public static String[] strings = new String[]{
+      "123","456","789","456","789","456","789","456","789","456","789","456","789"
+    };
+
     public static String username = "五颜六色";
     public static String ueser_bg = "http://115.159.159.65:8080/EAsy/user_bg.jpg";
+    public static String ueser_bg1 = "http://115.159.159.65:8080/EAsy/psb.jpg";
+
+    public static ArrayList<FriendsListBean> friends = new ArrayList<>();
 
 
     public static ArrayList<SuggestGridBean> suggestGridBeens = new ArrayList<>();
@@ -69,6 +79,16 @@ public class Datas {
         tjGridBeens.add(suggestGridBean1);
 //        tjGridBeens.add(suggestGridBean);
 //        tjGridBeens.add(suggestGridBean3);
+
+
+        friendsListBean.setUrl("http://115.159.159.65:8080/EAsy/Headurl/3ebcfd6f-f456-429a-bf64-ca04f508.jpg");
+        friendsListBean.setName("五颜六色");
+
+
+        friendsListBean1.setUrl("http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg");
+        friendsListBean1.setName("动力小车@何叔平");
+        friends.add(friendsListBean1);
+        friends.add(friendsListBean);
 
     }
 

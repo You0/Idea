@@ -30,6 +30,10 @@ public class UserTag{
         initView();
     }
 
+    public String getName() {
+        return name;
+    }
+
     private void initView() {
         //设置为圆形
         userhead.setImageURI(Uri.parse(url));
@@ -41,6 +45,7 @@ public class UserTag{
     }
 
     public View getView() {
+        view.setPadding(15,1,0,1);
         return view;
     }
 
