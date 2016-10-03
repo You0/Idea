@@ -12,10 +12,14 @@ import android.util.Log;
 import android.util.StringBuilderPrinter;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.AbsListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import com.duanqu.Idea.app.MyApplication;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -32,6 +36,7 @@ public class ParallaxListview  extends ListView{
     private SimpleDraweeView draweeView;
     private int RawHeight;
     private int RawWidth;
+    private LinearLayout user_info;
     private RectF rect = new RectF();
     private Matrix matrix = new Matrix();
     private float mLastY;
@@ -56,21 +61,22 @@ public class ParallaxListview  extends ListView{
         this.draweeView = draweeView;
     }
 
+    public void setUser_info(LinearLayout user_info) {
+        this.user_info = user_info;
+    }
+
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         RawHeight = draweeView.getHeight();
         RawWidth = draweeView.getWidth();
         hierarchy = draweeView.getHierarchy();
         hierarchy.getActualImageBounds(rect);
-       ;hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
-        setSelectionFromTop(0,-10);
+        hierarchy.setActualImageScaleType(ScalingUtils.ScaleType.CENTER_CROP);
+        if(getFirstVisiblePosition()==0&&getChildAt(0).getTop()==0){
+            setSelectionFromTop(0,-10);
+        }
+
         //scrollBy(0,10);
-
-        Log.e(TAG,"RawHeight"+ RawHeight+"RawWidth"+RawWidth);
-        Log.e(TAG,"getIntrinsicWidth"+ draweeView.getDrawable().getIntrinsicWidth()
-                +"getIntrinsicHeight"+draweeView.getDrawable().getIntrinsicHeight());
-        Log.e(TAG,"rect.height()" + (rect.bottom - rect.top) +"  rect.width()"+rect.width());
-
         super.onWindowFocusChanged(hasWindowFocus);
     }
 
@@ -83,6 +89,13 @@ public class ParallaxListview  extends ListView{
     public void SetSelectionFromTop()
     {
         setSelectionFromTop(0,-10);
+    }
+
+    public void setTouchDisable()
+    {
+        if(getFirstVisiblePosition()==1){
+
+        }
     }
 
 
@@ -143,6 +156,10 @@ public class ParallaxListview  extends ListView{
                 int newheight = evaluate(fraction,startHeight,endHeight);
                 draweeView.getLayoutParams().height = newheight;
                 draweeView.requestLayout();
+                RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                int top = draweeView.getBottom()-MyApplication.dip2px(50);
+                params.setMargins(0,top,0,0);
+                user_info.setLayoutParams(params);
             }
         });
         valueAnimator.start();
@@ -155,6 +172,14 @@ public class ParallaxListview  extends ListView{
         {
             draweeView.getLayoutParams().height -= deltaY/3;
             draweeView.requestLayout();
+            int top = draweeView.getBottom()-MyApplication.dip2px(50);
+            Log.e(TAG,top+"top");
+//            user_info.layout(0,top,user_info.getWidth(),top+user_info.getHeight());
+//            user_info.invalidate();
+            RelativeLayout.LayoutParams params  = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,top,0,0);
+            user_info.setLayoutParams(params);
+
         }
 
 

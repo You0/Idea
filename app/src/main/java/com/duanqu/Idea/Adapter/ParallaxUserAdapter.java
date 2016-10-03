@@ -1,6 +1,7 @@
 package com.duanqu.Idea.Adapter;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.duanqu.Idea.bean.Type;
 
@@ -11,6 +12,7 @@ public class ParallaxUserAdapter extends BaseAdapter<Type> {
     public ParallaxUserAdapter(Activity context, Builder mBuilder) {
         super(context, mBuilder);
     }
+
 
     @Override
     public int getItemViewType(int position) {

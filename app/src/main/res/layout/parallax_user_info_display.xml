@@ -3,9 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-
     <com.duanqu.Idea.CustomView.ParallaxListview
         android:overScrollMode="always"
         android:id="@+id/parallaxListview"
@@ -13,14 +10,6 @@
         android:layout_height="match_parent">
 
     </com.duanqu.Idea.CustomView.ParallaxListview>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
-
-
-
 
 
 

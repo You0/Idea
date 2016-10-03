@@ -6,8 +6,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="0.16"></View>
+        android:layout_height="150dp"></View>
 
 
 </LinearLayout>

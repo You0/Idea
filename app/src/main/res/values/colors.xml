@@ -6,9 +6,10 @@
     <color name="colorHuise">#55000000</color>
     <color name="trans">#00000000</color>
     <color name="black">#000</color>
+    <color name="black90">#90000000</color>
     <color name="titlecolor">#0096ff</color>
 
-
+    <color name="tianlan">#2dd7ff</color>
     <color name="biz_audio_progress_bg">#00b2ff</color>
     <color name="biz_audio_progress_first">#ffffff</color>
     <color name="biz_audio_progress_second">#6b6666</color>
