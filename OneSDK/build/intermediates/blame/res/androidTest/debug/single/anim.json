@@ -1,10 +1,10 @@
 [
     {
-        "merged": "C:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\popup_window_out.xml",
-        "source": "C:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\anim\\popup_window_out.xml"
-    },
-    {
         "merged": "C:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\popup_window_in.xml",
         "source": "C:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\anim\\popup_window_in.xml"
+    },
+    {
+        "merged": "C:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\popup_window_out.xml",
+        "source": "C:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\anim\\popup_window_out.xml"
     }
 ]

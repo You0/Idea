@@ -2,6 +2,7 @@ package com.duanqu.Idea.app;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import com.alibaba.sdk.android.AlibabaSDK;
 import com.alibaba.sdk.android.callback.InitResultCallback;
+import com.duanqu.Idea.Config;
+import com.duanqu.Idea.R;
 import com.duanqu.qupai.engine.session.MovieExportOptions;
 import com.duanqu.qupai.engine.session.ProjectOptions;
 import com.duanqu.qupai.engine.session.ThumbnailExportOptions;
@@ -26,10 +29,33 @@ import com.facebook.drawee.backends.pipeline.Fresco;
  */
 public class MyApplication extends Application{
     private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+
+        //初始化用户参数
+        //这样写不好，应该建一个Bean
+        SharedPreferences sharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
+        Config.Token = sharedPreferences.getString("Token","");
+        Config.username = sharedPreferences.getString("username","");
+        Config.imageurl = sharedPreferences.getString("imageurl","");
+        Config.sign = sharedPreferences.getString("sign","");
+        Config.headurl = sharedPreferences.getString("headurl","");
+        Config.nickname = sharedPreferences.getString("nickname","");
+        Config.sex = sharedPreferences.getString("sex","");
+        Config.sign = sharedPreferences.getString("sign","");
+        Config.grades = sharedPreferences.getString("grades","");
+        Config.major = sharedPreferences.getString("major","");
+        Config.school = sharedPreferences.getString("school","");
+        Config.email = sharedPreferences.getString("email","");
+
+        if(Config.headurl.equals("")){
+            Config.headurl = "res://"+context.getPackageName()+"/"+ R.drawable.default_head_1;
+        }
+
+
         Fresco.initialize(context);
         AlibabaSDK.asyncInit(this, new InitResultCallback() {
             @Override
@@ -106,8 +132,8 @@ public class MyApplication extends Application{
                 Log.e("onFailure", "code:" + i + "s" + s );
             }
         });
-
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -131,6 +157,16 @@ public class MyApplication extends Application{
     public static int dip2px( float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+
+    public static void setSharedPreferences(String key,String param)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("userInfo",
+                context.MODE_PRIVATE);
+
+        sharedPreferences.edit().putString(key,param).commit();
+
     }
 
 

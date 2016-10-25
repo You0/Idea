@@ -10,6 +10,45 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/7/27.
  */
 public class Datas {
+    //URLS
+
+
+    //    public static String UploadHeader = "http://10.0.2.2:8080/EAsy/uploadHeader";
+//    public static String SchoolInfo = "http://10.0.2.2:8080/EAsy/schoolInfo";
+//    public static String Notification = "http://10.0.2.2:8080/EAsy/notification";
+//     public static String RegistUrl = "http://10.0.2.2:8080/videoshare-sso/rest/user/register";
+//     public static String Getrelation = "http://10.0.2.2:8080/videoshare-sso/rest/relation/getrelation";
+//     public static String Relationbuild = "http://10.0.2.2:8080/videoshare-sso/rest/relation/relationbuild";
+//     public static String Nickname ="http://10.0.2.2:8080/videoshare-sso/rest/info/nickname";
+
+    public static String RegistUrl = "http://115.159.159.65:8080/videoshare-sso/rest/user/register";
+    public static String Getrelation = "http://115.159.159.65:8080/videoshare-sso/rest/relation/getrelation";
+    public static String Relationbuild = "http://115.159.159.65:8080/videoshare-sso/rest/relation/relationbuild";
+    public static String Nickname ="http://115.159.159.65:8080/videoshare-sso/rest/info/nickname";
+    public static String detail = "http://115.159.159.65:8080/videoshare-sso/rest/info/detail";
+    public static String imageUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/backgound";
+    public static String GetImageUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
+    public static String HeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/userhead";
+    public static String GetHeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
+
+
+//    public static String GetLast = "http://10.0.2.2:8080/EAsy/Getlastblogs";
+//    public static String GetCount = "http://10.0.2.2:8080/EAsy/getcount";
+//    public static String GetBlogs = "http://10.0.2.2:8080/EAsy/Getblogs";
+//      public static String Login = "http://10.0.2.2:8080/EAsy/AppLogin";
+//    public static String GetReply = "http://10.0.2.2:8080/EAsy/getreply";
+//    public static String SendReply = "http://10.0.2.2:8080/EAsy/sendReply";
+//    public static String DeleteBlog = "http://10.0.2.2:8080/EAsy/delete";
+//    public static String Operator = "http://10.0.2.2:8080/EAsy/opearator";
+//    public static String Push = "http://10.0.2.2:8080/EAsy/getPush";
+
+
+
+
+
+
+
+
     public static SuggestGridBean suggestGridBean = new SuggestGridBean();
     public static SuggestGridBean suggestGridBean1 = new SuggestGridBean();
     public static SuggestGridBean suggestGridBean2 = new SuggestGridBean();

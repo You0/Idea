@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <com.duanqu.Idea.CustomView.MImageView
+        android:id="@+id/id_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pictures_no"
+        android:scaleType="centerCrop" />
+
+    <com.duanqu.Idea.CustomView.CircleNumber
+        android:id="@+id/id_item_select"
+        android:clickable="false"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        android:background="@null" />
+
+</RelativeLayout>

@@ -90,7 +90,6 @@ public class ImageDisplay extends AppCompatActivity {
 
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
-
                 MyScaleSimpleDraweeView myScaleView = new MyScaleSimpleDraweeView(getApplicationContext());
                 myScaleView.setImageURI(Uri.parse((String) images.get(position)));
                 myScaleView.setPosition(position);

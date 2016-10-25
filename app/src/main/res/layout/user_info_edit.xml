@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+   <RelativeLayout
+       android:paddingTop="70dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_margin="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="昵称"
+           android:id="@+id/nickname"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           app:met_maxCharacters="10"
+           app:met_minCharacters="1"
+           android:layout_marginTop="20dp" />
+
+
+       <CheckBox
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="男"
+           android:id="@+id/boy"
+           android:layout_below="@+id/nickname"
+           android:layout_alignStart="@+id/nickname" />
+
+
+       <CheckBox
+           android:id="@+id/girl"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="女"
+           android:layout_below="@+id/nickname"
+           android:layout_toEndOf="@+id/boy"
+           android:layout_marginStart="60dp" />
+
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="个性签名"
+           app:met_maxCharacters="50"
+           android:id="@+id/sign"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"
+           android:layout_below="@+id/boy"
+           android:layout_centerHorizontal="true" />
+
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="年级"
+           app:met_maxCharacters="10"
+           android:id="@+id/grades"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           android:layout_margin="10dp"
+           android:layout_below="@+id/sign"/>
+
+
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="专业"
+           app:met_maxCharacters="10"
+           android:id="@+id/major"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           android:layout_margin="10dp"
+           android:layout_below="@+id/grades"/>
+
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="学校"
+           android:id="@+id/school"
+           app:met_maxCharacters="10"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           android:layout_margin="10dp"
+           android:layout_below="@+id/major"/>
+
+       <com.rengwuxian.materialedittext.MaterialEditText
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="邮箱"
+           android:inputType="textEmailAddress"
+           app:met_maxCharacters="30"
+           android:id="@+id/email"
+           app:met_baseColor="@color/colorHuise"
+           app:met_floatingLabel="highlight"
+           app:met_primaryColor="?colorAccent"
+           app:met_underlineColor="#000"
+           app:met_singleLineEllipsis="true"
+           app:met_iconPadding="0dp"
+           android:layout_margin="10dp"
+           android:layout_below="@+id/school"/>
+
+
+   </RelativeLayout>
+
+</ScrollView>

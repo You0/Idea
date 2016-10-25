@@ -8,6 +8,10 @@
     <color name="black">#000</color>
     <color name="black90">#90000000</color>
     <color name="titlecolor">#0096ff</color>
+    <color name="white">#ffffff</color>
+    <color name="black05">#05000000</color>
+    <color name="one">#ffe9c4</color>
+    <color name="name">#ff9a76</color>
 
     <color name="tianlan">#2dd7ff</color>
     <color name="biz_audio_progress_bg">#00b2ff</color>

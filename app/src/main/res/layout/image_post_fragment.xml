@@ -1,13 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/uploadLayout"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e9e9e9"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/white"
+            android:gravity="top"
+            android:hint="有什么要说的吗？"
+            android:padding="10dp"
+            android:textColor="#373447"
+            android:textSize="16sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.duanqu.Idea.CustomView.HorizontalScrollViewEx
+                    android:id="@+id/imageHorizon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </com.duanqu.Idea.CustomView.HorizontalScrollViewEx>
+
+            </FrameLayout>
 
 
 
+        </LinearLayout>
+        <TextView
+            android:id="@+id/change"
+            android:paddingTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="修改图片"
+            />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -60,27 +61,28 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
 
     //private PopupWindow popWindow = DisplayFragment.popupWindow;
     private LinearLayout containLL;
-    private DrawerLayout mDrawerLayout;
-    private TranslateAnimation translateAnimationUP;
-    private TranslateAnimation translateAnimationDOWN;
+    public static DrawerLayout mDrawerLayout;
     public static Activity mActivity;
     private LinkedList<Fragment> fragments = new LinkedList<>();
     private CotainViewPager cotainViewPagerAdapter;
     private boolean Once = true;
     private RelativeLayout layout;
+    private Intent intent;
+    private boolean once = true;
+    private final int SEND_IMAGE = 99;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         mActivity = this;
+        intent = getIntent();
         initView();
         blindListenerView();
         InitAnimation();
 
-
-
     }
+
 
     private void blindListenerView() {
         menu.setOnClickListener(this);
@@ -92,8 +94,6 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         video.setOnClickListener(this);
         image.setOnClickListener(this);
         editor.setOnClickListener(this);
-
-
 
 
         mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
@@ -157,9 +157,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         fragments.add(suggestFragment);
         cotainViewPagerAdapter = new CotainViewPager(getSupportFragmentManager());
         cotainViewPagerAdapter.setFragments(fragments);
-        viewPager.setAdapter(cotainViewPagerAdapter);
         viewPager.setAdapter(cotainViewPagerAdapter);//给ViewPager设置适配器
-
 
 
     }
@@ -169,6 +167,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.search: {
                 System.out.println("搜索");
+                Intent intent = new Intent(MainActivity1.this, AttentionActivity.class);
+                MainActivity1.this.startActivity(intent);
+                overridePendingTransition(R.anim.scale_anim, 0);
                 break;
             }
 
@@ -188,27 +189,27 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
                 break;
             }
 
-            case R.id.sendVideo:{
+            case R.id.sendVideo: {
                 QupaiService qupaiService = AlibabaSDK
                         .getService(QupaiService.class);
                 qupaiService.showRecordPage(this, RequestCode.RECORDE_SHOW, false);
                 break;
             }
 
-            case R.id.sendImage:{
-
+            case R.id.sendImage: {
+                Intent intent = new Intent(MainActivity1.this, ImageWatchActivity.class);
+                //1表示多选图片
+                intent.putExtra("tag", 1);
+                startActivityForResult(intent, SEND_IMAGE);
                 break;
             }
 
-            case R.id.sendText:{
-                Intent intent = new Intent(this,SendActivity.class);
-                intent.putExtra("id","text");
+            case R.id.sendText: {
+                Intent intent = new Intent(this, SendActivity.class);
+                intent.putExtra("id", "text");
                 startActivity(intent);
                 break;
             }
-
-
-
         }
     }
 
@@ -221,40 +222,73 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         String videoFile;
         String thum[];
         if (resultCode == RESULT_OK) {
-            RecordResult result =new RecordResult(data);
-            //得到视频地址，和缩略图地址的数组，返回十张缩略图
-            videoFile = result.getPath();
-            thum = result.getThumbnail();
-            result.getDuration();
+            if (requestCode == RequestCode.RECORDE_SHOW) {
+                RecordResult result = new RecordResult(data);
+                //得到视频地址，和缩略图地址的数组，返回十张缩略图
+                videoFile = result.getPath();
+                thum = result.getThumbnail();
+                result.getDuration();
 
-            Toast.makeText(MainActivity1.this, videoFile, Toast.LENGTH_LONG).show();
-           // tv_result.setText("视频路径:" + videoFile + "图片路径:" + thum[0]);
+                //Toast.makeText(MainActivity1.this, thum[0], Toast.LENGTH_LONG).show();
+                // tv_result.setText("视频路径:" + videoFile + "图片路径:" + thum[0]);
+                //打开发送界面
+                Intent intent = new Intent(MainActivity1.this, SendActivity.class);
+                intent.putExtra("id", "video");
+                intent.putExtra("videoUri", videoFile);
+                intent.putExtra("thum", thum[0]);
+                startActivity(intent);
+                //startUpload();//可以在这里调用上传的方法
+            }
 
-            //startUpload();//可以在这里调用上传的方法
+            if(requestCode == SEND_IMAGE){
+                Intent intent = new Intent(MainActivity1.this, SendActivity.class);
+                intent.putExtra("id", "image");
+                String image;
+                ArrayList arrayList = data.getCharSequenceArrayListExtra("data_return");
+                if (arrayList==null){
+                    image = data.getStringExtra("data_return");
+                    intent.putExtra("tag",0);
+                    intent.putExtra("image",image);
+                }else{
+                    intent.putExtra("tag",1);
+                    intent.putStringArrayListExtra("images",arrayList);
+                }
 
+                startActivity(intent);
+            }
         } else {
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(MainActivity1.this, "取消录制", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity1.this, "取消", Toast.LENGTH_LONG).show();
             }
         }
     }
 
 
-
-
-
-
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
+        if (hasFocus) {
             //获取宽高
             Config.FootNagaviteWeight = footnagavite.getMeasuredWidth();
             Config.FootNagaviteHeight = footnagavite.getMeasuredHeight();
             //获得屏幕的宽高。
             Config.WIDTH = MyApplication.getScreenMetrics(this).widthPixels;
             Config.HEIGHT = MyApplication.getScreenMetrics(this).heightPixels;
+
+            //&&intent.getBooleanExtra("tj",false)
+            if (once) {
+//                System.out.println("你TM为什么不弹窗");
+//                if ( poupWindow==null){
+//                    System.out.println("你TM为什么不弹窗+1");
+//                    poupWindow = new AttentionPoupWindow(this);
+//                }
+//                System.out.println("你TM为什么不弹窗+2");
+//                poupWindow.showAtLocation(viewPager,Gravity.NO_GRAVITY,0,0);
+
+
+                once = false;
+            }
+
         }
     }
 }

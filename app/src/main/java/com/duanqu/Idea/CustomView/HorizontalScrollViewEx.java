@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Scroller;
 
+import java.util.ArrayList;
+
 public class HorizontalScrollViewEx extends ViewGroup {
     private static final String TAG = "HorizontalScrollViewEx";
 
     private int mChildrenSize;
     private int mChildWidth;
     private int mChildIndex;
+    private ArrayList<Integer> childWidth = new ArrayList<>();
 
     // 分别记录上次滑动的坐标
     private int mLastX = 0;
@@ -119,17 +122,21 @@ public class HorizontalScrollViewEx extends ViewGroup {
                 mVelocityTracker.computeCurrentVelocity(1000);
                 float xVelocity = mVelocityTracker.getXVelocity();
 
-                if(Math.abs(xVelocity) < 10){
+                if (Math.abs(xVelocity) < 10) {
                     System.out.println("低速UP");
                     tag = false;
                 }
-                if (Math.abs(xVelocity) >= 50) {
-                    mChildIndex = xVelocity > 0 ? mChildIndex - 1 : mChildIndex + 1;
-                } else {
-                    mChildIndex = (scrollX + mChildWidth / 2) / mChildWidth;
-                }
+                //如果速度大于50则表示其在短快滑动，所以就切换到下一个index即可
+
+                mChildIndex = xVelocity > 0 ? mChildIndex - 1 : mChildIndex + 1;
+
+                System.out.println(mChildIndex + "mChildIndex");
                 mChildIndex = Math.max(0, Math.min(mChildIndex, mChildrenSize - 1));
-                int dx = mChildIndex * mChildWidth - scrollX;
+                int temp = 0;
+                for(int i=0;i<mChildIndex;i++){
+                    temp += childWidth.get(i);
+                }
+                int dx = temp - scrollX;
                 smoothScrollBy(dx, 0);
                 mVelocityTracker.clear();
                 System.out.println("Ex Touch UP");
@@ -162,16 +169,16 @@ public class HorizontalScrollViewEx extends ViewGroup {
         } else if (widthSpecMode == MeasureSpec.AT_MOST && heightSpecMode == MeasureSpec.AT_MOST) {
             final View childView = getChildAt(0);
             measuredWidth = childView.getMeasuredWidth() * childCount;
-            measuredHeight = childView.getMeasuredHeight() + childView.getPaddingBottom()+childView.getPaddingTop();
+            measuredHeight = childView.getMeasuredHeight() + childView.getPaddingBottom() + childView.getPaddingTop();
             setMeasuredDimension(measuredWidth, measuredHeight);
         } else if (heightSpecMode == MeasureSpec.AT_MOST) {
             final View childView = getChildAt(0);
             measuredHeight = childView.getMeasuredHeight();
-            setMeasuredDimension(widthSpaceSize, childView.getMeasuredHeight()+ + childView.getPaddingBottom()+childView.getPaddingTop());
+            setMeasuredDimension(widthSpaceSize, childView.getMeasuredHeight() + +childView.getPaddingBottom() + childView.getPaddingTop());
         } else if (widthSpecMode == MeasureSpec.AT_MOST) {
             final View childView = getChildAt(0);
             measuredWidth = childView.getMeasuredWidth() * childCount;
-            setMeasuredDimension(measuredWidth, heightSpaceSize + childView.getPaddingBottom()+childView.getPaddingTop());
+            setMeasuredDimension(measuredWidth, heightSpaceSize + childView.getPaddingBottom() + childView.getPaddingTop());
         }
     }
 
@@ -186,12 +193,14 @@ public class HorizontalScrollViewEx extends ViewGroup {
             if (childView.getVisibility() != View.GONE) {
                 final int childWidth = childView.getMeasuredWidth();
                 mChildWidth = childWidth;
-                if(childLeft==0){
+                this.childWidth.add(mChildWidth);
+                if (childLeft == 0) {
                     childLeft += childView.getPaddingLeft();
                 }
                 childView.layout(childLeft, childView.getPaddingTop(), childLeft + childWidth,
-                        childView.getMeasuredHeight()+childView.getPaddingBottom());
-                childLeft += childWidth + childView.getPaddingLeft();;
+                        childView.getMeasuredHeight() + childView.getPaddingBottom());
+                childLeft += childWidth + childView.getPaddingLeft();
+                ;
             }
         }
     }

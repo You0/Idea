@@ -2,12 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:id="@+id/footnagavite"
     >
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1e000000"
+        ></View>
+
     <LinearLayout
-        android:background="#d4d4d4"
-        android:id="@+id/footnagavite"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"

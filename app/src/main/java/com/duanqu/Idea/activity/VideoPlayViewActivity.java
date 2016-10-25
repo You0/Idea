@@ -433,8 +433,7 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            //先让黑色背景消失
-            //viewHolder.black_cover.setVisibility(View.GONE);
+
             viewHolder.cover_image.setImageURI(Uri.parse(videoPaths.get(position).getCover_Url()));
 
             viewHolder.play_btn.setOnClickListener(new MyClick(viewHolder, convertView, position));

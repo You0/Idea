@@ -20,9 +20,6 @@ public abstract  class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = getActivity();
         return initView(inflater, container, savedInstanceState);
-
-
-
     }
 
     @Override

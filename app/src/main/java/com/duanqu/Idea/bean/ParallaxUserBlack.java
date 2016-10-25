@@ -5,20 +5,11 @@ package com.duanqu.Idea.bean;
  */
 public class ParallaxUserBlack implements Type{
     private int type;
-    private int res;
-
-
-    public int getRes() {
-        return res;
-    }
 
     public void setType(int type) {
         this.type = type;
     }
 
-    public void setRes(int res) {
-        this.res = res;
-    }
     @Override
     public int getType() {
         return type;

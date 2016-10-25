@@ -2,18 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="360dp"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:clickable="true"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/bg"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/bg"
+            />
+
+
 
     <LinearLayout
         android:id="@+id/ll_menu"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@drawable/bg"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        >
 
         <LinearLayout
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -21,11 +36,10 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <com.duanqu.Idea.CustomView.CircleImageView
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/userhead"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@drawable/test"
-                android:scaleType="centerCrop"
                 />
 
 
@@ -43,9 +57,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:text="五颜六色"
+                android:text="用户名"
                 android:textColor="@android:color/white"
-                android:textSize="15sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
 
@@ -61,32 +75,45 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_weight="1"
-                android:text="春路雨添花,花动一山春色。"
+                android:text="编辑您的个性签名"
+                android:maxEms="16"
+                android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 
 
+    </FrameLayout>
+
+
     <LinearLayout
+        android:paddingTop="10dp"
+        android:descendantFocusability="blocksDescendants"
         android:background="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_userdata"
+            android:descendantFocusability="blocksDescendants"
+            android:background="@drawable/menu_select"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp">
 
             <ImageView
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_perm_identity_black_24dp" />
 
             <TextView
-                android:id="@+id/tv_userdata"
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -98,18 +125,24 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_bookmark"
+            android:background="@drawable/menu_select"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp">
 
             <ImageView
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_bookmark_black_24dp" />
 
             <TextView
-                android:id="@+id/tv_bookmark"
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -121,18 +154,24 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_favorite"
+            android:background="@drawable/menu_select"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp">
 
             <ImageView
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/ic_favorite_border_black_24dp" />
 
             <TextView
-                android:id="@+id/tv_favorite"
+                android:focusable="false"
+                android:clickable="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
@@ -149,7 +188,7 @@
 
 
         <LinearLayout
-
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -165,7 +204,7 @@
                 android:background="#44000000"></View>
             <TextView
                 android:id="@+id/tv_account"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
@@ -177,7 +216,7 @@
 
             <TextView
                 android:id="@+id/tv_setting"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
@@ -188,7 +227,7 @@
 
             <TextView
                 android:id="@+id/tv_about"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"

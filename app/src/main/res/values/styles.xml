@@ -22,6 +22,11 @@
     </style>
 
 
+    <!-- 突然放大然后缩小一点点 -->
+    <style name="ScaleBig">
+        <item name="android:windowEnterAnimation">@anim/scale_anim</item>
+    </style>
+
 
     <style name="video_progressbar_style">
         <item name="android:maxWidth">43.0dip</item>
@@ -55,6 +60,13 @@
         <item name="android:windowBackground">@color/translucent_background</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <style name="TranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/translucent_background</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
 
     <style name="MyDarkTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#000000</item>

@@ -19,20 +19,21 @@ import java.util.zip.Inflater;
 /**
  * Created by Administrator on 2016/5/18.
  */
-public class CotainViewPager extends FragmentPagerAdapter{
-    LinkedList<Fragment> fragments;//内部viewpager的layout_ID
+public class CotainViewPager<T> extends FragmentPagerAdapter{
+    LinkedList<T> fragments;//内部viewpager的layout_ID
 
     public CotainViewPager(FragmentManager fm) {
         super(fm);
     }
 
     public void setFragments(LinkedList<Fragment> fragments) {
-        this.fragments = fragments;
+        this.fragments = (LinkedList<T>) fragments;
+        notifyDataSetChanged();
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments.get(position);
+        return (Fragment) fragments.get(position);
     }
 
     @Override

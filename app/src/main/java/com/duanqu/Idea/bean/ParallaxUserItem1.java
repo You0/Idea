@@ -6,10 +6,18 @@ import android.view.View;
  * Created by Administrator on 2016/9/28.
  */
 public class ParallaxUserItem1 implements Type{
-    private int res;
     private String title;
     private int count;
     private int type;
+    private int ico;
+
+    public int getIco() {
+        return ico;
+    }
+
+    public void setIco(int ico) {
+        this.ico = ico;
+    }
 
     public int getType() {
         return type;
@@ -17,14 +25,6 @@ public class ParallaxUserItem1 implements Type{
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public int getRes() {
-        return res;
-    }
-
-    public void setRes(int res) {
-        this.res = res;
     }
 
     public String getTitle() {

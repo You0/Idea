@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mh">
+
+    <RelativeLayout
+        android:id="@+id/transparentOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#96000000">
+
+        <Button
+            android:background="@drawable/login_button"
+            android:layout_gravity="center_vertical"
+            android:textColor="#ffffff"
+            android:text="确定"
+            android:id="@+id/register"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nickname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="101dp" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="昵称"
+            android:id="@+id/nickname"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="normal"
+            app:met_primaryColor="?colorAccent"
+            app:met_underlineColor="#fff"
+            app:met_iconPadding="0dp"
+            app:met_singleLineEllipsis="true"
+            android:layout_marginTop="64dp"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:paddingLeft="15dp"
+            android:text="第二步，输入您的昵称"
+            android:textColor="@color/white"
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:textSize="28sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="99dp" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

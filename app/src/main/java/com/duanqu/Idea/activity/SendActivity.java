@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -18,7 +20,10 @@ import com.duanqu.Idea.CustomView.HorizontalScrollViewEx;
 import com.duanqu.Idea.CustomView.ToSomeOne;
 import com.duanqu.Idea.CustomView.UserTag;
 import com.duanqu.Idea.R;
+import com.duanqu.Idea.fragment.BaseFragment;
+import com.duanqu.Idea.fragment.ImagePostFragment;
 import com.duanqu.Idea.fragment.TextPostFragment;
+import com.duanqu.Idea.fragment.VideoPostFragment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,34 +42,59 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     private static HorizontalScrollViewEx hs;
     private LinearLayout at;
     private GetFriendsRelationship popWindow = null;
+    private BaseFragment fragment;
+    private Intent intent;
 
     private static HashMap<String,View> views = new HashMap<>();
 
-
+    public static int IMAGE_CHANGE = 99;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.sent_layout);
-        Intent intent = getIntent();
+        intent = getIntent();
         id = intent.getStringExtra("id");
         init();
         chooseFragment();
     }
 
     private void chooseFragment() {
-        if(id == "image"){
-
-
-        }else if(id == "text"){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fl_content,new TextPostFragment()).commit();
-
-
-        }else if(id == "video"){
+        if(id.equals("image")){
+            //将image信息传递进fragment
+            fragment = new ImagePostFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_content,fragment).commit();
+            ArrayList paths = intent.getStringArrayListExtra("images");
+            if(paths==null)
+            {
+                paths = new ArrayList();
+                paths.add(intent.getStringExtra("image"));
+            }
+            ((ImagePostFragment)fragment).setPath(paths);
+        }else if(id.equals("text")){
+            fragment = new TextPostFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_content,fragment).commit();
+        }else if(id.equals("video")){
+            fragment = new VideoPostFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_content,fragment).commit();
+            ((VideoPostFragment) fragment).setData(intent.getStringExtra("videoUri"),
+                    intent.getStringExtra("thum"));
 
         }
 
 
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==RESULT_OK){
+            if(requestCode==IMAGE_CHANGE){
+                ((ImagePostFragment)fragment).setPath(data.getStringArrayListExtra("data_return"));
+            }
+
+        }
     }
 
     public static void removeViews(String name){
@@ -88,25 +118,11 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     }
 
     private void init() {
-        //toSomeOne = (ToSomeOne) findViewById(R.id.tosomeone);
-
-//        View view = UserTag.Build(this,"http://115.159.159.65:8080/EAsy/Headurl/3ebcfd6f-f456-429a-bf64-ca04f508.jpg","五颜六色");
-//        View view1 = UserTag.Build(this,"http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg","动力小车@何叔平");
-//
-//        view.setPadding(15,5,0,5);
-//        view1.setPadding(15,5,0,5);
-
-
-//        toSomeOne.addView(view);
-//        toSomeOne.addView(view2);
-//        toSomeOne.addView(view1);
 
         at = (LinearLayout) findViewById(R.id.at);
         hs = (HorizontalScrollViewEx) findViewById(R.id.hs);
 
-//        hs.addView(view1);
-//        hs.addView(view);
-
+        //初始化标题栏
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("发送");
         setSupportActionBar(toolbar);
@@ -118,7 +134,7 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
             }
         });
 
-
+        //加入点击
         hs.setOnClickListener(this);
         at.setOnClickListener(this);
 
@@ -134,32 +150,23 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
-        //先清除views，以防父母冲突。
-//        hs.removeAllViews();
-
         if(popWindow==null){
             popWindow = new GetFriendsRelationship(this);
         }
-
-        //加入view
-//        for (View value : views.values()) {
-//            hs.addView(value);
-//        }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(id == "image"){
+        if(id.equals("image")){
 
 
-        }else if(id == "text"){
+        }else if(id.equals("text")){
 
 
 
 
-        }else if(id == "video"){
+        }else if(id.equals("video")){
 
         }
         return super.onOptionsItemSelected(item);

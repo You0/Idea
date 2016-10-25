@@ -30,6 +30,10 @@ public abstract class BaseAdapter<T> extends android.widget.BaseAdapter {
     }
 
 
+    public void setDatas(List<T> datas) {
+        this.datas = datas;
+    }
+
     @Override
     public int getCount() {
         return datas.size();

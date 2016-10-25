@@ -13,6 +13,13 @@ public class ParallaxUserAdapter extends BaseAdapter<Type> {
         super(context, mBuilder);
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        if(position==0||position ==6){
+            return false;
+        }
+        return super.isEnabled(position);
+    }
 
     @Override
     public int getItemViewType(int position) {
