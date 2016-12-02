@@ -2,13 +2,15 @@ package com.duanqu.Idea.bean;
 
 import android.support.v4.view.PagerAdapter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2016/6/30.
  */
-public class MainMessageBean {
+public class MainMessageBean implements Serializable{
     public final int DEAUFALT = 0;
     public HashMap<String, String> userInfo;
     public HashMap<String, String> MessageInfo;
@@ -16,7 +18,30 @@ public class MainMessageBean {
     public ResentBean ReSendInfo;
     public String VideoUri;
     public LinkedList images;
-    public int type;
+    public String FeedId;
+    public int type = 0;
+    public boolean feed = false;
+    public ArrayList<InnerFeedBean> innerBeans;
+
+    public void setFeedId(String feedId) {
+        FeedId = feedId;
+    }
+
+    public String getFeedId() {
+        return FeedId;
+    }
+
+    public void setFeed(boolean feed) {
+        this.feed = feed;
+    }
+
+    public void setInnerBeans(ArrayList<InnerFeedBean> innerBeans) {
+        this.innerBeans = innerBeans;
+    }
+
+    public ArrayList<InnerFeedBean> getInnerBeans() {
+        return innerBeans;
+    }
 
     public int getType() {
         return type;
@@ -51,10 +76,19 @@ public class MainMessageBean {
     }
 
     public void setType(int type) {
+        if(feed==true){
+            this.type = 6;
+            return;
+        }
+
         if (type == DEAUFALT) {
             int length = getImages().size();
             if(length==0) {
-                this.type = 4;
+                if(getVideoUri().equals("")){
+                    this.type = 5;
+                }else{
+                    this.type = 4;
+                }
             }else if (length == 1) {
                 this.type = 0;
             } else if (length <= 3) {
@@ -100,7 +134,10 @@ public class MainMessageBean {
                 ", ReSendInfo=" + ReSendInfo +
                 ", VideoUri='" + VideoUri + '\'' +
                 ", images=" + images +
+                ", FeedId='" + FeedId + '\'' +
                 ", type=" + type +
+                ", feed=" + feed +
+                ", innerBeans=" + innerBeans +
                 '}';
     }
 }

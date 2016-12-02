@@ -8,5 +8,5 @@ import org.json.JSONObject;
 public abstract  class BaseJsonParse<T> {
     protected static JSONObject object;
 
-    public abstract  T Parse(String json);
+    public  abstract  T Parse(String json);
 }

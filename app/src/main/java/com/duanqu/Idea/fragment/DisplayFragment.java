@@ -1,18 +1,25 @@
 package com.duanqu.Idea.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
 import com.duanqu.Idea.Adapter.BaseAdapter;
 import com.duanqu.Idea.Config;
+import com.duanqu.Idea.CustomView.RefreshListView;
 import com.duanqu.Idea.JsonParse.MainMessageParse;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE1;
@@ -20,14 +27,22 @@ import com.duanqu.Idea.ViewHolder.Item_content_TYPE2;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE3;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE4;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE5;
+import com.duanqu.Idea.ViewHolder.Item_content_TYPE6;
+import com.duanqu.Idea.activity.FeedActivity;
 import com.duanqu.Idea.activity.MainActivity1;
 import com.duanqu.Idea.activity.MyPopWindow;
 import com.duanqu.Idea.bean.MainMessageBean;
+import com.duanqu.Idea.test.Datas;
 import com.duanqu.Idea.test.TestAdapter;
 import com.duanqu.Idea.test.TestViewHolder;
 import com.duanqu.Idea.utils.MyGestureDetector;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/7/2.
@@ -37,6 +52,76 @@ public class DisplayFragment extends BaseFragment {
     private MainMessageBean mainMessageBeen;
     private ArrayList<MainMessageBean> arrayList = new ArrayList<>();
     private boolean Visibility = true;
+    //?userId=111&pageSize=10&pageNum=1
+    private String userId;
+    private final int  pageSize  =10;
+    private int pageNum = 1;
+
+
+    private RefreshListView.OnRefreshListener listener = new RefreshListView.OnRefreshListener() {
+        @Override
+        public void onPullRefresh() {
+            //?uId=11&pageNum=1&pageSize=1
+            OkHttpUtils
+                    .get()
+                    .url(Datas.GetFeed)
+                    .addParams("uId",Config.userid)
+                    .addParams("pageNum","1")
+                    .addParams("pageSize","10")
+                    .build()
+                    .execute(new Callback() {
+                        @Override
+                        public Object parseNetworkResponse(Response response, int id) throws Exception {
+                            return null;
+                        }
+
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+
+                        }
+
+                        @Override
+                        public void onResponse(Object response, int id) {
+
+                        }
+                    });
+
+        }
+
+        @Override
+        public void onLoadingMore() {
+            OkHttpUtils.get().url(Datas.GetFeed)
+                    .addParams("uId",Config.userid)
+                    .addParams("pageNum","1")
+                    .addParams("pageSize","10")
+                    .build().execute(new Callback() {
+                @Override
+                public Object parseNetworkResponse(Response response, int id) throws Exception {
+                    return null;
+                }
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+
+                }
+
+                @Override
+                public void onResponse(Object response, int id) {
+
+                }
+            });
+        }
+    };
+
+    public Handler handler = new Handler()
+    {
+        @Override
+        public void handleMessage(Message msg) {
+
+            super.handleMessage(msg);
+        }
+    };
+
 
     //public static PopupWindow popupWindow;
     @Override
@@ -45,16 +130,14 @@ public class DisplayFragment extends BaseFragment {
         listView = (ListView) view.findViewById(R.id.displayListview);
         //popupWindow = new MyPopWindow(getActivity(), getActivity());
 
-
+        RefreshListView refreshListView = (RefreshListView)listView;
+        refreshListView.setOnRefreshListener(listener);
         listView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         //设置动画
         listView.setOnTouchListener(new MyGestureDetector(getActivity()) {
             @Override
             public void onScrollDown() {
-//                popupWindow.showAtLocation(view,
-//                        Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                //MainActivity1.footnagavite.setVisibility(View.VISIBLE);
 
                 if (Visibility == false) {
                     Animation DisplayAnimation = new TranslateAnimation(0, 0, Config.FootNagaviteHeight, 0);
@@ -69,8 +152,6 @@ public class DisplayFragment extends BaseFragment {
 
             @Override
             public void onScrollUp() {
-
-                //MainActivity1.footnagavite.setVisibility(View.GONE);
                 if (Visibility == true) {
                     Animation MissAnimation = new TranslateAnimation(0, 0, 0, Config.FootNagaviteHeight);
                     MissAnimation.setDuration(300);
@@ -78,8 +159,6 @@ public class DisplayFragment extends BaseFragment {
                     MainActivity1.footnagavite.startAnimation(MissAnimation);
                     Visibility = false;
                 }
-
-
             }
         });
 
@@ -119,15 +198,31 @@ public class DisplayFragment extends BaseFragment {
         arrayList.add(mainMessageBeen);
 
 
+        //4是单个视频
         TestAdapter testAdapter = new TestAdapter((Activity) context,
-                new BaseAdapter.Builder().addType(0, TestViewHolder.class)
+                new BaseAdapter.Builder()
                         .addType(4, Item_content_TYPE4.class)
                         .addType(0, Item_content_TYPE1.class)
                         .addType(1, Item_content_TYPE2.class)
                         .addType(2, Item_content_TYPE3.class)
                         .addType(3, Item_content_TYPE5.class)
+                        .addType(5, Item_content_TYPE6.class)
                         .setDatas(arrayList).build());
         listView.setAdapter(testAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("DisplayFragment","Click Item:"+position);
+                MainMessageBean mainMessageBean = arrayList.get(position-1);
+                Intent intent = new Intent(getActivity(), FeedActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("first",mainMessageBean);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 }
 

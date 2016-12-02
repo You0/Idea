@@ -87,6 +87,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
 
             case R.id.login:{
+                Intent intent = new Intent(this, MainActivity1.class);
+                intent.putExtra("tj",true);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             }
         }

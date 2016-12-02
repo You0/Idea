@@ -36,8 +36,8 @@ public class InnerViewPager extends BaseFragment{
 
         //顶部标题栏设置
         mTitleList.add("动态");
-        mTitleList.add("消息");
         mTitleList.add("好友");
+        mTitleList.add("消息");
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
         for(int i=0;i<mTitleList.size();i++){
 
@@ -50,14 +50,15 @@ public class InnerViewPager extends BaseFragment{
 
 
         DisplayFragment displayFragment = new DisplayFragment();
+        MessageFragment messageFragment = new MessageFragment();
         test test1 = new test();
         test tst = new test();
         fragments.add(displayFragment);
-        fragments.add(test1);
         fragments.add(tst);
+        fragments.add(messageFragment);
         cotainViewPagerAdapter = new CotainViewPager(getActivity().getSupportFragmentManager());
         cotainViewPagerAdapter.setFragments(fragments);
-        viewPager.setAdapter(cotainViewPagerAdapter);
+        //viewPager.setAdapter(cotainViewPagerAdapter);
         viewPager.setAdapter(cotainViewPagerAdapter);//给ViewPager设置适配器
 
 
@@ -100,5 +101,4 @@ public class InnerViewPager extends BaseFragment{
         //mTabLayout.setTabsFromPagerAdapter(cotainViewPagerAdapter);//给Tabs设置适配器
         return view;
     }
-
 }

@@ -71,6 +71,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private boolean once = true;
     private final int SEND_IMAGE = 99;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,9 +168,7 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.search: {
                 System.out.println("搜索");
-                Intent intent = new Intent(MainActivity1.this, AttentionActivity.class);
-                MainActivity1.this.startActivity(intent);
-                overridePendingTransition(R.anim.scale_anim, 0);
+
                 break;
             }
 

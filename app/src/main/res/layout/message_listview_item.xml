@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.duanqu.Idea.CustomView.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sl"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:minHeight="80dp"
+    android:background="#44000000" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/tv_call"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="#666666"
+            android:gravity="center"
+            android:text="标记已读"
+            android:textColor="#ffffff" />
+
+        <TextView
+            android:id="@+id/tv_del"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="#ff0000"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/message_list_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/default_head_1" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_image"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000000"
+            android:text="Name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hi，你最近过的好吗？"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/last_message"
+            android:layout_below="@+id/tv_name"
+            android:layout_toRightOf="@id/iv_image" />
+    </RelativeLayout>
+
+</com.duanqu.Idea.CustomView.SwipeLayout>

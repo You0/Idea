@@ -150,7 +150,10 @@ public class ImageWatchGridViewAdapter extends ArrayAdapter<ImageWatchActivity.I
             public void onClick(View v)
             {
                 if(position==0){
-
+                    if(mSelected.size()>=9){
+                        Toast.makeText(getContext(), "你最多选择9张图片", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     takePhoto();
                     return;
                 }
@@ -187,7 +190,12 @@ public class ImageWatchGridViewAdapter extends ArrayAdapter<ImageWatchActivity.I
         {
             viewHolder.id_item_select.setVisibility(View.VISIBLE);
             System.out.println(currentImageUri);
-            viewHolder.id_item_select.setCar(String.valueOf(viewHolder.number));
+            if(viewHolder.number==0){
+                viewHolder.id_item_select.setCar(String.valueOf("√"));
+            }else{
+                viewHolder.id_item_select.setCar(String.valueOf(viewHolder.number));
+            }
+
             viewHolder.imageView.setColorFilter(Color.parseColor("#77000000"));
         }
 

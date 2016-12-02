@@ -261,6 +261,10 @@ public class ImageWatchActivity extends AppCompatActivity {
 
     }
 
+    public ImageWatchGridViewAdapter getGridViewAdapter() {
+        return gridViewAdapter;
+    }
+
     //是单选图片时返回
     public void Done() {
         Intent intent = new Intent();
@@ -294,6 +298,10 @@ public class ImageWatchActivity extends AppCompatActivity {
     private String doPhoto(int requestCode, Intent data) {
         String filePath = new File(Environment.getExternalStoragePublicDirectory
                 (Environment.DIRECTORY_DCIM), this.lastName).getAbsolutePath();
+        if(requestCode==SendActivity.IMAGE_CHANGE){
+
+        }
+
         return filePath;
 
 

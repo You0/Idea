@@ -50,12 +50,12 @@ public class Friends_TYPE0 extends BaseItemImp<FriendsListBean> {
                 if(checkBox.isChecked()){
                     System.out.println("set check");
                     checkBox.setChecked(true);
-                    SendActivity.setViews(data.getName(),UserTag.Build(context,data.getUrl(),data.getName()));
+                    SendActivity.setViews(data.getUsername(),UserTag.Build(context,data.getUrl(),data.getName()));
 
                 }else{
                     System.out.println("set false");
                     checkBox.setChecked(false);
-                    SendActivity.removeViews(data.getName());
+                    SendActivity.removeViews(data.getUsername());
 
                 }
             }

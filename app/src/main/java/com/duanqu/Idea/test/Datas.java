@@ -30,7 +30,9 @@ public class Datas {
     public static String GetImageUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
     public static String HeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/userhead";
     public static String GetHeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
-
+    public static String PublishFeed = "http://localhost:8084/rest/feed/publish";
+    public static String GetFeed = "http://localhost:8084/rest/feed/pullbyId";
+    public static String GetFriendsFeeds = "http://localhost:8084/rest/feed/getFriendFeed";
 
 //    public static String GetLast = "http://10.0.2.2:8080/EAsy/Getlastblogs";
 //    public static String GetCount = "http://10.0.2.2:8080/EAsy/getcount";
@@ -122,10 +124,12 @@ public class Datas {
 
         friendsListBean.setUrl("http://115.159.159.65:8080/EAsy/Headurl/3ebcfd6f-f456-429a-bf64-ca04f508.jpg");
         friendsListBean.setName("五颜六色");
+        friendsListBean.setUsername("E41414005");
 
 
         friendsListBean1.setUrl("http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg");
         friendsListBean1.setName("动力小车@何叔平");
+        friendsListBean1.setUsername("E41414006");
         friends.add(friendsListBean1);
         friends.add(friendsListBean);
 

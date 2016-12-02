@@ -1,6 +1,10 @@
 package com.duanqu.Idea.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.media.Image;
+import android.media.session.MediaSession;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -24,9 +28,13 @@ import com.duanqu.Idea.fragment.BaseFragment;
 import com.duanqu.Idea.fragment.ImagePostFragment;
 import com.duanqu.Idea.fragment.TextPostFragment;
 import com.duanqu.Idea.fragment.VideoPostFragment;
+import com.duanqu.Idea.test.Datas;
+import com.duanqu.Idea.utils.UploadUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Set;
@@ -44,6 +52,13 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     private GetFriendsRelationship popWindow = null;
     private BaseFragment fragment;
     private Intent intent;
+    private String updateResult;
+    private ProgressDialog progress;
+    private String Content = null;
+    private String VideoUrl = null;
+    private ArrayList<String> images = null;
+
+
 
     private static HashMap<String,View> views = new HashMap<>();
 
@@ -89,11 +104,25 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==RESULT_OK){
+        System.out.println("onactivityresult");
+        if(resultCode==RESULT_OK){
             if(requestCode==IMAGE_CHANGE){
-                ((ImagePostFragment)fragment).setPath(data.getStringArrayListExtra("data_return"));
-            }
+                ImagePostFragment imagePostFragment = (ImagePostFragment)fragment;
+                if(data.getStringArrayListExtra("data_return")==null){
+                    ArrayList<String> array = new ArrayList<>();
+                    System.out.println(data.getStringExtra("data_return"));
+                    array.add(data.getStringExtra("data_return"));
+                    array.addAll(ImageWatchActivity.mImageWatchActivity.getGridViewAdapter().getmSelected());
+                    imagePostFragment.getPath().clear();
+                    imagePostFragment.setPath(array);
+                    imagePostFragment.UpdateImages();
+                    return;
+                }
 
+                ((ImagePostFragment)fragment).getPath().clear();
+                ((ImagePostFragment)fragment).setPath(data.getStringArrayListExtra("data_return"));
+                ((ImagePostFragment)fragment).UpdateImages();
+            }
         }
     }
 
@@ -157,18 +186,43 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        progress = new ProgressDialog(this);
+        progress.setMax(100);
+        progress.setMessage("正在上传...");
+        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progress.setCancelable(false);
 
         if(id.equals("image")){
+            ImagePostFragment imagePostFragment = (ImagePostFragment)fragment;
+            images  = imagePostFragment.getPath();
+            Content = imagePostFragment.getContent();
+
 
 
         }else if(id.equals("text")){
-
-
-
+            TextPostFragment textPostFragment = (TextPostFragment)fragment;
+            Content = textPostFragment.getEditorText().toString();
 
         }else if(id.equals("video")){
+            VideoPostFragment videoPostFragment = (VideoPostFragment)fragment;
+            Content = videoPostFragment.getContent();
+            VideoUrl = videoPostFragment.getVideoUri();
+            if(images==null){
+                images = new ArrayList<>();
+            }
+            images.add(videoPostFragment.getThum());
+        }
+
+        if(VideoUrl!=null){
+            images.add(VideoUrl);
 
         }
+        File[] params = new File[images.size()];
+        for(int i=0;i<images.size();i++){
+            params[i] = new File(images.get(i));
+        }
+        new MyAsyncTask().execute(params);
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -188,4 +242,67 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
 
         }
     }
+
+
+    class MyAsyncTask extends AsyncTask<File[],Integer,Void>
+    {
+        @Override
+        protected Void doInBackground(File[]... params) {
+            UploadUtils mUploadUtils = new UploadUtils();
+            File[] files = new File[params.length];
+            for (int i=0;i<files.length;i++){
+                files[i] = params[0][i];
+            }
+            String atUsernames = "";
+            Set<String> AtBodys  = views.keySet();
+            for (String name : AtBodys){
+                atUsernames = atUsernames + name+";";
+            }
+
+            HashMap<String,String> text = new HashMap<>();
+
+            text.put("ownerId",Config.userid);
+            text.put("ownerNick",Config.nickname);
+            text.put("timestamp", String.valueOf(new Date()));
+            text.put("text",atUsernames);
+            text.put("content",Content);
+
+
+            mUploadUtils.SetListener(new UploadUtils.UpdateProgress() {
+                @Override
+                public void update(int i) {
+                    publishProgress(i);
+                }
+            });
+            updateResult = mUploadUtils.Update(Datas.PublishFeed,text,files);
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progress.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progress.setProgress(values[0]);
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            progress.cancel();
+            super.onPostExecute(aVoid);
+        }
+    }
+
+
+
+
+
+
+
+
 }

@@ -51,6 +51,10 @@
 
         <activity android:name=".activity.ImageWatchActivity"></activity>
 
+        <activity android:name=".activity.FeedActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            ></activity>
+
         <activity android:name=".activity.MoreMusicActivity" />
 
         <activity android:name=".activity.ImageDisplay"

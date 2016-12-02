@@ -89,13 +89,14 @@ public class ImagePostFragmentImageItem implements View.OnClickListener{
         Log.e("imagePostItem","click");
         switch (v.getId())
         {
-
             case R.id.delete:{
                 Log.e("imagePostItem","delete");
                 ImagePostFragment.imageHorizon.removeView(
                         ImagePostFragment.views.get(imagepath));
                 ImagePostFragment.views.remove(imagepath);
-
+                if(ImagePostFragment.path!=null){
+                    ImagePostFragment.path.remove(imagepath);
+                }
             }
 
         }

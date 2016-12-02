@@ -26,7 +26,7 @@ public class ImagePostFragment extends BaseFragment implements View.OnClickListe
     private EditText content;
     public static HorizontalScrollViewEx imageHorizon;
     public static HashMap<String, View> views = new HashMap<>();
-    private ArrayList<String> path;
+    public static ArrayList<String> path;
     private TextView change;
 
     @Override
@@ -42,6 +42,10 @@ public class ImagePostFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
+        UpdateImages();
+    }
+
+    public void UpdateImages() {
         imageHorizon.removeAllViews();
         //往imageHorizon里添加images
         if (path != null) {
@@ -54,8 +58,22 @@ public class ImagePostFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+   public String getContent()
+   {
+       return content.getText().toString();
+   }
+
     public void setPath(ArrayList<String> path) {
         this.path = path;
+    }
+
+    public ArrayList<String> getPath() {
+        return path;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 
     @Override
@@ -66,7 +84,7 @@ public class ImagePostFragment extends BaseFragment implements View.OnClickListe
                 Log.e("click","change");
                 Intent intent = new Intent(getActivity(), ImageWatchActivity.class);
                 intent.putStringArrayListExtra("selected",path);
-                startActivityForResult(intent,((SendActivity)getActivity()).IMAGE_CHANGE);
+                getActivity().startActivityForResult(intent,((SendActivity)getActivity()).IMAGE_CHANGE);
                 break;
             }
         }

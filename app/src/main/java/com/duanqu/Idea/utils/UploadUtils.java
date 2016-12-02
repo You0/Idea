@@ -174,8 +174,8 @@ public class UploadUtils {
     private void httpHeader(int dataLength, URL posturl, OutputStream outStream, int port) throws IOException {
         String requestmethod = "POST " + posturl.getPath() + " HTTP/1.1\r\n";
         outStream.write(requestmethod.getBytes());
-        String accept = "Accept: image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*\r\n";
-        outStream.write(accept.getBytes());
+//        String accept = "Accept: image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*\r\n";
+//        outStream.write(accept.getBytes());
         String language = "Accept-Language: zh-CN\r\n";
         outStream.write(language.getBytes());
         String contenttype = "Content-Type: multipart/form-data; boundary=" + BOUNDARY + "\r\n";

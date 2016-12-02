@@ -17,6 +17,7 @@ public class Config {
     public static String major;
     public static String school;
     public static String email;
+    public static String userid;
 
     //默认720p屏幕
     public static float HEIGHT = 1920;
