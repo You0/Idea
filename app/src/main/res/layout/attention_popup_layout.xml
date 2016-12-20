@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#ffb37d"
-            android:text="(已经选择了10人)" />
+            android:text="(已经选择了0人)" />
     </LinearLayout>
 
 

@@ -62,26 +62,31 @@ public class Item_content_TYPE4 extends MainMessageBaseViewHolder {
     @Override
     protected void FindView(View parent) {
         mPlayBtnView = (ImageView) parent.findViewById(R.id.play_btn);
-        mPlayBtnView.setOnClickListener(this);
+        mPlayBtnView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivityContext(), VideoPlayViewActivity.class);
+                getActivityContext().startActivity(intent);
+            }
+        });
         frame = (ImageView) parent.findViewById(R.id.frame);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-            case R.id.play_btn: {
-                Intent intent = new Intent(getActivityContext(), VideoPlayViewActivity.class);
-                getActivityContext().startActivity(intent);
-
-                break;
-            }
-
-
-        }
-
-
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//
+//            case R.id.play_btn: {
+//
+//
+//                break;
+//            }
+//
+//
+//        }
+//
+//
+//    }
 
     /**
      * 播放器的回调函数

@@ -20,7 +20,8 @@ public class Datas {
 //     public static String Getrelation = "http://10.0.2.2:8080/videoshare-sso/rest/relation/getrelation";
 //     public static String Relationbuild = "http://10.0.2.2:8080/videoshare-sso/rest/relation/relationbuild";
 //     public static String Nickname ="http://10.0.2.2:8080/videoshare-sso/rest/info/nickname";
-
+    public static String GetContacts = "http://115.159.159.65:8080/videoshare-sso/rest/relation/getcontacts";
+    public static String LoginUrl = "http://115.159.159.65:8080/videoshare-sso/rest/user/login";
     public static String RegistUrl = "http://115.159.159.65:8080/videoshare-sso/rest/user/register";
     public static String Getrelation = "http://115.159.159.65:8080/videoshare-sso/rest/relation/getrelation";
     public static String Relationbuild = "http://115.159.159.65:8080/videoshare-sso/rest/relation/relationbuild";
@@ -30,10 +31,16 @@ public class Datas {
     public static String GetImageUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
     public static String HeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/userhead";
     public static String GetHeadUrl = "http://115.159.159.65:8080/videoshare-sso/rest/info/getParam";
-    public static String PublishFeed = "http://localhost:8084/rest/feed/publish";
+    public static String PublishFeed = "http://115.159.27.70:8084/rest/feed/publish";
     public static String GetFeed = "http://localhost:8084/rest/feed/pullbyId";
-    public static String GetFriendsFeeds = "http://localhost:8084/rest/feed/getFriendFeed";
+    public static String GetUserInfoList = "http://115.159.159.65:8080/videoshare-sso/rest/info/userinfolist";
+    public static String GetFriendFeeds = "http://115.159.27.70:8084/rest/feed/getFriendFeed";
+    //public static String GetFriendsFeeds = "http://localhost:8084/rest/feed/getFriendFeed";
+    public static String GetUserInfo = "http://115.159.159.65:8080/videoshare-sso/rest/info/userinfo";
+    public static String PushComment = "http://115.159.27.70:3000/comment";
+    public static String Pushattachcomment = "http://115.159.27.70:3000/attachcomment";
 
+    //http://115.159.27.70:3000/comment?pageSize=5&pageNum=1&feedId=78&queryType=1
 //    public static String GetLast = "http://10.0.2.2:8080/EAsy/Getlastblogs";
 //    public static String GetCount = "http://10.0.2.2:8080/EAsy/getcount";
 //    public static String GetBlogs = "http://10.0.2.2:8080/EAsy/Getblogs";

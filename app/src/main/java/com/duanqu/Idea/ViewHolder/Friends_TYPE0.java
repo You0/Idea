@@ -36,7 +36,7 @@ public class Friends_TYPE0 extends BaseItemImp<FriendsListBean> {
 
         //在这里把已经checked的数据给打上勾。
 
-        if(SendActivity.getViews().contains(data.getName()))
+        if(SendActivity.getViews().contains(data.getUsername()))
         {
             checkBox.setChecked(true);
         }else{

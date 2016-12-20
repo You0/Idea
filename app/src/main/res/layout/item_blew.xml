@@ -31,6 +31,7 @@
                 android:src="@drawable/tl_menu_icon_fwd_nor" />
 
             <TextView
+                android:id="@+id/resend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,6 +55,7 @@
                 android:src="@drawable/tl_menu_icon_cmt_nor" />
 
             <TextView
+                android:id="@+id/comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -72,6 +74,7 @@
             android:paddingTop="3dp">
 
             <ImageView
+                android:id="@+id/zan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/tl_menu_icon_prz_nor" />

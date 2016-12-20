@@ -38,7 +38,9 @@ import com.duanqu.Idea.R;
 import com.duanqu.Idea.ViewHolder.ParallaxUserBlack;
 import com.duanqu.Idea.ViewHolder.ParallaxUserGroupBy;
 import com.duanqu.Idea.ViewHolder.ParallaxUser_ITEM1;
+import com.duanqu.Idea.ViewHolder.ParallaxUser_ITEM2_No_Email;
 import com.duanqu.Idea.app.MyApplication;
+import com.duanqu.Idea.bean.ParallaxOtherUserBean;
 import com.duanqu.Idea.bean.ParallaxUserItem1;
 import com.duanqu.Idea.bean.Type;
 import com.duanqu.Idea.fragment.UserInfoDetal;
@@ -303,12 +305,16 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
                 new BaseAdapter.Builder().addType(0, ParallaxUserBlack.class)
                         .addType(1, ParallaxUser_ITEM1.class)
                         .addType(2, ParallaxUserGroupBy.class)
+                        .addType(3, ParallaxUser_ITEM2_No_Email.class)
                         .setDatas(beans).build());
     }
 
     private void InitLoaclItem() {
         com.duanqu.Idea.bean.ParallaxUserBlack black = new com.duanqu.Idea.bean.ParallaxUserBlack();
         black.setType(0);
+        com.duanqu.Idea.bean.ParallaxUserBlack black1 = new com.duanqu.Idea.bean.ParallaxUserBlack();
+        black1.setType(0);
+        black1.setHeight(10);
         ParallaxUserItem1 item1 = new ParallaxUserItem1();
         ParallaxUserItem1 item2 = new ParallaxUserItem1();
         ParallaxUserItem1 item3 = new ParallaxUserItem1();
@@ -316,6 +322,9 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
         ParallaxUserItem1 item5 = new ParallaxUserItem1();
         ParallaxUserItem1 item6 = new ParallaxUserItem1();
         ParallaxUserItem1 item7 = new ParallaxUserItem1();
+
+        ParallaxOtherUserBean item0 = new ParallaxOtherUserBean();
+        item0.setType(3);
 
         item1.setType(1);
         item1.setCount(0);
@@ -342,25 +351,27 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
         item5.setIco(R.drawable.ic_tag_faces_red_300_24dp);
         item5.setTitle("我的标签");
 
-        item6.setType(1);
-        item6.setCount(0);
-        item6.setIco(R.drawable.ic_favorite_red_300_24dp);
-        item6.setTitle("累计赞数");
-
-        item7.setType(1);
-        item7.setCount(0);
-        item7.setIco(R.drawable.ic_launch_red_300_24dp);
-        item7.setTitle("累计被转发");
+//        item6.setType(1);
+//        item6.setCount(0);
+//        item6.setIco(R.drawable.ic_favorite_red_300_24dp);
+//        item6.setTitle("累计赞数");
+//
+//        item7.setType(1);
+//        item7.setCount(0);
+//        item7.setIco(R.drawable.ic_launch_red_300_24dp);
+//        item7.setTitle("累计被转发");
 
         beans.add(black);
+        beans.add(item0);
+        beans.add(black1);
         beans.add(item1);
         beans.add(item2);
         beans.add(item3);
         beans.add(item4);
         beans.add(item5);
         beans.add(black);
-        beans.add(item6);
-        beans.add(item7);
+//        beans.add(item6);
+//        beans.add(item7);
     }
 
 

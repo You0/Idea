@@ -44,7 +44,7 @@ public class Item_content_TYPE7 extends BaseItemImp<MainMessageBean>{
 
     @Override
     protected void bindData(int position, @NonNull View v, @NonNull MainMessageBean data, int dynamicType) {
-        String url = data.getUserInfo().get("headurl");
+        String url = (String) data.getUserInfo().get("headurl");
         Uri uri = Uri.parse(url);
         messageHead.setImageURI(uri);
         userInfo = data.getUserInfo();

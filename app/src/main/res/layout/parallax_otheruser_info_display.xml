@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#05000000"
+    >
+
+    <com.duanqu.Idea.CustomView.ParallaxListview
+        android:overScrollMode="always"
+        android:id="@+id/parallaxListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.duanqu.Idea.CustomView.ParallaxListview>
+
+
+    <RelativeLayout
+        android:background="@color/white"
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ProgressBar
+            style="@style/video_progressbar_style"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="left|center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="120dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正在载入"
+            android:paddingLeft="30dp"
+
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
+
+</FrameLayout>

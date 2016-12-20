@@ -15,7 +15,7 @@ public class ParallaxUserAdapter extends BaseAdapter<Type> {
 
     @Override
     public boolean isEnabled(int position) {
-        if(position==0||position ==6){
+        if(position==0){
             return false;
         }
         return super.isEnabled(position);

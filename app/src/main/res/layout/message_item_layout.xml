@@ -1,0 +1,48 @@
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="15dp"
+         />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_image"
+        android:layout_marginLeft="10dp"
+        android:textColor="#000000"
+        android:text="Name"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginRight="40dp"
+        android:text="hi，你最近过的好吗？"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/last_message"
+        android:layout_below="@+id/tv_name"
+        android:layout_toRightOf="@id/iv_image" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/local"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignParentRight="true"
+         />
+
+
+</RelativeLayout>

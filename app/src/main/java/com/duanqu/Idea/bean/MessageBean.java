@@ -1,43 +1,43 @@
 package com.duanqu.Idea.bean;
 
 /**
- * Created by Administrator on 2016/10/28.
+ * Created by Administrator on 2016/12/7.
  */
 public class MessageBean {
-    private String name;
-    private String headurl;
-    private int messageCount;
-    private String lastMessage;
+    String msg;
+    String time;
+    String from;
+    String type;
 
-    public String getName() {
-        return name;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public String getHeadurl() {
-        return headurl;
+    public String getTime() {
+        return time;
     }
 
-    public void setHeadurl(String headurl) {
-        this.headurl = headurl;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public int getMessageCount() {
-        return messageCount;
+    public String getFrom() {
+        return from;
     }
 
-    public void setMessageCount(int messageCount) {
-        this.messageCount = messageCount;
+    public void setFrom(String from) {
+        this.from = from;
     }
 
-    public String getLastMessage() {
-        return lastMessage;
+    public String getType() {
+        return type;
     }
 
-    public void setLastMessage(String lastMessage) {
-        this.lastMessage = lastMessage;
+    public void setType(String type) {
+        this.type = type;
     }
 }

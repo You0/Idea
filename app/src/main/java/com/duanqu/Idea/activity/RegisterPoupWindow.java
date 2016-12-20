@@ -124,8 +124,8 @@ public class RegisterPoupWindow extends PopupWindow implements View.OnClickListe
         if (sharedPreferences == null) {
             sharedPreferences = MyApplication.getContext().getSharedPreferences("userInfo", context.MODE_PRIVATE);
         }
-        sharedPreferences.edit().commit();
-
+        //sharedPreferences.edit().commit();
+        sharedPreferences.edit().clear().commit();
         //将用户参数保存到本地
 
         sharedPreferences.edit().putString("Token", token)
@@ -140,6 +140,7 @@ public class RegisterPoupWindow extends PopupWindow implements View.OnClickListe
 
         //然后启动主activity
         //这里可以传一些参数给main_aty
+
         mProgressDialog.cancel();
         RegisterPoupWindow.this.dismiss();
         Intent intent = new Intent(context, MainActivity1.class);

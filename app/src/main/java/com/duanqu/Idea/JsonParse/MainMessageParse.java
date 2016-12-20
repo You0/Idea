@@ -28,33 +28,40 @@ public class MainMessageParse extends BaseJsonParse<MainMessageBean> {
             mainMessageBean = new MainMessageBean();
             object = new JSONObject(json);
             userInfo = object.getJSONObject("userInfo");
-            messageInfo = object.getJSONObject("MessageInfo");
+            messageInfo = object.getJSONObject("messageInfo");
             content = object.getString("content");
-            imgs = object.getJSONArray("imgs");
-            video = object.getString("video");
-            resendInfo = object.getJSONObject("resendInfo");
-            linkedList = new LinkedList<>();
-            for(int i = 0; i< imgs.length(); i++)
-            {
-                linkedList.add(imgs.getString(i));
+            try {
+                imgs = object.getJSONArray("imgs");
+                linkedList = new LinkedList<>();
+                for (int i = 0; i < imgs.length(); i++) {
+                    linkedList.add(imgs.getString(i));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                linkedList = new LinkedList<>();
             }
 
-            HashMap<String,String> UserInfo = new HashMap<>();
-            UserInfo.put("nickname",userInfo.getString("nickname"));
-            UserInfo.put("headurl",userInfo.getString("headurl"));
-            UserInfo.put("sign",userInfo.getString("sign"));
-            UserInfo.put("id",userInfo.getString("id"));
+            video = object.getString("video");
+            resendInfo = object.getJSONObject("resendInfo");
+
+
+
+            HashMap<String, Object> UserInfo = new HashMap<>();
+            UserInfo.put("nickname", userInfo.getString("nickname"));
+            UserInfo.put("headurl", userInfo.getString("headurl"));
+            UserInfo.put("sign", userInfo.getString("sign"));
+            UserInfo.put("id", userInfo.getInt("id"));
 
             mainMessageBean.setUserInfo(UserInfo);
 
-            HashMap<String,String> MessageInfo = new HashMap<>();
-            MessageInfo.put("id",messageInfo.getString("id"));
-            MessageInfo.put("allike",messageInfo.getString("allike"));
-            MessageInfo.put("time",messageInfo.getString("time"));
-            MessageInfo.put("resent",messageInfo.getString("resent"));
-            MessageInfo.put("comment",messageInfo.getString("comment"));
-            MessageInfo.put("like",messageInfo.getString("like"));
-            MessageInfo.put("see",messageInfo.getString("see"));
+            HashMap<String, Object> MessageInfo = new HashMap<>();
+            MessageInfo.put("id", messageInfo.getInt("id"));
+            MessageInfo.put("allike", messageInfo.getInt("alike"));
+            MessageInfo.put("time", messageInfo.getString("time"));
+            MessageInfo.put("resent", messageInfo.getInt("resent"));
+            MessageInfo.put("comment", messageInfo.getInt("comment"));
+            MessageInfo.put("like", messageInfo.getInt("like"));
+            MessageInfo.put("see", messageInfo.getInt("see"));
 
             mainMessageBean.setMessageInfo(MessageInfo);
 

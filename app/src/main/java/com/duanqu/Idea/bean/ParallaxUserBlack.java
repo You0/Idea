@@ -5,9 +5,18 @@ package com.duanqu.Idea.bean;
  */
 public class ParallaxUserBlack implements Type{
     private int type;
+    private int height = 0;
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 
     @Override

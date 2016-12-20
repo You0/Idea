@@ -6,5 +6,18 @@
         <attr name="item_count" />
     </declare-styleable>
 
+    <declare-styleable name="ChatImageView">
+        <attr name="ninePNG" format="reference"/>
+        <attr name="arrow_width" format="dimension"/>
+        <attr name="arrow_height" format="dimension"/>
+        <attr name="arrow_top" format="dimension"/>
+        <attr name="offset" format="dimension"/>
+        <attr name="radius" format="dimension"/>
+        <attr name="direction" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+    </declare-styleable>
+
 
 </resources>

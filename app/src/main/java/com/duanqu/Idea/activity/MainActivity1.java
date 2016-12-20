@@ -3,6 +3,8 @@ package com.duanqu.Idea.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -36,6 +38,7 @@ import com.duanqu.Idea.fragment.InnerViewPager;
 import com.duanqu.Idea.fragment.SuggestFragment;
 import com.duanqu.Idea.fragment.test;
 import com.duanqu.Idea.result.RecordResult;
+import com.duanqu.Idea.service.ServiceManager;
 import com.duanqu.Idea.utils.MyGestureDetector;
 import com.duanqu.Idea.utils.ViewHideAnimationUtils;
 import com.duanqu.qupai.sdk.android.QupaiService;
@@ -71,7 +74,12 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
     private boolean once = true;
     private final int SEND_IMAGE = 99;
 
-
+    public Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +89,9 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         initView();
         blindListenerView();
         InitAnimation();
-
+        //开启服务，监听服务端信息
+        ServiceManager mServiceManager = new ServiceManager(this);
+        mServiceManager.startService();
     }
 
 

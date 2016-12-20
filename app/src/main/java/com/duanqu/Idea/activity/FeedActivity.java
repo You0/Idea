@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -32,10 +33,20 @@ import com.duanqu.Idea.ViewHolder.Item_content_TYPE5;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE6;
 import com.duanqu.Idea.ViewHolder.Item_content_TYPE7;
 import com.duanqu.Idea.bean.MainMessageBean;
+import com.duanqu.Idea.test.Datas;
 import com.duanqu.Idea.test.TestAdapter;
 import com.duanqu.Idea.test.TestViewHolder;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/11/30.
@@ -52,11 +63,36 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
     String FeedId;
     String ToName;
     String FromName;
+    int pageNum = 0;
+    String commentId;
+    private final int ERROR = 0;
+    private final int SUCCESS = 1;
+    private final int GETSUCCESS =2;
+    private int Positon = 0;
+    FeedJsonParse fjp = new FeedJsonParse();
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            feed.setSelection(msg.what);
+            //feed.setSelection(msg.what);
+            switch (msg.what){
+                case SUCCESS:{
+                    Snackbar.make(send, "发送成功！", Snackbar.LENGTH_LONG)
+                            .show();
+                    break;
+                }
+                case ERROR:{
+                    Snackbar.make(send, "出现错误！", Snackbar.LENGTH_LONG)
+                            .show();
+                    break;
+                }
+
+                case GETSUCCESS:{
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+
+            }
         }
     };
 
@@ -66,7 +102,7 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.feed_activity);
         Intent intent = getIntent();
         mainMessageBean = (MainMessageBean) intent.getSerializableExtra("first");
-
+        FeedId = String.valueOf((Integer)mainMessageBean.getMessageInfo().get("id"));
         Log.e("FeedActivity", "mainMessageBean:" + mainMessageBean.toString() + "    is null" +
                 (mainMessageBean == null));
 //        mainMessageBean = (MainMessageBean) intent.
@@ -82,20 +118,6 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         arrays.add(mainMessageBean);
-        String test = "{\"despatcherName\":\"五颜六色\",\"despatcherAvatar\":\"http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg\",\"time\":\"Sun Aug 14 2016 22:25:09 GMT+0800 (中国标准时间)\",\"feedId\":\"1245264\",\"content\":\"顶起来\",\"_id\":\"57b05a4c17515db454688afd\",\"__v\":0,\"attachComments\":[{\"fromName\":\"zs1\",\"toName\":\"root1\",\"content\":\"楼中楼\"},{\"fromName\":\"zs1\",\"toName\":\"root1\",\"content\":\"楼中楼\"},{\"fromName\":\"zs1\",\"toName\":\"root1\",\"content\":\"楼中楼\"}],\"likeCount\":0,\"like\":[]}";
-        FeedJsonParse fjp = new FeedJsonParse();
-        MainMessageBean temp = fjp.Parse(test);
-        arrays.add(temp);
-
-        temp = fjp.Parse("{\"despatcherName\":\"五颜六色\",\"despatcherAvatar\":\"http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg\",\"time\":\"Sun Aug 14 2016 22:25:09 GMT+0800 (中国标准时间)\",\"feedId\":\"1245264\",\"content\":\"老弟有句话不知道当讲不当讲.\",\"_id\":\"57b05a4c17515db454688afd\",\"__v\":0,\"attachComments\":[],\"likeCount\":0,\"like\":[]}");
-        arrays.add(temp);
-
-        temp = fjp.Parse("{\"despatcherName\":\"五颜六色\",\"despatcherAvatar\":\"http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg\",\"time\":\"Sun Aug 14 2016 22:25:09 GMT+0800 (中国标准时间)\",\"feedId\":\"1245264\",\"content\":\"老弟有句话不知道当讲不当讲.\",\"_id\":\"57b05a4c17515db454688afd\",\"__v\":0,\"attachComments\":[],\"likeCount\":0,\"like\":[]}");
-        arrays.add(temp);
-
-        temp = fjp.Parse("{\"despatcherName\":\"五颜六色\",\"despatcherAvatar\":\"http://115.159.159.65:8080/EAsy/Headurl/f6aa7245-5d3c-4887-8e78-8482fb28.jpg\",\"time\":\"Sun Aug 14 2016 22:25:09 GMT+0800 (中国标准时间)\",\"feedId\":\"1245264\",\"content\":\"老弟有句话不知道当讲不当讲.\",\"_id\":\"57b05a4c17515db454688afd\",\"__v\":0,\"attachComments\":[],\"likeCount\":0,\"like\":[]}");
-        arrays.add(temp);
-
         adapter = new FeedAdapter(this,
                 new BaseAdapter.Builder()
                         .addType(0, Item_content_TYPE1.class)
@@ -112,10 +134,17 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final int CurrentPosition = position;
-                MainMessageBean bean = arrays.get(position-1);
-                FeedId = bean.getFeedId();
-                ToName = bean.getUserInfo().get("nickname");
+                MainMessageBean bean = arrays.get(position);
+                if(position==0){
+                    Positon = 0;
+                    FeedId = String.valueOf((Integer)arrays.get(0).getMessageInfo().get("id"));
+                }else{
+                    Positon = position;
+                    FeedId = bean.getFeedId();
+                }
+                ToName = (String) bean.getUserInfo().get("nickname");
                 FromName = Config.nickname;
+                commentId = (String) bean.getMessageInfo().get("_id");
                 send_edit.setFocusable(true);
                 send_edit.requestFocus();
 
@@ -128,6 +157,46 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
 
                 //InputMethodManager imm = (InputMethodManager)FeedActivity.getSystemService(FeedActivity.INPUT_METHOD_SERVICE);
                 //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
+
+        send.setOnClickListener(this);
+
+        GetCommentFromServer();
+
+
+    }
+
+    private void GetCommentFromServer() {
+        //http://115.159.27.70:3000/comment?pageSize=5&pageNum=1&feedId=78&queryType=1
+        OkHttpUtils.get().url(Datas.PushComment)
+                .addParams("pageSize", String.valueOf(10))
+                .addParams("pageNum", String.valueOf(pageNum))
+                .addParams("feedId",String.valueOf((Integer)arrays.get(0).getMessageInfo().get("id")))
+                .addParams("queryType","1").build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String json = response.body().string();
+                JSONObject object = new JSONObject(json);
+                JSONArray array = object.getJSONArray("result");
+                for(int i=0;i<array.length();i++){
+                    JSONObject InnerObject = array.getJSONObject(i);
+                    MainMessageBean temp = fjp.Parse(InnerObject.toString());
+                    arrays.add(temp);
+                }
+                handler.sendEmptyMessage(GETSUCCESS);
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
             }
         });
 
@@ -153,7 +222,82 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        switch (v.getId())
+        {
+            case R.id.send:{
+                String content = send_edit.getText().toString();
+                if(content.equals("")){
+                    Snackbar.make(send, "请输入内容！", Snackbar.LENGTH_LONG)
+                            .show();
+                    return ;
+                }
+                if(Positon == 0){
+                    SendComentToServer(content);
+                }else{
+                    //commentId=584bdc99a8cf5480096b98ee&fromName=zs1&toName=root1&content=test&feedId=6
+                    SendAttachmentToServer(content);
+                }
 
 
+
+                break;
+            }
+
+        }
+
+    }
+
+    private void SendAttachmentToServer(String content) {
+        OkHttpUtils.post().url(Datas.Pushattachcomment)
+                .addParams("feedId",FeedId)
+                .addParams("fromName",FromName)
+                .addParams("toName",ToName)
+                .addParams("content",content)
+                .addParams("commentId",commentId).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                if(response.code()==200){
+                    handler.sendEmptyMessage(SUCCESS);
+                }
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+    }
+
+    private void SendComentToServer(String content) {
+        OkHttpUtils.post().url(Datas.PushComment)
+                .addParams("despatcherName", Config.nickname)
+                .addParams("despatcherAvatar",Config.headurl)
+                .addParams("time", String.valueOf(System.currentTimeMillis()))
+                .addParams("feedId", FeedId)
+                .addParams("content",content).build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                if(response.code()==200){
+                    handler.sendEmptyMessage(SUCCESS);
+                }
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
     }
 }

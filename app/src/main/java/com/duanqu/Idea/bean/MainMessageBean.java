@@ -1,6 +1,7 @@
 package com.duanqu.Idea.bean;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,8 +13,8 @@ import java.util.LinkedList;
  */
 public class MainMessageBean implements Serializable{
     public final int DEAUFALT = 0;
-    public HashMap<String, String> userInfo;
-    public HashMap<String, String> MessageInfo;
+    public HashMap<String, Object> userInfo;
+    public HashMap<String, Object> MessageInfo;
     public String TextContent;
     public ResentBean ReSendInfo;
     public String VideoUri;
@@ -51,11 +52,11 @@ public class MainMessageBean implements Serializable{
         return images;
     }
 
-    public HashMap<String, String> getMessageInfo() {
+    public HashMap<String, Object> getMessageInfo() {
         return MessageInfo;
     }
 
-    public HashMap<String, String> getUserInfo() {
+    public HashMap<String, Object> getUserInfo() {
         return userInfo;
     }
 
@@ -83,14 +84,17 @@ public class MainMessageBean implements Serializable{
 
         if (type == DEAUFALT) {
             int length = getImages().size();
+
             if(length==0) {
-                if(getVideoUri().equals("")){
-                    this.type = 5;
-                }else{
-                    this.type = 4;
-                }
+                this.type = 5;
             }else if (length == 1) {
-                this.type = 0;
+                Log.e("mainmessage",getVideoUri());
+                if(!getVideoUri().equals("null")){
+                    this.type = 4;
+                }else{
+                    this.type = 0;
+                }
+
             } else if (length <= 3) {
                 this.type = 1;
             } else if (length == 4) {
@@ -108,7 +112,7 @@ public class MainMessageBean implements Serializable{
         ReSendInfo = reSendInfo;
     }
 
-    public void setMessageInfo(HashMap<String, String> messageInfo) {
+    public void setMessageInfo(HashMap<String, Object> messageInfo) {
         MessageInfo = messageInfo;
     }
 
@@ -116,7 +120,7 @@ public class MainMessageBean implements Serializable{
         TextContent = textContent;
     }
 
-    public void setUserInfo(HashMap<String, String> userInfo) {
+    public void setUserInfo(HashMap<String, Object> userInfo) {
         this.userInfo = userInfo;
     }
 

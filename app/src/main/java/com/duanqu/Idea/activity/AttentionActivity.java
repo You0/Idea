@@ -78,7 +78,6 @@ public class AttentionActivity extends AppCompatActivity implements View.OnClick
                     fragments.addAll(temp);
                     mAdapter.setFragments(fragments);
                     if (user_grid.getAdapter() == null) {
-                        Log.e("xxx", "setadapter");
                         user_grid.setAdapter(mAdapter);
                     }
                     user_grid.setCurrentItem(page, true);
@@ -87,7 +86,7 @@ public class AttentionActivity extends AppCompatActivity implements View.OnClick
                     more.clearAnimation();
 
                     ObjectAnimator animator = new ObjectAnimator()
-                            .ofFloat(more,"translationX",15.0f);
+                            .ofFloat(more, "translationX", 15.0f);
                     animator.setInterpolator(new CycleInterpolator(4));
                     animator.setDuration(500);
                     animator.start();
@@ -97,19 +96,24 @@ public class AttentionActivity extends AppCompatActivity implements View.OnClick
                     break;
                 }
                 case 1: {
-                    Log.e("xxx", "task");
                     Task();
                     break;
                 }
 
-                case 2:{
+                case 2: {
+                    if(mProgressDialog!=null){
+                        mProgressDialog.dismiss();
+                    }
                     Snackbar.make(user_grid, "网络错误", Snackbar.LENGTH_SHORT).show();
                     more.clearAnimation();
                     Rresh = false;
                     break;
                 }
-
-
+                case 3: {
+                    mProgressDialog.dismiss();
+                    Toast.makeText(AttentionActivity.this, "关注成功！！", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         }
     };
@@ -337,9 +341,42 @@ public class AttentionActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
             case R.id.attention: {
-                mProgressDialog = ProgressDialog.show(this, null, "正在努力为您添加关注...");
-
+                mProgressDialog = ProgressDialog.show(this, "请稍等", "正在努力为您添加关注...");
+                String users = "";
+                for (int i = 0; i < totalBeans.size(); i++) {
+                    if(totalBeans.get(i).getChecked()==true){
+                        users += totalBeans.get(i).getUsername() + ";";
+                    }
+                }
                 //发一个handler然后结束
+                OkHttpUtils.post().url(Datas.Relationbuild)
+                        .addParams("username", Config.username)
+                        .addParams("Token", Config.Token)
+                        .addParams("contact", users)
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                        .build().execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(Response response, int id) throws Exception {
+                        if (response.code() == 200) {
+                            handler.sendEmptyMessage(3);
+                        }else{
+                            handler.sendEmptyMessage(1);
+                        }
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Object response, int id) {
+
+                    }
+                });
+                break;
             }
 
             case R.id.tv_more:

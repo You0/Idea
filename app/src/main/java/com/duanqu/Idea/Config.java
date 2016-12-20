@@ -5,7 +5,7 @@ package com.duanqu.Idea;
  */
 public class Config {
     public static String TESTJson = "";
-
+    public static String defaultHeader;
     public static String Token;
     public static String username;
     public static String headurl;
@@ -17,7 +17,7 @@ public class Config {
     public static String major;
     public static String school;
     public static String email;
-    public static String userid;
+    public static String userid = "50";
 
     //默认720p屏幕
     public static float HEIGHT = 1920;

@@ -26,6 +26,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-feature android:name = "android.hardware.camera" />
     <uses-feature android:name = "android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
 
 
@@ -57,6 +58,8 @@
 
         <activity android:name=".activity.MoreMusicActivity" />
 
+        <activity android:name=".activity.ParallaxOtherUserInfoDisplayActivity"></activity>
+
         <activity android:name=".activity.ImageDisplay"
             android:theme="@style/MyImageDisplayTheme"
             />
@@ -77,9 +80,15 @@
 
         <activity android:name=".activity.RegisterActivity"></activity>
 
+        <activity android:name=".activity.LoginActivity"></activity>
+
         <activity android:name=".activity.FirstStepPoupWindowForRegister"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             ></activity>
+
+        <activity android:name=".activity.ChatActivity"></activity>
+
+        <service android:name=".service.PnService"></service>
     </application>
 
 </manifest>

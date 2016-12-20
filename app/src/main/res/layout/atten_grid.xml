@@ -24,7 +24,7 @@
         android:id="@+id/loading"
         android:layout_width="wrap_content"
         android:textSize="20sp"
-        android:text="没有匹配到的用户，多多宣传让更多的人加入我们吧 : )"
+        android:text="(点击右下角更多试试看吧)没有匹配到的用户，多多宣传让更多的人加入我们吧 : ) "
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         />

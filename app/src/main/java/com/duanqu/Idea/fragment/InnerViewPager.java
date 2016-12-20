@@ -3,14 +3,20 @@ package com.duanqu.Idea.fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.duanqu.Idea.Adapter.CotainViewPager;
 import com.duanqu.Idea.R;
+import com.duanqu.Idea.bean.FriendBean;
+import com.duanqu.Idea.bean.FriendsListBean;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,7 +25,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/7/14.
  */
-public class InnerViewPager extends BaseFragment{
+public class InnerViewPager extends BaseFragment {
     public static List<String> mTitleList = new ArrayList<>();//页卡标题集合
     private TabLayout mTabLayout;
     private ViewPager viewPager;
@@ -29,21 +35,20 @@ public class InnerViewPager extends BaseFragment{
 
     @Override
     protected View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.innerviewpager,null);
+        View view = inflater.inflate(R.layout.innerviewpager, null);
 
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.vp_view);
 
         //顶部标题栏设置
         mTitleList.add("动态");
-        mTitleList.add("好友");
         mTitleList.add("消息");
+        mTitleList.add("好友");
         mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        for(int i=0;i<mTitleList.size();i++){
-
-            if(i==1){
+        for (int i = 0; i < mTitleList.size(); i++) {
+            if (i == 1) {
                 mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)).setCustomView(R.layout.tablayoutmessage));
-            }else{
+            } else {
                 mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)));//添加tab选项卡
             }
         }
@@ -51,11 +56,10 @@ public class InnerViewPager extends BaseFragment{
 
         DisplayFragment displayFragment = new DisplayFragment();
         MessageFragment messageFragment = new MessageFragment();
-        test test1 = new test();
-        test tst = new test();
+        FriendsFragment friendsFragment = new FriendsFragment();
         fragments.add(displayFragment);
-        fragments.add(tst);
         fragments.add(messageFragment);
+        fragments.add(friendsFragment);
         cotainViewPagerAdapter = new CotainViewPager(getActivity().getSupportFragmentManager());
         cotainViewPagerAdapter.setFragments(fragments);
         //viewPager.setAdapter(cotainViewPagerAdapter);
@@ -65,7 +69,7 @@ public class InnerViewPager extends BaseFragment{
         mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition(),true);
+                viewPager.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
@@ -83,7 +87,7 @@ public class InnerViewPager extends BaseFragment{
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mTabLayout.setScrollPosition(position,positionOffset,true);
+                mTabLayout.setScrollPosition(position, positionOffset, true);
             }
 
             @Override

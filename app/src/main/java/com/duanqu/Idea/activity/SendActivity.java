@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.duanqu.Idea.Config;
 import com.duanqu.Idea.CustomView.HorizontalScrollViewEx;
@@ -29,6 +30,7 @@ import com.duanqu.Idea.fragment.ImagePostFragment;
 import com.duanqu.Idea.fragment.TextPostFragment;
 import com.duanqu.Idea.fragment.VideoPostFragment;
 import com.duanqu.Idea.test.Datas;
+import com.duanqu.Idea.utils.FeedUploadUtils;
 import com.duanqu.Idea.utils.UploadUtils;
 
 import java.io.File;
@@ -52,7 +54,7 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     private GetFriendsRelationship popWindow = null;
     private BaseFragment fragment;
     private Intent intent;
-    private String updateResult;
+    private boolean updateResult;
     private ProgressDialog progress;
     private String Content = null;
     private String VideoUrl = null;
@@ -203,6 +205,7 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
             TextPostFragment textPostFragment = (TextPostFragment)fragment;
             Content = textPostFragment.getEditorText().toString();
 
+
         }else if(id.equals("video")){
             VideoPostFragment videoPostFragment = (VideoPostFragment)fragment;
             Content = videoPostFragment.getContent();
@@ -211,17 +214,25 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
                 images = new ArrayList<>();
             }
             images.add(videoPostFragment.getThum());
+
+
         }
 
         if(VideoUrl!=null){
             images.add(VideoUrl);
 
         }
-        File[] params = new File[images.size()];
-        for(int i=0;i<images.size();i++){
-            params[i] = new File(images.get(i));
+        if(id.equals("text")){
+            //上传10
+            new MyAsyncTask().execute(new File[0]);
+        }else{
+            File[] params = new File[images.size()];
+            for(int i=0;i<images.size();i++){
+                params[i] = new File(images.get(i));
+            }
+            new MyAsyncTask().execute(params);
         }
-        new MyAsyncTask().execute(params);
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -248,8 +259,8 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     {
         @Override
         protected Void doInBackground(File[]... params) {
-            UploadUtils mUploadUtils = new UploadUtils();
-            File[] files = new File[params.length];
+            FeedUploadUtils mUploadUtils = new FeedUploadUtils();
+            File[] files = new File[params[0].length];
             for (int i=0;i<files.length;i++){
                 files[i] = params[0][i];
             }
@@ -259,23 +270,31 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
                 atUsernames = atUsernames + name+";";
             }
 
+            //atUsernames = "E41414005;E41414006";
             HashMap<String,String> text = new HashMap<>();
 
             text.put("ownerId",Config.userid);
-            text.put("ownerNick",Config.nickname);
-            text.put("timestamp", String.valueOf(new Date()));
             text.put("text",atUsernames);
             text.put("content",Content);
+            text.put("token","123");
 
 
-            mUploadUtils.SetListener(new UploadUtils.UpdateProgress() {
+            mUploadUtils.SetListener(new FeedUploadUtils.UpdateProgress() {
                 @Override
                 public void update(int i) {
                     publishProgress(i);
                 }
             });
-            updateResult = mUploadUtils.Update(Datas.PublishFeed,text,files);
 
+            if(VideoUrl!=null){
+                Log.e("SendActivity","video");
+                updateResult = mUploadUtils.UpdateOnlyVideo(Datas.PublishFeed,files,text);
+            }else{
+                Log.e("SendActivity","image OR text");
+                updateResult = mUploadUtils.Update(Datas.PublishFeed,text,files);
+            }
+
+            Log.e("xxx","x"+updateResult);
             return null;
         }
 
@@ -294,6 +313,8 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
         @Override
         protected void onPostExecute(Void aVoid) {
             progress.cancel();
+            Toast.makeText(SendActivity.this, "发布成功!", Toast.LENGTH_SHORT).show();
+            finish();
             super.onPostExecute(aVoid);
         }
     }

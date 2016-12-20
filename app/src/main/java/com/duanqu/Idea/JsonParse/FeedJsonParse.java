@@ -19,8 +19,8 @@ public class FeedJsonParse extends BaseJsonParse<MainMessageBean> {
     //无脑解析。。。写这种代码真是烦，，
     public MainMessageBean Parse(String json) {
         try {
-            HashMap<String,String> userInfo = new HashMap<>();
-            HashMap<String,String> messageInfo = new HashMap<>();
+            HashMap<String,Object> userInfo = new HashMap<>();
+            HashMap<String,Object> messageInfo = new HashMap<>();
             MainMessageBean feedBean = new MainMessageBean();
             JSONObject jsonObject = new JSONObject(json);
             feedBean.setFeed(true);
@@ -29,6 +29,7 @@ public class FeedJsonParse extends BaseJsonParse<MainMessageBean> {
             userInfo.put("headurl",jsonObject.getString("despatcherAvatar"));
             feedBean.setUserInfo(userInfo);
             //message的一些信息
+            messageInfo.put("_id",jsonObject.getString("_id"));
             feedBean.setMessageInfo(messageInfo);
             feedBean.setFeedId(jsonObject.getString("feedId"));
             feedBean.setTextContent(jsonObject.getString("content"));

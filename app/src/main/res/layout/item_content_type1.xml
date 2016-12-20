@@ -4,7 +4,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:descendantFocusability="blocksDescendants"
-    android:layout_height="match_parent">
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:paddingTop="7dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/card_background_selecter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <include layout="@layout/item_top"></include>
 
@@ -39,5 +48,5 @@
 
     <include layout="@layout/item_blew"
         ></include>
-
+    </LinearLayout>
 </LinearLayout>

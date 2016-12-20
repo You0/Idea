@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.hardware.Camera;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,37 +24,34 @@ import com.duanqu.qupai.sdk.android.QupaiService;
 import com.duanqu.Idea.config.Contant;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import java.util.HashMap;
+
 /**
  * 初始化操作，更多音乐为可配置选项。
  * Created by Mulberry on 2015/7/7.
  */
 public class MyApplication extends Application{
     private static Context context;
+    private static SharedPreferences sharedPreferences;
+
+    private static HashMap<String,Handler> handlers = new HashMap<>();
+
+    public static void setHandlers(String key,Handler handler) {
+        handlers.put(key,handler);
+    }
+
+    public static Handler getHandlers(String key) {
+        return handlers.get(key);
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
-
+        sharedPreferences = context.getSharedPreferences("userInfo",MODE_PRIVATE);
         //初始化用户参数
         //这样写不好，应该建一个Bean
-        SharedPreferences sharedPreferences = getSharedPreferences("userInfo",MODE_PRIVATE);
-        Config.Token = sharedPreferences.getString("Token","");
-        Config.username = sharedPreferences.getString("username","");
-        Config.imageurl = sharedPreferences.getString("imageurl","");
-        Config.sign = sharedPreferences.getString("sign","");
-        Config.headurl = sharedPreferences.getString("headurl","");
-        Config.nickname = sharedPreferences.getString("nickname","");
-        Config.sex = sharedPreferences.getString("sex","");
-        Config.sign = sharedPreferences.getString("sign","");
-        Config.grades = sharedPreferences.getString("grades","");
-        Config.major = sharedPreferences.getString("major","");
-        Config.school = sharedPreferences.getString("school","");
-        Config.email = sharedPreferences.getString("email","");
-
-        if(Config.headurl.equals("")){
-            Config.headurl = "res://"+context.getPackageName()+"/"+ R.drawable.default_head_1;
-        }
+        LoadPreferences();
 
 
         Fresco.initialize(context);
@@ -132,6 +130,25 @@ public class MyApplication extends Application{
                 Log.e("onFailure", "code:" + i + "s" + s );
             }
         });
+    }
+
+    public static void LoadPreferences() {
+        Config.Token = sharedPreferences.getString("Token","");
+        Config.username = sharedPreferences.getString("username","");
+        Config.imageurl = sharedPreferences.getString("imageurl","");
+        Config.sign = sharedPreferences.getString("sign","");
+        Config.headurl = sharedPreferences.getString("headurl","");
+        Config.nickname = sharedPreferences.getString("nickname","");
+        Config.sex = sharedPreferences.getString("sex","");
+        Config.sign = sharedPreferences.getString("sign","");
+        Config.grades = sharedPreferences.getString("grades","");
+        Config.major = sharedPreferences.getString("major","");
+        Config.school = sharedPreferences.getString("school","");
+        Config.email = sharedPreferences.getString("email","");
+        Config.defaultHeader = "res://"+context.getPackageName()+"/"+ R.drawable.default_head_1;
+        if(Config.headurl.equals("")){
+            Config.headurl = "res://"+context.getPackageName()+"/"+ R.drawable.default_head_1;
+        }
     }
 
 

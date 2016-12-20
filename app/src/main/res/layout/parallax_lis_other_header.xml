@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@drawable/card_background_selecter"
+    android:layout_height="wrap_content">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/bg_cover"
+        android:background="@drawable/bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/para_head"
+        android:scaleType="centerCrop" />
+
+    <LinearLayout
+        android:id="@+id/user_info"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/userhead"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_marginTop="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="用户名"
+            android:textSize="22sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/sign"
+            android:layout_margin="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置您的个性签名"
+            android:maxEms="20"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/black90"
+            />
+
+
+        <TextView
+            android:id="@+id/tag"
+            android:padding="2dp"
+            android:background="@color/tianlan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="安徽大学 14级 信息安全  ♂"
+            android:textSize="10sp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#ffffff"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+
+        </View>
+    </LinearLayout>
+</RelativeLayout>
