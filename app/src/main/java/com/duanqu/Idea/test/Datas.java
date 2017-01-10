@@ -39,6 +39,7 @@ public class Datas {
     public static String GetUserInfo = "http://115.159.159.65:8080/videoshare-sso/rest/info/userinfo";
     public static String PushComment = "http://115.159.27.70:3000/comment";
     public static String Pushattachcomment = "http://115.159.27.70:3000/attachcomment";
+    public static String testgit = "";
 
     //http://115.159.27.70:3000/comment?pageSize=5&pageNum=1&feedId=78&queryType=1
 //    public static String GetLast = "http://10.0.2.2:8080/EAsy/Getlastblogs";
