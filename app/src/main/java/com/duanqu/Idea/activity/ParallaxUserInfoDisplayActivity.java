@@ -24,6 +24,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -57,6 +58,8 @@ import com.nineoldandroids.animation.ValueAnimator;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
+import org.json.JSONArray;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -64,7 +67,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/9/27.
@@ -103,9 +110,12 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
             }else if(msg.what == 1){
                 Toast.makeText(ParallaxUserInfoDisplayActivity.this,
                         "修改失败", Toast.LENGTH_SHORT).show();
-            }else{
+            }else if(msg.what == 2){
                 Toast.makeText(ParallaxUserInfoDisplayActivity.this,
                         "格式错误", Toast.LENGTH_SHORT).show();
+            }else if(msg.what == 10){
+                parallaxUserAdapter.setDatas(beans);
+                parallaxUserAdapter.notifyDataSetChanged();
             }
 
 
@@ -125,6 +135,58 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
 
         initView();
         initListen();
+        initData();
+
+    }
+
+    private void initData() {
+        OkHttpUtils.post().url(Datas.getDisPlayNums)
+                .addParams("Token",Config.Token)
+                .addParams("username",Config.username)
+                .build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String nums = response.body().string();
+                JSONArray array = new JSONArray(nums);
+
+                ParallaxOtherUserBean item0 = (ParallaxOtherUserBean)beans.get(1);
+                ParallaxUserItem1 item1 = (ParallaxUserItem1) beans.get(3);
+                ParallaxUserItem1 item2 = (ParallaxUserItem1) beans.get(4);
+                ParallaxUserItem1 item3 = (ParallaxUserItem1) beans.get(5);
+                ParallaxUserItem1 item4 = (ParallaxUserItem1) beans.get(6);
+                ParallaxUserItem1 item5 = (ParallaxUserItem1) beans.get(7);
+
+                for(int i=0;i<array.length();i++)
+                {
+                    System.out.println(array.get(i));
+                }
+
+                item0.setContactsCount((Integer) array.get(4));
+                item0.setCountLove((Integer) array.get(6));
+                item0.setRevcontactsCount((Integer) array.get(5));
+
+                item1.setCount((Integer) array.get(0));
+                item2.setCount((Integer) array.get(2));
+                item3.setCount((Integer) array.get(3));
+                item4.setCount((Integer) array.get(1));
+
+                handler.sendEmptyMessage(10);
+
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+
+
 
     }
 
@@ -218,6 +280,51 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mPopMenu.show();
+            }
+        });
+
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i)
+                {
+                    case 4:{
+                        //浏览记录
+                        Intent intent = new Intent(ParallaxUserInfoDisplayActivity.this,HistoryAndCacheCommentActitity.class);
+                        intent.putExtra("type","history");
+                        intent.putExtra("uid",Config.userid);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 5:{
+                        //我的回复
+                        Intent intent = new Intent(ParallaxUserInfoDisplayActivity.this,MyAnswerAty.class);
+                        startActivity(intent);
+
+                        break;
+                    }
+                    case 6:{
+                        //发言
+                        Intent intent = new Intent(ParallaxUserInfoDisplayActivity.this,UserFeedsDisplayAty.class);
+                        intent.putExtra("uid",Config.userid);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 7:{
+                        Intent intent = new Intent(ParallaxUserInfoDisplayActivity.this,HistoryAndCacheCommentActitity.class);
+                        intent.putExtra("type","cache");
+                        intent.putExtra("uid",Config.userid);
+                        startActivity(intent);
+                        //收藏
+                        break;
+                    }
+                    case 8:{
+                        //标签
+                        break;
+                    }
+
+                }
             }
         });
 
@@ -548,7 +655,7 @@ public class ParallaxUserInfoDisplayActivity extends AppCompatActivity {
                 mVelocityTracker.clear();
                 listview.SetSelectionFromTop();
             }
-            return true;
+            return super.dispatchTouchEvent(event);
         }
 
 

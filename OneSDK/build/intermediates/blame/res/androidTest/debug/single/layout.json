@@ -1,11 +1,11 @@
 [
     {
-        "merged": "D:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\com_taobao_tae_sdk_web_view_menu_item.xml",
-        "source": "D:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\com_taobao_tae_sdk_web_view_menu_item.xml"
-    },
-    {
         "merged": "D:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\com_taobao_tae_sdk_web_view_activity_sendfeedback.xml",
         "source": "D:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\com_taobao_tae_sdk_web_view_activity_sendfeedback.xml"
+    },
+    {
+        "merged": "D:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\com_taobao_tae_sdk_web_view_menu_item.xml",
+        "source": "D:\\Idea\\OneSDK\\build\\intermediates\\bundles\\debug\\res\\layout\\com_taobao_tae_sdk_web_view_menu_item.xml"
     },
     {
         "merged": "D:\\Idea\\OneSDK\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\com_taobao_tae_sdk_web_view_activity_sendfeedback_newimagewithdelete.xml",

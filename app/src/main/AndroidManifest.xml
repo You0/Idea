@@ -89,6 +89,18 @@
         <activity android:name=".activity.ChatActivity"></activity>
 
         <service android:name=".service.PnService"></service>
+
+        <activity android:name=".activity.SearchActivity"></activity>
+
+        <activity android:name=".activity.HistoryAndCacheCommentActitity"></activity>
+
+        <activity android:name=".activity.UserFeedsDisplayAty"></activity>
+
+        <activity android:name=".activity.MyAnswerAty"></activity>
+
+        <activity android:name=".activity.MoreVideoDisplayActivity"></activity>
+
+        <activity android:name=".activity.AboutActivity"></activity>
     </application>
 
 </manifest>

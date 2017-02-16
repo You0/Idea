@@ -8,11 +8,11 @@ public class Contant {
     /**
      * 默认时长
      */
-    public static  float DEFAULT_DURATION_LIMIT = 8;
+    public static  float DEFAULT_DURATION_LIMIT = 180;
     /**
      * 默认最小时长
      */
-    public static  float DEFAULT_MIN_DURATION_LIMIT = 2;
+    public static  float DEFAULT_MIN_DURATION_LIMIT = 10;
     /**
      * 默认码率
      */

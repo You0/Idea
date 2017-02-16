@@ -20,4 +20,21 @@
     </declare-styleable>
 
 
+    <!--search view!-->
+    <declare-styleable name="MaterialSearchView">
+        <attr name="search_hint" format="string"/>
+        <attr name="search_hint_color" format="color"/>
+        <attr name="search_animation_duration" format="integer"/>
+        <attr name="search_text_size" format="dimension"/>
+        <attr name="search_text_color" format="color"/>
+        <attr name="search_text_style" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
+            <enum name="italic" value="2" />
+            <enum name="bold_italic" value="3" />
+        </attr>
+        <attr name="search_background_color" format="color" />
+    </declare-styleable>
+
+
 </resources>

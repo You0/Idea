@@ -2,26 +2,37 @@ package com.duanqu.Idea.utils;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.DatabaseUtils.MyDatabaseHelper;
+import com.duanqu.Idea.JsonParse.MainMessageParse;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.activity.ChatActivity;
+import com.duanqu.Idea.activity.FeedActivity;
+import com.duanqu.Idea.activity.MyAnswerAty;
 import com.duanqu.Idea.app.MyApplication;
 import com.duanqu.Idea.bean.ChatBean;
+import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.bean.MessageBean;
 import com.duanqu.Idea.socket.SocketConnect;
+import com.duanqu.Idea.test.Datas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.HttpURLConnection;
 
 /**
  * Created by Administrator on 2016/11/22.
@@ -31,6 +42,10 @@ public class JsonParse {
             ,"user",null,1);
     //保存上一次的json,防止超时重传的时候,收到重复的数据
     String LastJson = null;
+
+    //自己封装的一个HttpUtils方便轻量的网络访问。
+    HttpConnectionUtils utils = new HttpConnectionUtils(Datas.GetInfoUseFeedId);
+
 
     public void Parse(String Json) {
         try {
@@ -173,6 +188,7 @@ public class JsonParse {
                     tag = true;
                 }else {
                     //既不是用户信息也不是服务器的反馈信息,则就是一些通知了
+                    //比如说有人@你了，有人回复你了，这2种情况则直接去获取帖子信息就行了
                     //{feedId:1234,message:msg,type=at/hf/tz}
                     JSONObject object1 = new JSONObject(msg);
                     String feedId = object1.getString("feedId");
@@ -187,6 +203,29 @@ public class JsonParse {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getContext());
                     builder.setSmallIcon(R.mipmap.ic_launcher);
 
+//                    .addParams("userId",Config.userid)
+//                            .addParams("feedId",id)
+//                            .addParams("token","123")
+
+
+
+
+                    String Url  = Datas.GetInfoUseFeedId +"?userId="+ Config.userid+"&feedId="+feedId + "&token=123";
+                    utils.setURL(Url);
+                    HttpURLConnection connection = utils.GetConnection("GET","","");
+                    String result = utils.Read(connection);
+                    Log.e("JsonParse","result:"+result);
+                    MainMessageParse mainMessageParse = new MainMessageParse();
+                    MainMessageBean mainMessageBeen = mainMessageParse.Parse(result);
+                    mainMessageBeen.setFeedId(feedId);
+                    Intent intent = new Intent(MyApplication.getContext(), FeedActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("first",mainMessageBeen);
+                    intent.putExtras(bundle);
+
+                    PendingIntent pi = PendingIntent.getActivity(MyApplication.getContext(), 0, intent,
+                            PendingIntent.FLAG_CANCEL_CURRENT);
+
                     if(type1.equals("hf")){
                         builder.setContentTitle("您收到一条回复");
                     } else if (type1.equals("at")) {
@@ -197,7 +236,9 @@ public class JsonParse {
                     if(message1!=null){
                         builder.setContentText(message1);
                     }
+                    builder.setContentIntent(pi);
                     Notification notification = builder.build();
+
                     NotificationManager manager = (NotificationManager) MyApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     manager.notify(1200, notification);
                     long[] pattern = {0,100,50,100};

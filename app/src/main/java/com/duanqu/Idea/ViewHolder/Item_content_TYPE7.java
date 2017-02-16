@@ -1,6 +1,8 @@
 package com.duanqu.Idea.ViewHolder;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -14,10 +16,14 @@ import com.duanqu.Idea.Adapter.InnerFeedAdapter;
 import com.duanqu.Idea.CustomView.HWEUQALListview;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.activity.FeedActivity;
+import com.duanqu.Idea.activity.ParallaxOtherUserInfoDisplayActivity;
 import com.duanqu.Idea.bean.FeedBean;
 import com.duanqu.Idea.bean.InnerFeedBean;
 import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.utils.ListViewUtils;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -46,10 +52,11 @@ public class Item_content_TYPE7 extends BaseItemImp<MainMessageBean>{
     protected void bindData(int position, @NonNull View v, @NonNull MainMessageBean data, int dynamicType) {
         String url = (String) data.getUserInfo().get("headurl");
         Uri uri = Uri.parse(url);
-        messageHead.setImageURI(uri);
+        SetCircleImage(messageHead,url);
+        //messageHead.setImageURI(uri);
         userInfo = data.getUserInfo();
         username.setText((String)userInfo.get("nickname"));
-        sign.setText((String)userInfo.get("sign"));
+        //sign.setText((String)userInfo.get("sign"));
         content.setText(data.getTextContent());
         mInnerBeans = data.getInnerBeans();
         adapter = new InnerFeedAdapter(getActivityContext(),mInnerBeans);
@@ -71,6 +78,16 @@ public class Item_content_TYPE7 extends BaseItemImp<MainMessageBean>{
 
             }
         });
+
+
+        messageHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivityContext(), ParallaxOtherUserInfoDisplayActivity.class);
+                intent.putExtra("nickname", String.valueOf((String)userInfo.get("nickname")));
+                getActivityContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -84,7 +101,21 @@ public class Item_content_TYPE7 extends BaseItemImp<MainMessageBean>{
         attach_comments = (HWEUQALListview) parent.findViewById(R.id.attach_comments);
         messageHead = (SimpleDraweeView) parent.findViewById(R.id.messageHead);
         username = (TextView) parent.findViewById(R.id.username);
-        sign = (TextView) parent.findViewById(R.id.sign);
+        //sign = (TextView) parent.findViewById(R.id.sign);
         attach_comments = (HWEUQALListview) parent.findViewById(R.id.attach_comments);
+    }
+
+
+    private  void SetCircleImage(SimpleDraweeView image,String url) {
+        //初始化圆角圆形参数对象
+        RoundingParams rp = new RoundingParams();
+        //设置图像是否为圆形
+        rp.setRoundAsCircle(true);
+        rp.setBorder(Color.BLACK, 1);
+        //获取GenericDraweeHierarchy对象
+        GenericDraweeHierarchy hierarchy = GenericDraweeHierarchyBuilder.
+                newInstance(getActivityContext().getResources()).setRoundingParams(rp).setFadeDuration(300).build();
+        image.setHierarchy(hierarchy);
+        image.setImageURI(Uri.parse(url));
     }
 }

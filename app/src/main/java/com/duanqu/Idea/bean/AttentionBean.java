@@ -8,6 +8,15 @@ public class AttentionBean {
     private String url;
     private String username;
     private boolean checked;
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public void setChecked(boolean checked) {
         this.checked = checked;

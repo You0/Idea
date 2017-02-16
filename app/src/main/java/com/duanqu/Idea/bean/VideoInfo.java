@@ -1,5 +1,8 @@
 package com.duanqu.Idea.bean;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 /**
  * Created by Administrator on 2016/8/10.
  */
@@ -9,13 +12,28 @@ public class VideoInfo  {
     String title;
     String content;
     int scale;//比例
+    MainMessageBean bean;
 
-    public VideoInfo(String videoUrl, String cover_Url, String title, String content, int scale) {
+    public VideoInfo(String videoUrl,
+                     String cover_Url,
+                     String title,
+                     String content,
+                     int scale,
+                     MainMessageBean bean) {
         this.videoUrl = videoUrl;
         Cover_Url = cover_Url;
         this.title = title;
         this.content = content;
         this.scale = scale;
+        this.bean = bean;
+    }
+
+    public MainMessageBean getBean() {
+        return bean;
+    }
+
+    public void setBean(MainMessageBean bean) {
+        this.bean = bean;
     }
 
     public String getVideoUrl() {

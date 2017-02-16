@@ -2,6 +2,7 @@ package com.duanqu.Idea.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -31,12 +33,25 @@ import android.widget.TextView;
 
 import com.duanqu.Idea.Config;
 import com.duanqu.Idea.CustomView.VideoPlayView;
+import com.duanqu.Idea.JsonParse.MainMessageParse;
 import com.duanqu.Idea.R;
+import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.bean.VideoInfo;
+import com.duanqu.Idea.test.Datas;
+import com.duanqu.qupai.project.Text;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
+import org.json.JSONArray;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by xinxin on 16/4/9.
@@ -49,15 +64,54 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
     private View currentItemView;
     private int currentPosition = -1;
     private int scrollDistance;// 记录切换到横屏时滑动的距离
-    private List<VideoInfo> path;
+    private LinkedList<VideoInfo> path;
     private boolean isPlaying;
     private int firstVisiblePosition;
     private LinearLayout linearLayout;
+    private MainMessageBean Messageinfo;
+    private LinkedList<MainMessageBean> beans = new LinkedList<>();
+    private String url;
+    private Boolean new_v;
 
     private boolean isAnimtion = false;
 
     private int VisibleCount = -1;
-    private Handler handler = new Handler();
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:{
+                    //去除点击进入的视频之前的视频内容。
+                    CheckPathAndBean();
+                    adapter.setData(path);
+                    adapter.notifyDataSetChanged();
+                    loading = false;
+                    break;
+                }
+            }
+        }
+    };
+
+    private void CheckPathAndBean() {
+        String firstVideoUrl = path.get(0).getVideoUrl();
+        VideoInfo firstVideoInfo = path.get(0);
+        MainMessageBean firstBean = beans.get(0);
+        int index = 0;
+        //找到index
+        for(int i=1;i<path.size();i++){
+            if(path.get(i).getVideoUrl().equals(firstVideoUrl)){
+                index = i;
+            }
+        }
+
+        for(int i=0;i<=index;i++){
+            path.removeFirst();
+            beans.removeFirst();
+        }
+
+        path.addFirst(firstVideoInfo);
+        beans.addFirst(firstBean);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,42 +147,31 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
         });
 
         videoList = (ListView) findViewById(R.id.video_watch_list);
+        Intent intent = getIntent();
+        try{
+            Messageinfo = (MainMessageBean) intent.getBundleExtra("data").getSerializable("data");
+            url = intent.getStringExtra("url");
+            beans.add(Messageinfo);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     private void initData() {
         adapter = new MyAdapter(this);
         videoList.setAdapter(adapter);
         videoList.setOnScrollListener(this);
-        path = new ArrayList<VideoInfo>();
+        path = new LinkedList<VideoInfo>();
 
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
+        if(Messageinfo!=null){
+            VideoInfo videoInfo = new VideoInfo(
+                    Messageinfo.getVideoUri(), (String) Messageinfo.getImages().get(0),
+                    Messageinfo.getTextContent(),"",1,Messageinfo);
+            path.add(videoInfo);
+        }
 
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-
-
-        path.add(new VideoInfo("http://115.159.159.65:8080/EAsy/test2.mp4",
-                "http://115.159.159.65:8080/EAsy/cover2.JPG","5:4","",1));
-
-        path.add(new VideoInfo("http://115.159.159.65:8080/EAsy/valder.mp4",
-                "http://115.159.159.65:8080/EAsy/valder.JPG","16:9","",2));
-
-
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-
-        path.add(new VideoInfo("http://dn-chunyu.qbox.me/fwb/static/images/home/video/video_aboutCY_A.mp4",
-                "http://115.159.159.65:8080/EAsy/cover.jpg", "[服务器速率10MB/s]", "", 2));
-        adapter.setData(path);
+        GetFriendsVideoFeedFromServer();
     }
 
 
@@ -182,9 +225,11 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
                 }, 1);
             }
         }else{
+
             int next =1;
+
             final MyAdapter.ViewHolder viewHolder = (MyAdapter.ViewHolder) videoList.getChildAt(0).getTag();
-            final MyAdapter.ViewHolder viewHolder1 = (MyAdapter.ViewHolder) videoList.getChildAt(next).getTag();
+
 
             if (viewHolder.black_cover.getVisibility() != View.GONE && isAnimtion==false) {
                 handler.postDelayed(new Runnable() {
@@ -194,6 +239,15 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
                     }
                 }, 1);
             }
+
+            Log.e("getChildCount","count:"+videoList.getChildCount());
+            if(videoList.getChildCount()<=1){
+                return;
+            }
+
+
+            final MyAdapter.ViewHolder viewHolder1 = (MyAdapter.ViewHolder) videoList.getChildAt(next).getTag();
+
 
             if(viewHolder1.black_cover.getVisibility()==View.GONE && isAnimtion==false){
                 handler.postDelayed(new Runnable() {
@@ -220,8 +274,21 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
             closeVideo();
         }
 
+        if(videoList != null && videoList.getChildCount() > 0){
+            if(firstVisibleItem + visibleItemCount == totalItemCount)
+            {
+                Log.e("VideoPlayViewActivity","LoadMore");
+                LoadMore();
+            }
+        }
+
+
+
+
 
     }
+
+
 
     @Override
     protected void onResume() {
@@ -428,6 +495,9 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
                 viewHolder.cover_image = (SimpleDraweeView) convertView.findViewById(R.id.cover_image);
                 viewHolder.title = (TextView) convertView.findViewById(R.id.title);
                 viewHolder.play_linearlayout = (LinearLayout) convertView.findViewById(R.id.play_linearlayout);
+                viewHolder.userid = (TextView) convertView.findViewById(R.id.userid);
+                viewHolder.comments = (TextView) convertView.findViewById(R.id.comments);
+                viewHolder.head = (SimpleDraweeView) convertView.findViewById(R.id.head);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -459,10 +529,23 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
                 viewHolder.play_btn.setVisibility(View.VISIBLE);
             }
 
+            viewHolder.userid.setText((String)videoPaths.get(position).getBean().getUserInfo().get("nickname"));
+            viewHolder.comments.setText("评论"+videoPaths.get(position).getBean().getMessageInfo().get("comment"));
+            viewHolder.head.setImageURI(Uri.parse((String) videoPaths.get(position).getBean().getUserInfo().get("headurl")));
+
+            viewHolder.comments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(VideoPlayViewActivity.this, FeedActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("first",beans.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
 
             return convertView;
         }
-
         private class ViewHolder {
             private ImageView play_btn;//播放按钮
             private View black_cover;
@@ -470,6 +553,9 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
             private VideoPlayView play_view;
             private TextView title;
             private LinearLayout play_linearlayout;
+            private TextView userid;
+            private SimpleDraweeView head;
+            private TextView comments;
 
 
             public void setBlack_coverGone() {
@@ -558,6 +644,102 @@ public class VideoPlayViewActivity extends AppCompatActivity implements VideoPla
             }
         }
     }
+    private MainMessageParse mainMessageParse = new MainMessageParse();
+    int page = 1;
+    //?userId=1111&pageSize=5&pageNum=1&token=123
+    private void GetFriendsVideoFeedFromServer()
+    {
+        if(url==null){
+            url = Datas.FriendVideoFeed;
+        }
+        OkHttpUtils.get().url(url)
+                .addParams("userId",Config.userid)
+                .addParams("pageSize", String.valueOf(10))
+                .addParams("pageNum", String.valueOf(page))
+                .addParams("token", String.valueOf(123))
+                .build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String json = response.body().string();
+                JSONArray array = new JSONArray(json);
+                for(int i=0;i<array.length();i++)
+                {
+                    Messageinfo = mainMessageParse.Parse(array.get(i).toString());
+                    beans.add(Messageinfo);
+                    path.add(new VideoInfo(
+                            Messageinfo.getVideoUri(), (String) Messageinfo.getImages().get(0),
+                            Messageinfo.getTextContent(),"",1,Messageinfo));
+                }
+                handler.sendEmptyMessage(0);
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+
+
+
+    }
+
+    //加载更多
+    boolean loading = false;
+    private void LoadMore()
+    {
+        if(loading){
+            return;
+        }
+        loading = true;
+        if(url==null){
+            url = Datas.FriendVideoFeed;
+        }
+        OkHttpUtils.get().url(url)
+                .addParams("userId",Config.userid)
+                .addParams("pageSize", String.valueOf(10))
+                .addParams("pageNum", String.valueOf(++page))
+                .addParams("token", String.valueOf(123))
+                .build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String json = response.body().string();
+                JSONArray array = new JSONArray(json);
+                for(int i=0;i<array.length();i++)
+                {
+                    Messageinfo = mainMessageParse.Parse(array.get(i).toString());
+                    beans.add(Messageinfo);
+                    path.add(new VideoInfo(
+                            Messageinfo.getVideoUri(), (String) Messageinfo.getImages().get(0),
+                            Messageinfo.getTextContent(),"",1,Messageinfo));
+                }
+                handler.sendEmptyMessage(0);
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+
+
+
+    }
+
+
+
+
 
 
 }

@@ -9,17 +9,18 @@
     >
     <LinearLayout
         android:orientation="vertical"
-        android:background="@drawable/card_background_selecter"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <include layout="@layout/item_top"></include>
+    <include layout="@layout/item_small_top"></include>
 
     <TextView
-        android:paddingTop="8dp"
-        android:paddingLeft="67dp"
+        android:paddingTop="3dp"
+        android:paddingLeft="60dp"
         android:paddingRight="15dp"
         android:paddingBottom="10dp"
+        android:textSize="15sp"
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

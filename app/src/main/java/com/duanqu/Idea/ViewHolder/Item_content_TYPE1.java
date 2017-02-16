@@ -6,11 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.CustomView.CustomProgressBar;
 import com.duanqu.Idea.CustomView.MImageView;
 import com.duanqu.Idea.CustomView.mSimpleDraweeView;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.activity.ImageDisplay;
+import com.duanqu.Idea.app.MyApplication;
 import com.duanqu.Idea.bean.MainMessageBean;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
@@ -29,10 +31,12 @@ public class Item_content_TYPE1 extends MainMessageBaseViewHolder {
     @Override
     protected void bindData(MainMessageBean data) {
         LinkedList linkedList = data.getImages();
+        arrayList.clear();
         arrayList.addAll(linkedList);
         tempStr = (String) linkedList.getFirst();
         Uri uri = Uri.parse(tempStr);
-        imageView.setImageURI(uri);
+        //imageView.setImageURI(uri);
+        MyApplication.LoadImageBySize(uri,imageView, (int) Config.WIDTH, (int) Config.HEIGHT/3*2);
         GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
         hierarchy.setProgressBarImage(new CustomProgressBar());
 

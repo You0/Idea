@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.duanqu.Idea.Adapter.CotainViewPager;
 import com.duanqu.Idea.R;
@@ -39,19 +41,28 @@ public class InnerViewPager extends BaseFragment {
 
         mTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         viewPager = (ViewPager) view.findViewById(R.id.vp_view);
-
+        viewPager.setOffscreenPageLimit(2);
+        int icons[] = {R.drawable.select_one,R.drawable.select_two,R.drawable.select_three
+        };
         //顶部标题栏设置
-        mTitleList.add("动态");
-        mTitleList.add("消息");
-        mTitleList.add("好友");
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        for (int i = 0; i < mTitleList.size(); i++) {
-            if (i == 1) {
-                mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)).setCustomView(R.layout.tablayoutmessage));
-            } else {
-                mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)));//添加tab选项卡
+//        mTitleList.add("动态");
+//        mTitleList.add("消息");
+//        mTitleList.add("好友");
+//        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+//        for (int i = 0; i < mTitleList.size(); i++) {
+//            if (i == 1) {
+//                mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)).setCustomView(R.layout.tablayoutmessage));
+//            } else {
+//                mTabLayout.addTab(mTabLayout.newTab().setText(mTitleList.get(i)));//添加tab选项卡
+//            }
+//        }
+
+        if(mTabLayout.getTabCount()<1){
+            for(int i=0;i<3;i++){
+                mTabLayout.addTab(mTabLayout.newTab().setCustomView(getTabView(icons[i])));
             }
         }
+
 
 
         DisplayFragment displayFragment = new DisplayFragment();
@@ -102,7 +113,20 @@ public class InnerViewPager extends BaseFragment {
         });
 
         //mTabLayout.setupWithViewPager(viewPager);//将TabLayout和ViewPager关联起来。
-        //mTabLayout.setTabsFromPagerAdapter(cotainViewPagerAdapter);//给Tabs设置适配器
+        //viewPager.setCurrentItem(1);
+        //viewPager.setCurrentItem(0);//直接设置0的话竟然不起作用,好吧.就这样迂回一下吧
+
+    //mTabLayout.setTabsFromPagerAdapter(cotainViewPagerAdapter);//给Tabs设置适配器
         return view;
+    }
+
+    private View getTabView(int drawable){
+        //首先为子tab布置一个布局
+        View v = LayoutInflater.from(context).inflate(R.layout.tab_layout,null);
+//        TextView tv = (TextView) v.findViewById(R.id.text);
+//        tv.setText(text);
+        ImageView iv = (ImageView) v.findViewById(R.id.icon);
+        iv.setImageResource(drawable);
+        return v;
     }
 }

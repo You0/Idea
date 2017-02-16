@@ -12,6 +12,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -36,6 +38,7 @@ import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.test.Datas;
 import com.duanqu.Idea.test.TestAdapter;
 import com.duanqu.Idea.test.TestViewHolder;
+import com.duanqu.Idea.utils.SendInfoToServer;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -68,7 +71,10 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
     private final int ERROR = 0;
     private final int SUCCESS = 1;
     private final int GETSUCCESS =2;
+    private final int CACHE = 3;
     private int Positon = 0;
+    private boolean isVideoType = false;
+    private boolean isCache = false;
     FeedJsonParse fjp = new FeedJsonParse();
 
     private Handler handler = new Handler(){
@@ -77,18 +83,34 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
             //feed.setSelection(msg.what);
             switch (msg.what){
                 case SUCCESS:{
-                    Snackbar.make(send, "发送成功！", Snackbar.LENGTH_LONG)
+                    //发送成功则清空文字,并进行刷新
+                    send_edit.setText("");
+                    MainMessageBean bean = arrays.get(0);
+                    arrays.clear();
+                    arrays.add(bean);
+                    GetCommentFromServer();
+                    Snackbar.make(send, "发送成功！", Snackbar.LENGTH_SHORT)
                             .show();
                     break;
                 }
                 case ERROR:{
-                    Snackbar.make(send, "出现错误！", Snackbar.LENGTH_LONG)
+                    Snackbar.make(send, "出现错误！", Snackbar.LENGTH_SHORT)
                             .show();
                     break;
                 }
 
                 case GETSUCCESS:{
+                    adapter.setDatas(arrays);
                     adapter.notifyDataSetChanged();
+                    break;
+                }
+
+                case CACHE:{
+                    //设置是否收藏
+                    toolbar.getMenu().getItem(0)
+                            .setIcon(getResources().getDrawable(R.drawable.ic_bookmark_normal));
+
+                    isCache = true;
                     break;
                 }
 
@@ -101,14 +123,17 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_activity);
         Intent intent = getIntent();
+        //拿到第一个帖子的信息
         mainMessageBean = (MainMessageBean) intent.getSerializableExtra("first");
         FeedId = String.valueOf((Integer)mainMessageBean.getMessageInfo().get("id"));
+        isVideoType = mainMessageBean.getVideoUri().length()>7?true:false;
         Log.e("FeedActivity", "mainMessageBean:" + mainMessageBean.toString() + "    is null" +
                 (mainMessageBean == null));
 //        mainMessageBean = (MainMessageBean) intent.
 //                getBundleExtra("bundle").getSerializable("first");
         initView();
         bindData();
+        SendInfoToServer.insertHistory(mainMessageBean);
     }
 
 
@@ -152,7 +177,7 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
                 InputMethodManager inputManager =
                         (InputMethodManager)send_edit.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputManager.showSoftInput(send_edit, 0);
-                handler.sendEmptyMessageDelayed(position,500);
+                //handler.sendEmptyMessageDelayed(position,500);
 
 
                 //InputMethodManager imm = (InputMethodManager)FeedActivity.getSystemService(FeedActivity.INPUT_METHOD_SERVICE);
@@ -164,6 +189,7 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
         send.setOnClickListener(this);
 
         GetCommentFromServer();
+        IsCache();
 
 
     }
@@ -233,6 +259,7 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 if(Positon == 0){
                     SendComentToServer(content);
+                    SendInfoToServer.cacheAnswer(mainMessageBean,content);
                 }else{
                     //commentId=584bdc99a8cf5480096b98ee&fromName=zs1&toName=root1&content=test&feedId=6
                     SendAttachmentToServer(content);
@@ -274,12 +301,47 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+
+    private void IsCache(){
+        OkHttpUtils.post().url(Datas.isCache)
+                .addParams("feedId",FeedId)
+                .addParams("username",Config.username)
+                .addParams("Token",Config.Token).build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(Response response, int id) throws Exception {
+                        int code = response.code();
+                        if(code == 200){
+                            handler.sendEmptyMessage(CACHE);
+                        }else{
+
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Object response, int id) {
+
+                    }
+                });
+
+
+    }
+
+
+
     private void SendComentToServer(String content) {
         OkHttpUtils.post().url(Datas.PushComment)
                 .addParams("despatcherName", Config.nickname)
                 .addParams("despatcherAvatar",Config.headurl)
                 .addParams("time", String.valueOf(System.currentTimeMillis()))
                 .addParams("feedId", FeedId)
+                .addParams("isVideoType", String.valueOf(isVideoType))
                 .addParams("content",content).build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response, int id) throws Exception {
@@ -299,5 +361,28 @@ public class FeedActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.cache, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.sc){
+            if(isCache){
+                item.setIcon(getResources().getDrawable(R.drawable.ic_bookmark_border_normal));
+                SendInfoToServer.cacelCache(FeedId);
+                isCache = false;
+            }else{
+                item.setIcon(getResources().getDrawable(R.drawable.ic_bookmark_normal));
+                SendInfoToServer.insertCache(mainMessageBean);
+                isCache = true;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

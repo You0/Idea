@@ -1,5 +1,7 @@
 package com.duanqu.Idea.JsonParse;
 
+import android.util.Log;
+
 import com.duanqu.Idea.bean.MainMessageBean;
 
 import org.json.JSONArray;
@@ -29,6 +31,7 @@ public class MainMessageParse extends BaseJsonParse<MainMessageBean> {
             object = new JSONObject(json);
             userInfo = object.getJSONObject("userInfo");
             messageInfo = object.getJSONObject("messageInfo");
+            resendInfo = object.getJSONObject("resendInfo");
             content = object.getString("content");
             try {
                 imgs = object.getJSONArray("imgs");
@@ -65,8 +68,35 @@ public class MainMessageParse extends BaseJsonParse<MainMessageBean> {
 
             mainMessageBean.setMessageInfo(MessageInfo);
 
+
+            //这里处理转发信息，为了图简单直接当做普通信息处理就行。
+            HashMap<String, Object> ResendInfo = new HashMap<>();
+            resendInfo.put("video",resendInfo.get("video"));
+            resendInfo.put("nick",resendInfo.get("nick"));
+            resendInfo.put("uid",resendInfo.get("uid"));
+            resendInfo.put("imgs",resendInfo.get("imgs"));
+
+            try{
+                JSONArray array = resendInfo.getJSONArray("imgs");
+
+                if(array.length()>0)
+                {
+                    //Log.e("转发不为null",array.toString());
+                    imgs = resendInfo.getJSONArray("imgs");
+                    linkedList.clear();
+                    for (int i = 0; i < imgs.length(); i++) {
+                        linkedList.add(imgs.getString(i));
+                    }
+                    video = (String) resendInfo.get("video");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+
             //这里是转发信息的处理
-            mainMessageBean.setReSendInfo(null);
+            mainMessageBean.setReSendInfo(ResendInfo);
 
             mainMessageBean.setImages(linkedList);
             mainMessageBean.setTextContent(content);

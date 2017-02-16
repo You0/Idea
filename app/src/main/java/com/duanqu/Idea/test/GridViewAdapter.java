@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.CustomView.CustomProgressBar;
 import com.duanqu.Idea.CustomView.mSimpleDraweeView;
 import com.duanqu.Idea.R;
 import com.duanqu.Idea.activity.ImageDisplay;
+import com.duanqu.Idea.app.MyApplication;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 
@@ -54,7 +56,8 @@ public class GridViewAdapter extends ArrayAdapter {
             GenericDraweeHierarchy hierarchy = imageView.getHierarchy();
             hierarchy.setProgressBarImage(new CustomProgressBar());
             hierarchy.setPlaceholderImage(getContext().getResources().getDrawable(R.drawable.huise));
-            imageView.setImageURI(uri);
+            //imageView.setImageURI(uri);
+            MyApplication.LoadImageBySize(uri,imageView,(int) (Config.WIDTH/3),(int) (Config.WIDTH/3));
 
             holder.image = imageView;
             convertView.setTag(holder);

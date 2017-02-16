@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 .putString("major", bean.getMajor())
                                 .putString("school", bean.getSchool())
                                 .putString("email", bean.getE_mail())
+                                .putString("userid", String.valueOf(bean.getId()))
                                 .commit();
                         MyApplication.LoadPreferences();
                         mProgressDialog.dismiss();

@@ -27,4 +27,12 @@
     <color name="black_a10_color">#1a000000</color>
 
     <color name="translucent_background">#95000000</color>
+
+
+    <!-- search view!-->
+    <color name="searchView_text">#212121</color>
+    <color name="searchView_text_hint">#727272</color>
+    <color name="searchView_bg">#FFFFFF</color>
+
+    <color name="search_shadow_layout">#50000000</color>
 </resources>

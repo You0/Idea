@@ -12,13 +12,17 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.duanqu.Idea.Config;
 import com.duanqu.Idea.R;
+import com.duanqu.Idea.activity.AboutActivity;
 import com.duanqu.Idea.activity.AttentionActivity;
+import com.duanqu.Idea.activity.HistoryAndCacheCommentActitity;
 import com.duanqu.Idea.activity.MainActivity1;
 import com.duanqu.Idea.activity.ParallaxUserInfoDisplayActivity;
 import com.duanqu.Idea.activity.RegisterActivity;
+import com.duanqu.Idea.app.MyApplication;
 import com.duanqu.Idea.test.Datas;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
@@ -121,6 +125,13 @@ public class Menu extends BaseFragment implements View.OnClickListener{
                 getActivity().overridePendingTransition(R.anim.scale_anim, 0);
                 break;
             }
+            case R.id.tv_bookmark:{
+                Intent intent = new Intent(getActivity(),HistoryAndCacheCommentActitity.class);
+                intent.putExtra("type","cache");
+                intent.putExtra("uid",Config.userid);
+                startActivity(intent);
+                break;
+            }
 
             //账号
             case R.id.tv_account:{
@@ -131,12 +142,13 @@ public class Menu extends BaseFragment implements View.OnClickListener{
 
             //设置
             case R.id.tv_setting:{
-                InitDialog();
+                //InitDialog();
                 break;
             }
 
             case R.id.tv_about:{
-
+                Intent intent = new Intent(getActivity(), AboutActivity.class);
+                startActivity(intent);
                 break;
             }
 
@@ -148,12 +160,15 @@ public class Menu extends BaseFragment implements View.OnClickListener{
             }
 
             case R.id.tv_pwd:{
-
+                Toast.makeText(MyApplication.getContext(), "暂时还不支持修改密码", Toast.LENGTH_SHORT).show();
                 break;
             }
 
             case R.id.tv_logout:{
-
+                MyApplication.setSharedPreferences("ifLogin",false);
+                Intent intent = new Intent(getActivity(), RegisterActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 break;
             }
 

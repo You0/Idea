@@ -44,11 +44,13 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
     private ProgressDialog mProgressDialog;
     private String Token;
     private String username;
+    public static String Uid;
 
     private final int STUDENTCHECKSUCCESS = 0;
     private final int STUDENTCHECKFAULT = 1;
     private final int REGISTERSUCCESS = 2;
     private final int REGISTERFAULT = 3;
+    private final int UIDGETSUCCESS = 4;
 
 
     public Handler handler = new Handler() {
@@ -59,7 +61,7 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
             switch (msg.what) {
                 case STUDENTCHECKSUCCESS: {
                     if (mregisterPoupWindow == null) {
-                        mregisterPoupWindow = new RegisterPoupWindow(FirstStepPoupWindowForRegister.this,username,Token);
+                        mregisterPoupWindow = new RegisterPoupWindow(FirstStepPoupWindowForRegister.this, username, Token);
                     }
                     mregisterPoupWindow.showAtLocation(userNameText, Gravity.NO_GRAVITY, 0, 0);
                     break;
@@ -70,18 +72,20 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
                     break;
                 }
 
-                case REGISTERSUCCESS:{
+                case REGISTERSUCCESS: {
+                    GetUserId();
+                    break;
+                }
+
+                case UIDGETSUCCESS:{
                     mregisterPoupWindow.StartActivity();
                     break;
                 }
 
-                case REGISTERFAULT:{
+                case REGISTERFAULT: {
                     Toast.makeText(FirstStepPoupWindowForRegister.this, "注册失败!", Toast.LENGTH_SHORT).show();
                     break;
                 }
-
-
-
 
 
             }
@@ -109,11 +113,11 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
             final String SchoolId = userNameText.getText().toString();
             String Passwd = passwdText.getText().toString();
 
-            if(SchoolId.equals("")||Passwd.equals("")){
+            if (SchoolId.equals("") || Passwd.equals("")) {
                 Snackbar.make(bnRegister, "请输入账号密码", Snackbar.LENGTH_LONG)
                         .show();
 
-                return ;
+                return;
             }
 
             mProgressDialog = ProgressDialog.show(this, null, "请稍后...");
@@ -122,7 +126,7 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
             OkHttpUtils
                     .post()
                     .url(Datas.RegistUrl)
-                    .addHeader("Content-Type","application/x-www-form-urlencoded")
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .addParams("username", SchoolId)
                     .addParams("password", Passwd)
                     .build()
@@ -133,7 +137,7 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
                             try {
                                 String result = response.body().string();
 
-                                if (result.length()==32) {
+                                if (result.length() == 32) {
                                     username = SchoolId;
                                     Token = result;
                                     handler.sendEmptyMessage(STUDENTCHECKSUCCESS);
@@ -154,12 +158,42 @@ public class FirstStepPoupWindowForRegister extends AppCompatActivity implements
 
                         @Override
                         public void onResponse(Object response, int id) {
-                           // Response response1 = (Response) response;
+                            // Response response1 = (Response) response;
 
 
                         }
                     });
         }
+    }
+
+
+    private void GetUserId()
+    {
+        OkHttpUtils
+                .post()
+                .url(Datas.uid)
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addParams("username", username)
+                .addParams("password", Token)
+                .build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                Uid = response.body().string();
+                handler.sendEmptyMessage(UIDGETSUCCESS);
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+
     }
 
 

@@ -7,6 +7,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.duanqu.Idea.bean.MainMessageBean;
 import com.duanqu.Idea.fragment.BaseFragment;
 import com.duanqu.Idea.player.view.MediaController;
 import com.duanqu.Idea.player.view.SuperVideoPlayer;
+import com.duanqu.Idea.test.Datas;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.HashMap;
@@ -31,12 +33,18 @@ import java.util.HashMap;
 public class Item_content_TYPE4 extends MainMessageBaseViewHolder {
     private ImageView mPlayBtnView;
     private Uri uri;
-    private ImageView frame;
+    private SimpleDraweeView frame;
+    private MainMessageBean data;
+    private TextView textView;
 
     @Override
     protected void bindData(MainMessageBean data) {
         String video = data.getVideoUri();
         uri = Uri.parse(video);
+        this.data = data;
+        frame.setImageURI(Uri.parse((String) data.getImages().get(0)));
+        textView.setText(data.getTextContent());
+
 //        try {
 //            if (Build.VERSION.SDK_INT >= 14) {
 //                retriever.setDataSource(video, new HashMap<String, String>());
@@ -61,15 +69,20 @@ public class Item_content_TYPE4 extends MainMessageBaseViewHolder {
 
     @Override
     protected void FindView(View parent) {
+        textView = (TextView) parent.findViewById(R.id.content);
         mPlayBtnView = (ImageView) parent.findViewById(R.id.play_btn);
         mPlayBtnView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivityContext(), VideoPlayViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("data", data);
+                intent.putExtra("data",bundle);
+
                 getActivityContext().startActivity(intent);
             }
         });
-        frame = (ImageView) parent.findViewById(R.id.frame);
+        frame = (SimpleDraweeView) parent.findViewById(R.id.frame);
     }
 
 //    @Override

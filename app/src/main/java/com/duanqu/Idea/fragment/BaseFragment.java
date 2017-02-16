@@ -29,8 +29,6 @@ public abstract  class BaseFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.e("xxx","onActivityCreated");
-
-
     }
 
     @Override

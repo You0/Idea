@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -65,6 +66,7 @@ public class DisplayFragment extends BaseFragment {
     private int pageNum = 1;
     private int PULL = 0;
     private int LOAD = 1;
+    private boolean loading = false;
 
     private TestAdapter testAdapter;
     public Handler handler = new Handler()
@@ -73,21 +75,28 @@ public class DisplayFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:{
+                    if(testAdapter == null){
+                        testAdapter = getTestAdapter();
+                    }
+
+                    testAdapter.setDatas(arrayList);
                     testAdapter.notifyDataSetChanged();
+                    break;
+                }
+
+                case 1:{
+                    if(testAdapter == null){
+                        testAdapter = getTestAdapter();
+                    }
+                    testAdapter.setDatas(arrayList);
+                    testAdapter.notifyDataSetChanged();
+                    loading = false;
                     break;
                 }
 
                 case 9:{
                     //4是单个视频
-                     testAdapter = new TestAdapter((Activity) context,
-                            new BaseAdapter.Builder()
-                                    .addType(4, Item_content_TYPE4.class)
-                                    .addType(0, Item_content_TYPE1.class)
-                                    .addType(1, Item_content_TYPE2.class)
-                                    .addType(2, Item_content_TYPE3.class)
-                                    .addType(3, Item_content_TYPE5.class)
-                                    .addType(5, Item_content_TYPE6.class)
-                                    .setDatas(arrayList).build());
+                     testAdapter = getTestAdapter();
                     listView.setAdapter(testAdapter);
                     break;
                 }
@@ -97,6 +106,20 @@ public class DisplayFragment extends BaseFragment {
             super.handleMessage(msg);
         }
     };
+
+    @NonNull
+    private TestAdapter getTestAdapter() {
+        return new TestAdapter((Activity) context,
+               new BaseAdapter.Builder()
+                       .addType(4, Item_content_TYPE4.class)
+                       .addType(0, Item_content_TYPE1.class)
+                       .addType(1, Item_content_TYPE2.class)
+                       .addType(2, Item_content_TYPE3.class)
+                       .addType(3, Item_content_TYPE5.class)
+                       .addType(5, Item_content_TYPE6.class)
+                       .setDatas(arrayList).build());
+    }
+
     private MainMessageParse mainMessageParse = new MainMessageParse();
 
     //public static PopupWindow popupWindow;
@@ -148,7 +171,20 @@ public class DisplayFragment extends BaseFragment {
                 if(listView != null && listView.getChildCount() > 0){
                     boolean enable = (firstVisibleItem == 0) && (view.getChildAt(firstVisibleItem).getTop() == 0);
                     sr.setEnabled(enable);
+
+                    Log.e("nowItem","nums"+(firstVisibleItem+visibleItemCount) + "totalItem"+totalItemCount +"arraysize" + arrayList.size());
+                    if(firstVisibleItem + visibleItemCount == totalItemCount)
+                    {
+
+                    }
+
+                    if(firstVisibleItem + visibleItemCount == arrayList.size()){
+                        LoadMore();
+                    }
+
                 }
+
+
             }
         });
 
@@ -213,12 +249,17 @@ public class DisplayFragment extends BaseFragment {
             public Object parseNetworkResponse(Response response, int id) throws Exception {
                 String json = response.body().string();
                 JSONArray array = new JSONArray(json);
+                arrayList.clear();
                 for(int i=0;i<array.length();i++)
                 {
                     mainMessageBeen = mainMessageParse.Parse(array.get(i).toString());
                     arrayList.add(mainMessageBeen);
                 }
-                handler.sendEmptyMessage(9);
+                if(testAdapter!=null){
+                    handler.sendEmptyMessage(PULL);
+                }else{
+                    handler.sendEmptyMessage(9);
+                }
                 return null;
             }
 
@@ -243,7 +284,7 @@ public class DisplayFragment extends BaseFragment {
         sr.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Refresh();
+                Refresh(mainMessageParse);
                 handler.sendEmptyMessage(PULL);
                 sr.setRefreshing(false);
             }
@@ -252,14 +293,25 @@ public class DisplayFragment extends BaseFragment {
 
 
     private void LoadMore(){
-        OkHttpUtils.get().url(Datas.GetFeed)
-                .addParams("uId",Config.userid)
-                .addParams("pageNum","1")
+        if(loading){
+            return;
+        }
+        loading = true;
+        OkHttpUtils.get().url(Datas.GetFriendFeeds)
+                .addParams("userId", Config.userid)
+                .addParams("pageNum",String.valueOf(++pageNum))
                 .addParams("pageSize","10")
                 .addParams("token","123")
                 .build().execute(new Callback() {
             @Override
             public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String json = response.body().string();
+                JSONArray array = new JSONArray(json);
+                for(int i=0;i<array.length();i++)
+                {
+                    mainMessageBeen = mainMessageParse.Parse(array.get(i).toString());
+                    arrayList.add(mainMessageBeen);
+                }
                 handler.sendEmptyMessage(LOAD);
                 return null;
             }
@@ -277,36 +329,6 @@ public class DisplayFragment extends BaseFragment {
     }
 
 
-    private void Refresh(){
-        OkHttpUtils
-                .get()
-                .url(Datas.GetFriendFeeds)
-                .addParams("uId",Config.userid)
-                .addParams("pageNum","1")
-                .addParams("pageSize","10")
-                .addParams("token","123")
-                .build()
-                .execute(new Callback() {
-                    @Override
-                    public Object parseNetworkResponse(Response response, int id) throws Exception {
-
-                        handler.sendEmptyMessage(PULL);
-                        return null;
-                    }
-
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Object response, int id) {
-
-                    }
-                });
-
-
-    }
 
 
 }

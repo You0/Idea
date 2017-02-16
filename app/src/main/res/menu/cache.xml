@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:FeedActivity="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sc"
+        android:title="收藏"
+        android:icon="@drawable/ic_bookmark_border_normal"
+        FeedActivity:showAsAction="always"
+        />
+</menu>

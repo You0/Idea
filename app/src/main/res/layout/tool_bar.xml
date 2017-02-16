@@ -65,6 +65,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="17dp"
-            android:src="@drawable/ic_search_white_24dp" />
+            android:src="@drawable/ic_search_normal" />
     </RelativeLayout>
 </RelativeLayout>

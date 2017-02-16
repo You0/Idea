@@ -57,9 +57,45 @@
         />
 
 
-    <include layout="@layout/video_watch_list_item_top"></include>
+    <LinearLayout
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <include layout="@layout/item_blew"></include>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_marginLeft="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/head"
+            />
+
+        <TextView
+            android:id="@+id/userid"
+            android:paddingLeft="10dp"
+            android:textColor="#cccccc"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="五颜六色"
+            />
+
+        <TextView
+            android:id="@+id/comments"
+            android:textColor="#cccccc"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评论:12"
+            />
+
+
+
+    </LinearLayout>
 
 
 

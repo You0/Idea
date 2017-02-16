@@ -8,11 +8,11 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         app:tabTextAppearance="@style/tabLayoutTextSize"
-        android:background="#ffffff"
+        android:background="@color/titlecolor"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        app:tabIndicatorColor="#7700b7ff"
-        app:tabSelectedTextColor="#000000"
+        android:layout_height="30dp"
+        app:tabIndicatorColor="#ffffff"
+        app:tabSelectedTextColor="#ffffff"
         app:tabTextColor="#22000000"/>
 
     <!--可滑动的布局内容-->

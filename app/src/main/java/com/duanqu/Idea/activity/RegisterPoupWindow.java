@@ -129,6 +129,7 @@ public class RegisterPoupWindow extends PopupWindow implements View.OnClickListe
         //将用户参数保存到本地
 
         sharedPreferences.edit().putString("Token", token)
+                .putString("userid",FirstStepPoupWindowForRegister.Uid)
                 .putString("username",username)
                 .putString("nickname",temp_nickname)
                 .putBoolean("ifLogin", true).commit();
@@ -136,7 +137,7 @@ public class RegisterPoupWindow extends PopupWindow implements View.OnClickListe
         Config.Token = token;
         Config.username = username;
         Config.nickname = temp_nickname;
-
+        Config.userid = FirstStepPoupWindowForRegister.Uid;
 
         //然后启动主activity
         //这里可以传一些参数给main_aty

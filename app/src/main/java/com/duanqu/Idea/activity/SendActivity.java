@@ -31,6 +31,7 @@ import com.duanqu.Idea.fragment.TextPostFragment;
 import com.duanqu.Idea.fragment.VideoPostFragment;
 import com.duanqu.Idea.test.Datas;
 import com.duanqu.Idea.utils.FeedUploadUtils;
+import com.duanqu.Idea.utils.SendInfoToServer;
 import com.duanqu.Idea.utils.UploadUtils;
 
 import java.io.File;
@@ -59,6 +60,8 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
     private String Content = null;
     private String VideoUrl = null;
     private ArrayList<String> images = null;
+    private int Type = -1;
+
 
 
 
@@ -193,6 +196,7 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
         progress.setMessage("正在上传...");
         progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         progress.setCancelable(false);
+        SendInfoToServer.incFeed();
 
         if(id.equals("image")){
             ImagePostFragment imagePostFragment = (ImagePostFragment)fragment;
@@ -214,7 +218,6 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
                 images = new ArrayList<>();
             }
             images.add(videoPostFragment.getThum());
-
 
         }
 
@@ -277,6 +280,8 @@ public class SendActivity extends AppCompatActivity implements ViewGroup.OnClick
             text.put("text",atUsernames);
             text.put("content",Content);
             text.put("token","123");
+            text.put("type", String.valueOf(Type));
+
 
 
             mUploadUtils.SetListener(new FeedUploadUtils.UpdateProgress() {

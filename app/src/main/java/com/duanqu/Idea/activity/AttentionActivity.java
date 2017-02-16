@@ -299,6 +299,7 @@ public class AttentionActivity extends AppCompatActivity implements View.OnClick
                 Log.e("xxx", object.getString("username"));
                 bean.setName(object.getString("realname"));
                 bean.setUrl(object.getString("headurl"));
+                bean.setId(object.getInt("id"));
                 boolean add = true;
                 for (int j = 0; j < totalBeans.size(); j++) {
                     if (totalBeans.get(j).getName().equals(bean.getName())) {

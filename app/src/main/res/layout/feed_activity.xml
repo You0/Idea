@@ -20,7 +20,7 @@
 
 
         <ListView
-            android:divider="@null"
+
 
             android:listSelector="@android:color/transparent"
             android:layout_below="@id/toolbar"

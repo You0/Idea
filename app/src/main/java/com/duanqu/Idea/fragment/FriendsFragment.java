@@ -137,6 +137,7 @@ public class FriendsFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ParallaxOtherUserInfoDisplayActivity.class);
                 intent.putExtra("contact",datas.get(position).getUsername());
+                intent.putExtra("nickname",datas.get(position).getNickname());
                 startActivity(intent);
             }
         });

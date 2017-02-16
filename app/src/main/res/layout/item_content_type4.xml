@@ -27,6 +27,7 @@
         android:paddingRight="15dp"
         android:paddingBottom="10dp"
         android:id="@+id/content"
+        android:textSize="15sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="测试文字。"
@@ -36,7 +37,7 @@
         android:layout_height="wrap_content"
         android:minHeight="200dp">
 
-        <ImageView
+        <com.duanqu.Idea.CustomView.mSimpleDraweeView
             android:id="@+id/frame"
             android:scaleType="centerCrop"
             android:layout_gravity="center"

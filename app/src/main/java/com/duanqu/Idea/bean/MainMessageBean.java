@@ -16,7 +16,7 @@ public class MainMessageBean implements Serializable{
     public HashMap<String, Object> userInfo;
     public HashMap<String, Object> MessageInfo;
     public String TextContent;
-    public ResentBean ReSendInfo;
+    public HashMap<String, Object> ReSendInfo;
     public String VideoUri;
     public LinkedList images;
     public String FeedId;
@@ -60,7 +60,7 @@ public class MainMessageBean implements Serializable{
         return userInfo;
     }
 
-    public ResentBean getReSendInfo() {
+    public HashMap<String, Object> getReSendInfo() {
         return ReSendInfo;
     }
 
@@ -108,7 +108,7 @@ public class MainMessageBean implements Serializable{
     }
 
 
-    public void setReSendInfo(ResentBean reSendInfo) {
+    public void setReSendInfo(HashMap<String, Object> reSendInfo) {
         ReSendInfo = reSendInfo;
     }
 

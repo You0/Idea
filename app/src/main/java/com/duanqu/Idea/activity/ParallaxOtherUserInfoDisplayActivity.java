@@ -24,6 +24,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -61,12 +62,15 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 import com.zhy.http.okhttp.request.RequestCall;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -109,45 +113,65 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
     public String UpdateUrl;
     private SimpleDraweeView userhead;
     private RelativeLayout loading;
-
+    private String strNickname = "";
+    private String Uid;
 
 
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            loading.setVisibility(View.GONE);
-            Log.e("pouda",bean.toString());
-            Log.e("xxx",bean.getHeadurl());
-            userhead.setImageURI(Uri.parse(bean.getHeadurl()));
-            drawee.setImageURI(Uri.parse(bean.getImageurl()));
-            ParallaxOtherUserBean tempbean= (ParallaxOtherUserBean) beans.get(1);
+            switch (msg.what) {
+                case 0: {
+                    loading.setVisibility(View.GONE);
+                    Log.e("pouda", bean.toString());
+                    Log.e("xxx", bean.getHeadurl());
+                    Uid = String.valueOf(bean.getId());
+                    userhead.setImageURI(Uri.parse(bean.getHeadurl()));
+                    drawee.setImageURI(Uri.parse(bean.getImageurl()));
+                    ParallaxOtherUserBean tempbean = (ParallaxOtherUserBean) beans.get(1);
 //            beans.remove(1);
 //            bean.setType(3);
 //            beans.add(1,bean);
-            Log.e("1",beans.get(1).toString());
-            tempbean.setUsername(bean.getUsername());
-            tempbean.setHeadurl(bean.getHeadurl());
-            tempbean.setNickname(bean.getNickname());
-            Log.e("2",beans.get(1).toString());
-            //更新adapter
-            parallaxUserAdapter.notifyDataSetChanged();
+                    Log.e("1", beans.get(1).toString());
+                    tempbean.setUsername(bean.getUsername());
+                    tempbean.setHeadurl(bean.getHeadurl());
+                    tempbean.setNickname(bean.getNickname());
+                    tempbean.setId(Integer.parseInt(Uid));
+                    Log.e("2", beans.get(1).toString());
+                    ((ParallaxOtherUserBean) beans.get(1)).setAlready(bean.getAlready());
+                    //更新adapter
+                    parallaxUserAdapter.notifyDataSetChanged();
 
-            RreshText();
-            //初始化圆角圆形参数对象
-            RoundingParams rp = new RoundingParams();
-            //设置图像是否为圆形
-            rp.setRoundAsCircle(true);
-            rp.setBorder(Color.WHITE, 5);
-            //获取GenericDraweeHierarchy对象
-            GenericDraweeHierarchy hierarchy = GenericDraweeHierarchyBuilder.
-                    newInstance(getResources()).setRoundingParams(rp).setFadeDuration(300).build();
-            userhead.setHierarchy(hierarchy);
-            if(bean.getHeadurl()==null || bean.getHeadurl().equals("")||bean.getHeadurl().equals("http://115.159.159.65:8080/userhead/")){
-                userhead.setImageURI(Uri.parse(Config.defaultHeader));
-            }else{
-                userhead.setImageURI(Uri.parse(bean.getHeadurl()));
+                    RreshText();
+                    //初始化圆角圆形参数对象
+                    RoundingParams rp = new RoundingParams();
+                    //设置图像是否为圆形
+                    rp.setRoundAsCircle(true);
+                    rp.setBorder(Color.WHITE, 5);
+                    //获取GenericDraweeHierarchy对象
+                    GenericDraweeHierarchy hierarchy = GenericDraweeHierarchyBuilder.
+                            newInstance(getResources()).setRoundingParams(rp).setFadeDuration(300).build();
+                    userhead.setHierarchy(hierarchy);
+                    if (bean.getHeadurl() == null || bean.getHeadurl().equals("") || bean.getHeadurl().equals("http://115.159.159.65:8080/userhead/")) {
+                        userhead.setImageURI(Uri.parse(Config.defaultHeader));
+                    } else {
+                        userhead.setImageURI(Uri.parse(bean.getHeadurl()));
+                    }
+
+                    GetuserNumberFromServer();
+
+                    break;
+                }
+
+                case 10: {
+                    parallaxUserAdapter.setDatas(beans);
+                    parallaxUserAdapter.notifyDataSetChanged();
+                }
+
             }
+
+
         }
     };
 
@@ -161,18 +185,38 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String contact = intent.getStringExtra("contact");
         String userid = intent.getStringExtra("userid");
-        RequestCall http;
-        if(contact==null){
+        String nickname = intent.getStringExtra("nickname");
+
+        try {
+            nickname = URLEncoder.encode(nickname, "UTF-8");
+            nickname = URLEncoder.encode(nickname, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        strNickname = nickname;
+
+        if(strNickname == null){
+            strNickname = "";
+        }
+        RequestCall http = null;
+        if (contact != null) {
+            http = OkHttpUtils.post().url(Datas.GetUserInfo)
+                    .addParams("username", Config.username)
+                    .addParams("Token", Config.Token)
+                    .addParams("contact", contact)
+                    .build();
+        } else if (userid != null) {
             http = OkHttpUtils.post().url(Datas.GetUserInfo)
                     .addParams("username", Config.username)
                     .addParams("Token", Config.Token)
                     .addParams("userid", userid)
                     .build();
-        }else{
+
+        } else if (nickname != null) {
             http = OkHttpUtils.post().url(Datas.GetUserInfo)
                     .addParams("username", Config.username)
                     .addParams("Token", Config.Token)
-                    .addParams("contact", intent.getStringExtra("contact"))
+                    .addParams("nickname", nickname)
                     .build();
         }
 
@@ -217,6 +261,37 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
         listview.setAdapter(parallaxUserAdapter);
 
 
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 4: {
+                        //他的发言
+                        //发言
+                        Intent intent = new Intent(ParallaxOtherUserInfoDisplayActivity.this,UserFeedsDisplayAty.class);
+                        intent.putExtra("uid",Uid);
+                        startActivity(intent);
+                        break;
+                    }
+                    case 5: {
+                        //他的收藏
+                        Intent intent = new Intent(ParallaxOtherUserInfoDisplayActivity.this,HistoryAndCacheCommentActitity.class);
+                        intent.putExtra("type","cache");
+                        intent.putExtra("uid",Uid);
+                        startActivity(intent);
+                        break;
+                    }
+
+                    case 6: {
+                        //标签
+                        break;
+                    }
+
+                }
+
+
+            }
+        });
 
         InitToolBar();
         addContentView(toolbar, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -224,26 +299,24 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
     }
 
 
-
-
     private void RreshText() {
         //这里是设置标签的
 
         nickname.setText(bean.getNickname());
-        if(!bean.getSign().equals("")){
+        if (!bean.getSign().equals("")) {
             sigh.setText(bean.getSign());
-        }else{
+        } else {
             sigh.setText("空空如也");
         }
-       // Log.e("otherUserInfoDispaly","sign"+bean.getSign()+"len"+bean.getSign().length());
-        tag.setText(bean.getSchool()+" "+bean.getGrades()+" "+bean.getMajor());
-        if(tag.getText().toString().equals("  ")){
+        // Log.e("otherUserInfoDispaly","sign"+bean.getSign()+"len"+bean.getSign().length());
+        tag.setText(bean.getSchool() + " " + bean.getGrades() + " " + bean.getMajor());
+        if (tag.getText().toString().equals("  ")) {
             tag.setText("未填写任何信息");
         }
         //Log.e("otherUserInfoDispaly","tag"+tag.getText().toString().length());
-        if(bean.getSex().equals("1")){
+        if (bean.getSex().equals("1")) {
             tag.setBackground(getResources().getDrawable(R.drawable.fenghong));
-        }else{
+        } else {
             tag.setBackground(getResources().getDrawable(R.drawable.tianlan));
         }
     }
@@ -288,9 +361,8 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
 
         item6.setType(1);
         item6.setCount(0);
-        item6.setIco(R.drawable.ic_favorite_red_300_24dp);
-        item6.setTitle("累计赞数");
-
+        item6.setIco(R.drawable.ic_tag_faces_red_300_24dp);
+        item6.setTitle("他的标签");
 
 
         beans.add(black);
@@ -358,7 +430,7 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
                 mVelocityTracker.clear();
                 listview.SetSelectionFromTop();
             }
-            return true;
+            return super.dispatchTouchEvent(event);
         }
         mLastY = Y;
         return super.dispatchTouchEvent(event);
@@ -428,4 +500,52 @@ public class ParallaxOtherUserInfoDisplayActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    private void GetuserNumberFromServer() {
+        OkHttpUtils.post().url(Datas.getDisPlayNums)
+                .addParams("Token", Config.Token)
+                .addParams("username", Config.username)
+                .addParams("nickname", strNickname)
+                .build().execute(new Callback() {
+            @Override
+            public Object parseNetworkResponse(Response response, int id) throws Exception {
+                String nums = response.body().string();
+                JSONArray array = new JSONArray(nums);
+
+                ParallaxOtherUserBean item2 = (ParallaxOtherUserBean) beans.get(1);
+                ParallaxUserItem1 item3 = (ParallaxUserItem1) beans.get(3);
+                ParallaxUserItem1 item4 = (ParallaxUserItem1) beans.get(4);
+                ParallaxUserItem1 item6 = (ParallaxUserItem1) beans.get(5);
+
+                for (int i = 0; i < array.length(); i++) {
+                    System.out.println(array.get(i));
+                }
+
+                item2.setContactsCount((Integer) array.get(4));
+                item2.setCountLove((Integer) array.get(6));
+                item2.setRevcontactsCount((Integer) array.get(5));
+
+                item3.setCount((Integer) array.get(3));
+                item4.setCount((Integer) array.get(1));
+
+
+                handler.sendEmptyMessage(10);
+
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(Object response, int id) {
+
+            }
+        });
+    }
+
+
 }

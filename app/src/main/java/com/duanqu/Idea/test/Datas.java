@@ -39,7 +39,70 @@ public class Datas {
     public static String GetUserInfo = "http://115.159.159.65:8080/videoshare-sso/rest/info/userinfo";
     public static String PushComment = "http://115.159.27.70:3000/comment";
     public static String Pushattachcomment = "http://115.159.27.70:3000/attachcomment";
-    public static String testgit = "";
+    public static String incrLike = "http://115.159.27.70:8084/rest/feed/incrLike";
+    public static String cancelLike = "http://115.159.27.70:8084/rest/feed/cancelLike";
+    public static String ResendFeed = "http://115.159.27.70:8084/rest/feed/resend";
+    public static String FriendVideoFeed = "http://115.159.27.70:8084/rest/feed/getFriendVideoFeed";
+    public static String NewestVideoFeed = "http://115.159.27.70:8084/rest/feed/pullNewestVideoFeed";
+    public static String HotVideoFeed = "http://115.159.27.70:8084/rest/feed/getHotVideoFeed";
+    public static String UserFeed = "http://115.159.27.70:8084/rest/feed/pullbyId";
+    public static String SearchFeed = "http://115.159.27.70:8085/rest/feedSearch/search";
+    public static String GetInfoUseFeedId = "http://115.159.27.70:8084/rest/feed/getFeedByFeedId";
+
+    //浏览记录：
+    //只记录100条
+    //feedId  content（如果只有图片就显示[图片]，视频就显示[视频]） time
+
+    public static String insertHistory = "http://115.159.159.65:8080/videoshare-sso/rest/feed/insertHistory";
+    public static String userHistory = "http://115.159.159.65:8080/videoshare-sso/rest/feed/userHistory";
+
+
+
+    //收藏记录：
+    //feedId content//（如果只有图片就显示[图片]，视频就显示[视频]） time
+
+    public static String insertCache = "http://115.159.159.65:8080/videoshare-sso/rest/feed/insertCache";
+    public static String userCache = "http://115.159.159.65:8080/videoshare-sso/rest/feed/userCache";
+
+    //我的发言：
+
+    public static String incFeed = "http://115.159.159.65:8080/videoshare-sso/rest/feed/incFeed";
+
+
+    //我的回复：
+    //feedId content//（如果只有图片就显示[图片]，视频就显示[视频]） 回复的内容 time
+
+    public static String cacheAnswer="http://115.159.159.65:8080/videoshare-sso/rest/feed/cacheAnswer";
+    public static String userAnswer="http://115.159.159.65:8080/videoshare-sso/rest/feed/userAnswer";
+
+
+
+
+    //被关注人的信息：
+    //username  headurl nickname
+    public static String getRevContactsList = "http://115.159.159.65:8080/videoshare-sso/rest/relation/getRevContactsList";
+
+    //获得页面数字：
+    public static String getDisPlayNums = "http://115.159.159.65:8080/videoshare-sso/rest/relation/getDisPlayNums";
+
+    //取消关注//帖子模块
+    public static String removeFriend = "http://115.159.27.70/rest/feed/removeFriend";
+    //sso的模块
+    public static String removeContact = "http://115.159.159.65:8080/videoshare-sso/rest/relation/removeContact";
+    public static String addContact = "http://115.159.159.65:8080/videoshare-sso/rest/relation/addContact";
+    //帖子模块的前景好友addFriend
+    public static String addFriend = "http://115.159.27.70:8084/rest/feed/addFriend";
+
+    //累计赞
+    //增加赞
+    public static String incLove = "http://115.159.159.65:8080/videoshare-sso/rest/relation/incLove";
+    //减少赞
+    public static String decLove = "http://115.159.159.65:8080/videoshare-sso/rest/relation/decLove";
+    public static String uid = "    http://115.159.159.65:8080/videoshare-sso/rest/user/uid";
+
+
+    public static String isCache = "http://115.159.159.65:8080/videoshare-sso/rest/feed/isCache";
+    public static String cacelCache = "http://115.159.159.65:8080/videoshare-sso/rest/feed/cacelCache";
 
     //http://115.159.27.70:3000/comment?pageSize=5&pageNum=1&feedId=78&queryType=1
 //    public static String GetLast = "http://10.0.2.2:8080/EAsy/Getlastblogs";

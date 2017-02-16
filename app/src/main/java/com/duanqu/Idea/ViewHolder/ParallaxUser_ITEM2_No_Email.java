@@ -28,7 +28,7 @@ public class ParallaxUser_ITEM2_No_Email extends BaseItemImp<ParallaxOtherUserBe
     public void onFindView(@NonNull View parent) {
         rev_contact_count = (TextView) parent.findViewById(R.id.revcontact_count);
         love_count= (TextView) parent.findViewById(R.id.love_count);
-        contact_count = (TextView) parent.findViewById(R.id.love_count);
+        contact_count = (TextView) parent.findViewById(R.id.contact_count);
 
     }
 

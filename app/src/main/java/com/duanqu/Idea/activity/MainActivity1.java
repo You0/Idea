@@ -129,9 +129,11 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
+                    footnagavite.setVisibility(View.VISIBLE);
                     tv_msg.setTextColor(getResources().getColor(R.color.biz_audio_progress_first));
                     tv_tj.setTextColor(getResources().getColor(R.color.colorHuise));
                 } else {
+                    footnagavite.setVisibility(View.GONE);
                     tv_msg.setTextColor(getResources().getColor(R.color.colorHuise));
                     tv_tj.setTextColor(getResources().getColor(R.color.biz_audio_progress_first));
                 }
@@ -178,7 +180,8 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.search: {
                 System.out.println("搜索");
-
+                Intent intent = new Intent(MainActivity1.this,SearchActivity.class);
+                startActivity(intent);
                 break;
             }
 
@@ -190,11 +193,13 @@ public class MainActivity1 extends AppCompatActivity implements View.OnClickList
             case R.id.tv_tj: {
                 System.out.println("tjtjtjtjjtjtjtj");
                 viewPager.setCurrentItem(1, true);
+                footnagavite.setVisibility(View.GONE);
                 break;
             }
             case R.id.tv_msg: {
                 System.out.println("memememmemme");
                 viewPager.setCurrentItem(0);
+                footnagavite.setVisibility(View.VISIBLE);
                 break;
             }
 

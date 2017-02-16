@@ -2,34 +2,37 @@ package com.duanqu.Idea.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import android.os.Environment;
+
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
+
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
+
 import android.support.v7.widget.PopupMenu;
-import android.view.KeyEvent;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-
-import com.duanqu.Idea.Adapter.CotainViewPager;
-import com.duanqu.Idea.CustomView.CustomProgressBar;
+import com.duanqu.Idea.Config;
 import com.duanqu.Idea.CustomView.MyScaleSimpleDraweeView;
 import com.duanqu.Idea.R;
-import com.duanqu.Idea.fragment.Image_Display_Fragment;
+import com.duanqu.Idea.app.MyApplication;
+import com.duanqu.Idea.utils.FileUtils;
 import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -41,9 +44,8 @@ public class ImageDisplay extends AppCompatActivity {
     private Intent intent;
     private ArrayList images;
     public static ImageDisplay imageD;
-    private LinkedList fragments = new LinkedList();
-    private CotainViewPager cotainViewPagerAdapter;
-    private Image_Display_Fragment display_fragment;
+
+    private int Position = 0;
     private FloatingActionButton fab;
     private TextView nums;
     private int currentItem;
@@ -52,11 +54,14 @@ public class ImageDisplay extends AppCompatActivity {
     private LinkedList l = new LinkedList();
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.image_display);
         intent = getIntent();
+        if(images!=null){
+            images.clear();
+        }
         images = intent.getCharSequenceArrayListExtra("images");
         currentItem = intent.getIntExtra("position", 0);
         initView();
@@ -91,7 +96,10 @@ public class ImageDisplay extends AppCompatActivity {
             @Override
             public Object instantiateItem(ViewGroup container, final int position) {
                 MyScaleSimpleDraweeView myScaleView = new MyScaleSimpleDraweeView(getApplicationContext());
-                myScaleView.setImageURI(Uri.parse((String) images.get(position)));
+
+                //myScaleView.setImageURI(Uri.parse((String) images.get(position)));
+                MyApplication.LoadImageBySize(Uri.parse((String) images.get(position)),myScaleView,
+                        (int) Config.WIDTH,(int) Config.WIDTH);
                 myScaleView.setPosition(position);
                 container.addView(myScaleView);
 
@@ -130,6 +138,7 @@ public class ImageDisplay extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                Position = position;
                 nums.setText(position + 1 + "/" + images.size());
             }
 
@@ -161,7 +170,15 @@ public class ImageDisplay extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.save: {
-                        Snackbar.make(fab, "保存成功！", Snackbar.LENGTH_LONG)
+                        File image = null;
+                        //System.out.println("xxx");
+                       image = MyApplication.GetFrescoFile((String) images.get(Position));
+                        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+                        String path = FileUtils.saveFile(getApplicationContext(),
+                                Environment.getExternalStorageDirectory().toString(),
+                                System.currentTimeMillis() + ".jpg", bitmap);
+
+                        Snackbar.make(fab, "保存成功！保存位置位于："+path , Snackbar.LENGTH_LONG)
                                 .show();
 
                         break;
