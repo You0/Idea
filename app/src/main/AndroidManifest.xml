@@ -101,6 +101,8 @@
         <activity android:name=".activity.MoreVideoDisplayActivity"></activity>
 
         <activity android:name=".activity.AboutActivity"></activity>
+
+        <activity android:name=".activity.SettingsActivity"></activity>
     </application>
 
 </manifest>

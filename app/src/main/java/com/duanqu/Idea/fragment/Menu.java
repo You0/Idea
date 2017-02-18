@@ -22,6 +22,7 @@ import com.duanqu.Idea.activity.HistoryAndCacheCommentActitity;
 import com.duanqu.Idea.activity.MainActivity1;
 import com.duanqu.Idea.activity.ParallaxUserInfoDisplayActivity;
 import com.duanqu.Idea.activity.RegisterActivity;
+import com.duanqu.Idea.activity.SettingsActivity;
 import com.duanqu.Idea.app.MyApplication;
 import com.duanqu.Idea.test.Datas;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
@@ -142,7 +143,8 @@ public class Menu extends BaseFragment implements View.OnClickListener{
 
             //设置
             case R.id.tv_setting:{
-                //InitDialog();
+                Intent intent = new Intent(context, SettingsActivity.class);
+                startActivity(intent);
                 break;
             }
 

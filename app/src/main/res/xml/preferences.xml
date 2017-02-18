@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PreferenceScreen
+    android:layout="@layout/preference_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/title_activity_setting">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="人性化自由选择">
+
+        <CheckBoxPreference
+            android:layout="@layout/preference_item"
+            android:title="夜间模式"
+            android:key="@string/notify_priority"
+            android:summaryOn="暂不支持"
+            android:summaryOff="日间模式(默认)"
+            android:defaultValue="false"/>
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="清除缓存"
+            android:summary="图片缓存"
+            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="帮助">
+        <!--<Preference-->
+            <!--android:layout="@layout/preference_item"-->
+            <!--android:title="关于">-->
+            <!--<intent-->
+                <!--android:action="android.intent.action.VIEW"-->
+                <!--android:data="http://fir.im/seashell"/>-->
+        <!--</Preference>-->
+
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="手动检查更新">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://fir.im/seashell"/>
+        </Preference>
+
+        <!--<Preference-->
+            <!--android:layout="@layout/preference_item"-->
+            <!--android:title="喜欢贝壳单词"-->
+            <!--android:summary="若你觉得贝壳单词很赞的话，麻烦点击此处到应用商店给个好评，非常感谢">-->
+            <!--<intent-->
+                <!--android:action="android.intent.action.VIEW"-->
+                <!--android:data="market://details?id=me.drakeet.seashell"/>-->
+        <!--</Preference>-->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="感谢有你">
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="CJY ZS ZKC ZY HSP"
+            android:title="作者:2014级信息安全"/>
+    </PreferenceCategory>
+</PreferenceScreen>

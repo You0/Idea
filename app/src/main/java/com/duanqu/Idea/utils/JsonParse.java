@@ -32,7 +32,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Administrator on 2016/11/22.
@@ -211,9 +216,22 @@ public class JsonParse {
 
 
                     String Url  = Datas.GetInfoUseFeedId +"?userId="+ Config.userid+"&feedId="+feedId + "&token=123";
-                    utils.setURL(Url);
-                    HttpURLConnection connection = utils.GetConnection("GET","","");
-                    String result = utils.Read(connection);
+                    URL url = new URL(Url);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection
+                            .getInputStream()));
+                    String line = null;
+                    String result = "";
+                    try {
+                        while ((line = reader.readLine()) != null) {
+                            result += line ;
+                        }
+                    } finally {
+                        reader.close();
+                    }
+
+
                     Log.e("JsonParse","result:"+result);
                     MainMessageParse mainMessageParse = new MainMessageParse();
                     MainMessageBean mainMessageBeen = mainMessageParse.Parse(result);
@@ -237,6 +255,7 @@ public class JsonParse {
                         builder.setContentText(message1);
                     }
                     builder.setContentIntent(pi);
+                    builder.setAutoCancel(true);
                     Notification notification = builder.build();
 
                     NotificationManager manager = (NotificationManager) MyApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -255,6 +274,10 @@ public class JsonParse {
             }
 
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -136,7 +136,7 @@ public class HttpConnectionUtils {
         String line = null;
         try {
             is = new BufferedReader(new InputStreamReader(Connection.getInputStream(), "utf-8"));
-            // is = new BufferedReader(new InputStreamReader());
+
             line = is.readLine();
 
             while (line != null) {

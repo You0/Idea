@@ -7,7 +7,7 @@ import android.widget.GridView;
 /**
  * Created by Administrator on 2016/7/11.
  */
-class MyGriView extends GridView
+public class MyGriView extends GridView
 {
 
 
